@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{9A3B9D3B-498D-4729-9CB8-99E55E7E50FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsShop.API", "Projects\PlantsShop.API\PlantsShop.API.csproj", "{1E074607-9DC0-41BD-9CDA-2125732EE631}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantsShop.API", "Projects\PlantsShop.API\PlantsShop.API.csproj", "{1E074607-9DC0-41BD-9CDA-2125732EE631}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "plantsshop.admin", "Projects\PlantsShop.Admin\plantsshop.admin.esproj", "{8BBD41E4-14E5-4645-A450-7811EE846235}"
 EndProject
