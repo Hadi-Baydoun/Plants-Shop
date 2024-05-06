@@ -1,35 +1,58 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import axios from "axios";
+import * as React from "react";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import TopBar from "./components/TopBar";
+import SideBar from "./components/SideBar";
+import { getDesignTokens } from "./theme";
+import { Outlet, useLocation } from "react-router-dom";
 
-function App() {
+const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
 
-   
-    const [apiHost, setApiHost] = useState("");
+export default function MiniDrawer() {
+    const [open, setOpen] = React.useState(false);
+    const location = useLocation();
 
-    useEffect(() => {
-        axios.get("/src/assets/Constants.json")
-            .then(response => {
-                setApiHost(response.data.API_HOST);
-            })
-            .catch(error => {
-                console.error("Error fetching the API host:", error);
-            });
-    }, []);
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
 
-    
-  
-    return (
-        <div>{apiHost}</div>
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+    const [mode, setMode] = React.useState(
+        localStorage.getItem("currentMode")
+            ? localStorage.getItem("currentMode")
+            : "light"
     );
-    
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
-}
+    const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
-export default App;
+    return (
+        <ThemeProvider theme={theme}>
+            <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                {location.pathname !== "/" && (
+                    <>
+                        <TopBar
+                            open={open}
+                            handleDrawerOpen={handleDrawerOpen}
+                            setMode={setMode}
+                        />
+                        <SideBar open={open} handleDrawerClose={handleDrawerClose} />
+                    </>
+                )}
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    <DrawerHeader />
+                    <Outlet />
+                </Box>
+            </Box>
+        </ThemeProvider>
+    );
+}
