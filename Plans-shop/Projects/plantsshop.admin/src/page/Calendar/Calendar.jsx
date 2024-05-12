@@ -5,7 +5,7 @@ import { Paper, Stack } from "@mui/material";
 import { formatDate } from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import "./calendar.css";
+import "./Calendar.css";
 
 function renderEventContent(eventInfo) {
     return (
