@@ -2,5 +2,9 @@ C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\bin\Debug\Da
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\bin\Debug\Database.dll
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\bin\Debug\Database.pdb
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\Database.sqlproj.AssemblyReference.cache
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\Model.xml
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\refactor.xml
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\postdeploy.sql
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\predeploy.sql
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\Database.dll
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Common\Database\obj\Debug\Database.pdb

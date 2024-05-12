@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.271090-alpha">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.271090-alpha">
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>
     <JavaScriptTestRoot>src\</JavaScriptTestRoot>
@@ -9,15 +9,6 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="test\" />
-    <Folder Include="src\page\Calendar\" />
-    <Folder Include="src\page\Contacts\" />
-    <Folder Include="src\page\Dashboard\" />
-    <Folder Include="src\page\Form\" />
-    <Folder Include="src\page\FAQ\" />
-    <Folder Include="src\page\Invoices\" />
-    <Folder Include="src\page\notFound\" />
-    <Folder Include="src\page\Team\" />
-    <Folder Include="src\page\signIn\" />
+    <Folder Include="src\" />
   </ItemGroup>
 </Project>
