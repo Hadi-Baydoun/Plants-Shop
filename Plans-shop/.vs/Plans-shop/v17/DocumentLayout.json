@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\CartController.cs",
+              "RelativeToolTip": "Projects\\PlantsShop.API\\Controllers\\CartController.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T14:21:55.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PlantsShop.API.AssemblyInfoInputs.cache",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache",
-              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache",
-              "RelativeToolTip": "Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfoInputs.cache",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002368|",
-              "WhenOpened": "2024-05-12T12:47:24.758Z",
+              "Title": "AddressController.cs",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
+              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
+              "RelativeToolTip": "Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAuwFoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T14:20:47.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PlantsShop.API.AssemblyInfo.cs",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs",
-              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs",
-              "RelativeToolTip": "Projects\\PlantsShop.API\\obj\\Debug\\net8.0\\PlantsShop.API.AssemblyInfo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Address.cs",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Models\\Address.cs",
+              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Models\\Address.cs",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Models\\Address.cs",
+              "RelativeToolTip": "Projects\\PlantsShop.API\\Models\\Address.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T12:47:23.629Z",
+              "WhenOpened": "2024-05-12T14:20:45.093Z",
               "EditorCaption": ""
             }
           ]

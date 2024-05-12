@@ -18,13 +18,13 @@ namespace PlantsShop.API.Controllers
         [HttpGet("all")]
         public async Task<IEnumerable<Customer>> GetAllCustomers()
         {
-            return await _context.Customers.Include(c => c.Address).ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _context.Customers.Include(c => c.Address).FirstOrDefaultAsync(c => c.Id == id);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
             if (customer == null)
                 return NotFound("Customer Not Found");
             return Ok(customer);
@@ -33,23 +33,13 @@ namespace PlantsShop.API.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Customer>> AddCustomer(Customer customer)
         {
-            // If the AddressId is provided, find the existing Address
-            if (customer.Address_id != null)
-            {
-                var address = await _context.Address.FindAsync(customer.Address_id);
-                if (address == null)
-                    return NotFound("Address not found.");
 
-                // Associate the Address with the new Customer
-                customer.Address = address;
-            }
 
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
             // Eager loading the address data
             var savedCustomer = await _context.Customers
-                .Include(c => c.Address)
                 .FirstOrDefaultAsync(c => c.Id == customer.Id); // Include other related entities if needed
 
             return Ok(savedCustomer);
@@ -63,13 +53,7 @@ namespace PlantsShop.API.Controllers
             if (dbCustomer == null)
                 return NotFound("Customer Not Found");
 
-            // Check if the address exists in the Address table
-            var address = await _context.Address.FindAsync(updateCustomer.Address_id);
-            if (address == null)
-                return BadRequest("Invalid Address ID");
 
-            // Update the Address_id property
-            dbCustomer.Address_id = updateCustomer.Address_id;
 
             // Update other properties
             dbCustomer.First_Name = updateCustomer.First_Name;
@@ -94,7 +78,7 @@ namespace PlantsShop.API.Controllers
             }
 
             // Eager loading the address data
-            return Ok(await _context.Customers.Include(c => c.Address).ToListAsync());
+            return Ok(await _context.Customers.ToListAsync());
         }
 
         private bool CustomerExists(int id)
@@ -111,7 +95,7 @@ namespace PlantsShop.API.Controllers
             _context.Customers.Remove(dbCustomer);
             await _context.SaveChangesAsync();
             // Eager loading the address data
-            return Ok(await _context.Customers.Include(c => c.Address).ToListAsync());
+            return Ok(await _context.Customers.ToListAsync());
         }
 
     }

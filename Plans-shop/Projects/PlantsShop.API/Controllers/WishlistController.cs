@@ -20,7 +20,6 @@ namespace PlantsShop.API.Controllers
         {
             return await _context.Wishlists
                 .Include(c => c.Customer)
-                    .ThenInclude(cust => cust.Address) // Include the Address of the Customer
                 .Include(c => c.Product)
                 .ToListAsync();
         }
@@ -30,8 +29,7 @@ namespace PlantsShop.API.Controllers
         public async Task<ActionResult<Wishlist>> GetWishlist(int id)
         {
             var wishlist = await _context.Wishlists
-                .Include(c => c.Customer)
-                    .ThenInclude(cust => cust.Address) // Include the Address of the Customer
+                .Include(c => c.Customer) 
                 .Include(c => c.Product)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
@@ -134,7 +132,6 @@ namespace PlantsShop.API.Controllers
             // Eager loading the related data
             return Ok(await _context.Wishlists
                 .Include(w => w.Customer)
-                .ThenInclude(c => c.Address)
                 .Include(w => w.Product)
                 .ToListAsync());
         }
