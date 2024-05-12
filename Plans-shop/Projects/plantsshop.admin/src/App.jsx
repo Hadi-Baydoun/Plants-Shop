@@ -32,7 +32,7 @@ export default function MiniDrawer() {
             ? localStorage.getItem("currentMode")
             : "light"
     );
-    const [searchTerm, setSearchTerm] = React.useState(""); // Add searchTerm state
+    const [searchTerm, setSearchTerm] = React.useState(""); 
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
@@ -49,7 +49,7 @@ export default function MiniDrawer() {
               open={open}
               handleDrawerOpen={handleDrawerOpen}
               setMode={setMode}
-              handleSearch={handleSearch} // Pass handleSearch to TopBar
+              handleSearch={handleSearch} 
             />
                         <SideBar open={open} handleDrawerClose={handleDrawerClose} />
                     </>
