@@ -17,7 +17,7 @@ In the backend, each table in the database is associated with a model and a cont
 
 Setup Instructions
 
-To run the project before deployment, follow these steps:
+To run the project locally, follow these steps:
 
 1. Download the database (will be uploaded later).
 2. Make sure you have Node.js installed.
