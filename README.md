@@ -1,26 +1,48 @@
-
 Project Overview
-This project is an ecommerce website focused on selling plants. It comprises a MySQL database and an Admin CMS to manage products along with the actual website. The backend is developed using ASP .NET MVC 8, while the frontend utilizes React.JS. The project folder contains three main projects:
+This ecommerce website is dedicated to the sale of plants and includes a comprehensive admin CMS and front-end site. The system architecture includes:
 
-1. plantsshop.admin: Admin Page
-2. PlantsShop.API: APIs
-3. plantsshop.website: Website
-The backend APIs are documented using Swagger, featuring four HTTP methods:
+Backend: Developed in ASP.NET MVC 8, utilizing a MySQL database.
+Frontend: Built with React.JS.
+Components
+plantsshop.admin: Administrative interface for managing products.
+PlantsShop.API: Set of APIs for backend functionality.
+plantsshop.website: User-facing website.
+API Documentation
+The backend APIs are well-documented using Swagger and support the following HTTP methods:
 
-HttpGet
-HttpPost
-HttpPut
-HttpDelete
-In the backend, each table in the database is associated with a model and a controller. For the frontend, MUI library is utilized along with Axios for API handling.
+GET
+POST
+PUT
+DELETE
+Each table in the database correlates to a distinct model and controller. For frontend operations, the Material UI (MUI) library is paired with Axios for efficient API handling.
 
 Setup Instructions
-To run the project before deployment, follow these steps:
+Before deploying the project, please follow these setup steps:
 
-1. Download the database (will be uploaded later).
-2. Using Visual Studio, navigate to the plantsshop.admin and plantsshop.website projects and open the terminal. Then execute the following commands:
-        npm i
-        npm i @fullcalendar/timegrid @fullcalendar/interaction
-        npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
-        npm install react-router-dom
-3. Right-click on the solution and select "Configure Startup Project". Choose "Multiple Startup Projects" and set all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website) to start.
-4. Start the solution. Additional dependencies may be prompted for download during this process.
+Environment Setup
+Database Preparation:
+
+The database will be made available for download shortly.
+Project Configuration:
+
+Open Visual Studio.
+Navigate to the plantsshop.admin and plantsshop.website projects.
+Open the terminal within Visual Studio.
+Dependency Installation:
+
+Execute the following commands:
+bash
+Copy code
+npm i
+npm i @fullcalendar/timegrid @fullcalendar/interaction
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+npm install react-router-dom
+Project Initialization:
+
+Right-click on the solution in Visual Studio.
+Select "Configure Startup Project."
+Choose "Multiple Startup Projects" and activate all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website).
+Start the Solution:
+
+Run the solution.
+Additional dependencies may be prompted for installation during this process.
