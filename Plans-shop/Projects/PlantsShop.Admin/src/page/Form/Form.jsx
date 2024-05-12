@@ -4,51 +4,96 @@ import TextField from "@mui/material/TextField";
 import { Alert, Button, MenuItem, Snackbar, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-const regEmail =
+/*const regEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;*/
 
-const data = [
-    {
-        value: "Admin",
-        label: "Admin",
-    },
-    {
-        value: "Manger",
-        label: "Manger",
-    },
-    {
-        value: "User",
-        label: "User",
-    },
-];
+
 
 const Form = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const [apiHost, setApiHost] = useState("");
+    const [subcategories, setSubcategories] = useState([]);
+    const [open, setOpen] = useState(false);
 
-    const [open, setOpen] = React.useState(false);
+    useEffect(() => {
+        axios
+            .get("/src/assets/Constants.json")
+            .then((response) => {
+                const apiBaseUrl = response.data.API_HOST;
+                setApiHost(apiBaseUrl);
+                return axios.get(`${apiBaseUrl}/api/SubCategories/all`);
+            })
+            .then((response) => {
+                setSubcategories(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching subcategories:", error.response.data);
+            });
+    }, []);
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
+
+    const handleSave = async (formData) => {
+        try {
+            const response = await axios.post(`${apiHost}/api/Products/add`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            console.log("Product added successfully:", response.data);
+            setOpen(true);
+        } catch (error) {
+            console.error("Error adding product:", error.response.data);
+            alert("Error adding product.");
+        }
+    };
+
+    const onSubmit = async (formData) => {
+        // Find the selected subcategory object based on ID
+        const selectedSubcategory = subcategories.find(
+            (subcategory) => subcategory.id === parseInt(formData.Sub_categories_id)
+        );
+
+
+        // Include the selected subcategory object in the payload
+        const formDataAll = {
+            Name: formData.Name,
+            Description: formData.Description,
+            Price: parseFloat(formData.Price),
+            Rating: parseFloat(formData.Rating),
+            Quantity: parseInt(formData.Quantity, 10),
+            Image_url: formData.Image_url,
+            SubCategories: {
+                id: selectedSubcategory.id,
+                name: selectedSubcategory.name,
+                category_id: selectedSubcategory.category_id,
+                category: {
+                    id: selectedSubcategory.category.id,
+                    name: selectedSubcategory.category.name
+                },
+                
+            },
+            sub_categories_id: parseInt(formData.Sub_categories_id, 10),
+        };
+
+        handleSave(formDataAll);
+        reset();
+    };
+
+
 
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
             return;
         }
-
         setOpen(false);
-    };
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const onSubmit = () => {
-        handleClick();
     };
 
     return (
@@ -68,83 +113,86 @@ const Form = () => {
             >
                 <Stack sx={{ gap: 2 }} direction={"row"}>
                     <TextField
-                        error={Boolean(errors.firstName)}
-                        helperText={
-                            errors.firstName
-                                ? "This field is required & min 3 character"
-                                : null
-                        }
-                        {...register("firstName", { required: true, minLength: 3 })}
+                        error={Boolean(errors.Name)}
+                        helperText={errors.Name ? "This field is required" : null}
+                        {...register("Name", { required: true })}
                         sx={{ flex: 1 }}
                         label="Product Name"
                         variant="filled"
                     />
 
                     <TextField
-                        error={Boolean(errors.lastName)}
-                        helperText={
-                            errors.lastName
-                                ? "This field is required & min 3 character"
-                                : null
-                        }
-                        {...register("lastName", { required: true, minLength: 3 })}
+                        error={Boolean(errors.Quantity)}
+                        helperText={errors.Quantity ? "This field is required" : null}
+                        {...register("Quantity", { required: true })}
                         sx={{ flex: 1 }}
                         label="Quantity"
                         variant="filled"
+                        type="number"
                     />
                 </Stack>
 
                 <Stack sx={{ gap: 2 }} direction={"row"}>
-
                     <TextField
-                        error={Boolean(errors.email)}
-                        helperText={
-                            errors.email
-                                ? "Please provide a valid email address"
-                                : null
-                        }
-                        {...register("email", { required: true, pattern: regEmail })}
+                        error={Boolean(errors.Price)}
+                        helperText={errors.Price ? "This field is required" : null}
+                        {...register("Price", { required: true })}
                         sx={{ flex: 1 }}
                         label="Price"
                         variant="filled"
+                        type="number"
+                        step="0.01"
                     />
 
                     <TextField
-                        error={Boolean(errors.ContactNumber)}
-                        helperText={
-                            errors.ContactNumber
-                                ? "Please provide a valid Phone number"
-                                : null
-                        }
-                        {...register("ContactNumber", {
-                            required: true,
-                            pattern: phoneRegExp,
-                        })}
+                        error={Boolean(errors.Rating)}
+                        helperText={errors.Rating ? "This field is required" : null}
+                        {...register("Rating", { required: true })}
                         label="Rating"
                         sx={{ flex: 1 }}
                         variant="filled"
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="5"
                     />
                 </Stack>
-                <TextField label="Image Url" variant="filled" />
 
+                <TextField
+                    error={Boolean(errors.Image_url)}
+                    helperText={errors.Image_url ? "This field is required" : null}
+                    {...register("Image_url", { required: true })}
+                    label="Image Url"
+                    variant="filled"
+                />
 
-
-
-                <TextField label="Description" variant="filled" />
+                <TextField
+                    error={Boolean(errors.Description)}
+                    helperText={errors.Description ? "This field is required" : null}
+                    {...register("Description", { required: true })}
+                    label="Description"
+                    variant="filled"
+                    multiline
+                    rows={3}
+                />
 
                 <TextField
                     variant="filled"
                     id="outlined-select-currency"
                     select
-                    label="Category"
-                    defaultValue="User"
+                    label="Subcategory"
+                    defaultValue=""
+                    {...register("Sub_categories_id", { required: true, transform: (v) => parseInt(v, 10) })}
+                    error={Boolean(errors.Sub_categories_id)}
                 >
-                    {data.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                    {subcategories.map((subcategory) => (
+                        <MenuItem key={subcategory.id} value={parseInt(subcategory.id)}>
+                            {subcategory.name}
                         </MenuItem>
                     ))}
                 </TextField>
+
+
 
                 <Box sx={{ textAlign: "right" }}>
                     <Button

@@ -159,9 +159,6 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                         <NotificationsOutlinedIcon />
                     </IconButton>
 
-                    <IconButton color="inherit">
-                        <SettingsOutlinedIcon />
-                    </IconButton>
 
                     <IconButton onClick={handleClick} color="inherit">
                         <Person2OutlinedIcon />
@@ -176,8 +173,6 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
                         <MenuItem component={Link} to="/">Logout</MenuItem>
                     </Menu>
                 </Stack>

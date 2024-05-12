@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
     Avatar,
     Box,
@@ -27,6 +28,20 @@ export default function SignInForm() {
     const [openError, setOpenError] = useState(false);
     const [loginFailed, setLoginFailed] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [apiHost, setApiHost] = useState("");
+
+    // Load the API base URL
+    useEffect(() => {
+        axios
+            .get("/src/assets/Constants.json")
+            .then((response) => {
+                const apiBaseUrl = response.data.API_HOST;
+                setApiHost(apiBaseUrl);
+            })
+            .catch((error) => {
+                console.error("Error loading API URL:", error);
+            });
+    }, []);
 
     const paperStyle = {
         padding: 40,
@@ -42,14 +57,27 @@ export default function SignInForm() {
     const btnstyle = { margin: "8px 0" };
 
     const handleSignIn = () => {
-        if (username === "Hadi" && password === "admin") {
-            if (location.pathname !== "/dashboard") {
-                window.location.href = "/dashboard";
-            }
-        } else {
-            setOpenError(true);
-            setLoginFailed(true);
-        }
+        axios
+            .get(`${apiHost}/api/Admin/all`)
+            .then((response) => {
+                const admins = response.data;
+                const matchedAdmin = admins.find(
+                    (admin) => admin.name === username && admin.password === password
+                );
+                if (matchedAdmin) {
+                    console.log("Login successful, redirecting...");
+                    window.location.href = "/dashboard";
+                } else {
+                    console.log("Login failed, credentials do not match.");
+                    setOpenError(true);
+                    setLoginFailed(true);
+                }
+            })
+            .catch((error) => {
+                console.error("Error during sign-in:", error.response.data);
+                setOpenError(true);
+                setLoginFailed(true);
+            });
     };
 
     const handleCloseError = () => {
@@ -74,7 +102,6 @@ export default function SignInForm() {
             >
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, justifyContent: "center" }}>
                     <TextField
-                        // sx={{ marginBottom: 3, marginTop: "auto" }}
                         label="Username"
                         variant="outlined"
                         fullWidth
@@ -83,12 +110,12 @@ export default function SignInForm() {
                         error={loginFailed}
                         onChange={(e) => setUsername(e.target.value)}
                         InputProps={{
-                            style: { backgroundColor: "transparent" }, // Make background color transparent
+                            style: { backgroundColor: "transparent" }, // Transparent background color
                         }}
                     />
                     <TextField
                         label="Password"
-                        type={showPassword ? "text" : "password"} // Toggle password visibility
+                        type={showPassword ? "text" : "password"}
                         variant="outlined"
                         fullWidth
                         required
@@ -96,13 +123,12 @@ export default function SignInForm() {
                         error={loginFailed}
                         onChange={(e) => setPassword(e.target.value)}
                         InputProps={{
-                            // Add an eye icon to toggle password visibility
                             endAdornment: (
                                 <InputAdornment position="end">
                                     <IconButton
                                         onClick={handleTogglePasswordVisibility}
                                         edge="end"
-                                        color="inherit" // Set color to inherit from the parent
+                                        color="inherit"
                                     >
                                         {showPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>

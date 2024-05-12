@@ -44,17 +44,15 @@ public async Task<ActionResult<Product>> AddProducts(Product product)
 {
     // Find the existing SubCategory and Category
     var subCategory = await _context.SubCategory.FindAsync(product.Sub_categories_id);
-    var category = await _context.Categories.FindAsync(subCategory.Category_id);
 
     // Associate the new Product with the existing SubCategory and Category
     product.SubCategories = subCategory;
-    subCategory.Category = category;
 
     _context.Products.Add(product);
     await _context.SaveChangesAsync();
 
     // Eager loading the product data
-    return Ok(await _context.Products.Include(c => c.SubCategories).ThenInclude(s => s.Category).ToListAsync());
+    return Ok(await _context.Products.Include(c => c.SubCategories).ToListAsync());
 }
 
         [HttpPut("update")]

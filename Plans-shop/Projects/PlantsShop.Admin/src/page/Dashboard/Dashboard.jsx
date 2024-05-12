@@ -12,13 +12,17 @@ import {
     Typography,
     Modal,
     MenuItem,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
 } from "@mui/material";
-import { DownloadOutlined } from "@mui/icons-material";
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const PRODUCTS_PER_PAGE = 7;
+const PRODUCTS_PER_PAGE = 8;
 
 const Dashboard = () => {
     const [page, setPage] = useState(1);
@@ -28,6 +32,20 @@ const Dashboard = () => {
     const [products, setProducts] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
+
+    const openDeleteDialog = (product) => {
+        setProductToDelete(product);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const closeDeleteDialog = () => {
+        setIsDeleteDialogOpen(false);
+        setProductToDelete(null);
+    };
+
+
    
 
     
@@ -50,7 +68,7 @@ const Dashboard = () => {
                 setProducts(productsData);
             })
             .catch((error) => {
-                console.error("Error fetching products:", error);
+                console.error("Error fetching products:");
             });
 
         axios
@@ -63,7 +81,7 @@ const Dashboard = () => {
                 setSubcategories(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching subcategories:", error);
+                console.error("Error fetching subcategories:");
             });
     };
 
@@ -80,57 +98,77 @@ const handleClose = () => {
     setEditProduct(null);
 };
 
-const handleEdit = (field, value) => {
-    setEditProduct((prev) => {
-        switch (field) {
-            case "Name":
-                return { ...prev, name: value };
-            case "Description":
-                return { ...prev, description: value };
-            case "ImageUrl":
-                return { ...prev, image_url: value };
-            case "Quantity":
-                return { ...prev, quantity: parseInt(value) };
-            case "Price":
-                return { ...prev, price: parseFloat(value) };
-            case "Rating":
-                return { ...prev, rating: parseFloat(value) };
-            case "sub_categories_id":
-                // Find the selected subcategory
-                const selectedSubcategory = subcategories.find(
-                    (subcategory) => subcategory.id === parseInt(value)
-                );
-                return {
-                    ...prev,
-                    sub_categories_id: parseInt(value),
-                    subCategories: selectedSubcategory,
-                };
-            default:
-                return prev;
-        }
-    });
-};
-
-const handleSave = () => {
-    axios
-        .get("/src/assets/Constants.json")
-        .then((response) => {
-            const apiBaseUrl = response.data.API_HOST;
-            return axios.put(`${apiBaseUrl}/api/Products/update`, editProduct);
-        })
-        .then((response) => {
-            setProducts((prevProducts) =>
-                prevProducts.map((product) =>
-                    product.id === response.data.id ? response.data : product
-                )
-            );
-            alert("Product updated successfully!");
-        })
-        .catch((error) => {
-            console.error("Error updating product:", error);
-            alert("Error updating product.");
+    const handleEdit = (field, value) => {
+        setEditProduct((prev) => {
+            switch (field) {
+                case "Name":
+                    return { ...prev, name: value };
+                case "Description":
+                    return { ...prev, description: value };
+                case "ImageUrl":
+                    return { ...prev, image_url: value };
+                case "Quantity":
+                    return { ...prev, quantity: parseInt(value) };
+                case "Price":
+                    return { ...prev, price: parseFloat(value) };
+                case "Rating":
+                    return { ...prev, rating: parseFloat(value) };
+                case "sub_categories_id":
+                    const selectedSubcategory = subcategories.find(
+                        (subcategory) => subcategory.id === parseInt(value)
+                    );
+                    return {
+                        ...prev,
+                        sub_categories_id: parseInt(value),
+                        subCategories: selectedSubcategory,
+                    };
+                default:
+                    return prev;
+            }
         });
-    handleClose();
+    };
+
+    const handleDelete = () => {
+        if (productToDelete) {
+            axios
+                .get("/src/assets/Constants.json")
+                .then((response) => {
+                    const apiBaseUrl = response.data.API_HOST;
+                    // Send DELETE request with the product ID
+                    return axios.delete(`${apiBaseUrl}/api/Products/delete?id=${productToDelete.id}`);
+                })
+                .then((response) => {
+                    // Update the products state with the remaining products from the server response
+                    setProducts(response.data);
+                    closeDeleteDialog();
+                })
+                .catch((error) => {
+                    alert("Error deleting product.");
+                    closeDeleteDialog();
+                });
+        }
+    };
+
+
+    const handleSave = () => {
+        axios
+            .get("/src/assets/Constants.json")
+            .then((response) => {
+                const apiBaseUrl = response.data.API_HOST;
+                return axios.put(`${apiBaseUrl}/api/Products/update`, editProduct);
+            })
+            .then((response) => {
+                // Update the products state with the modified editProduct data
+                setProducts((prevProducts) =>
+                    prevProducts.map((product) =>
+                        product.id === editProduct.id ? editProduct : product
+                    )
+                );
+            })
+            .catch((error) => {
+                alert("Error updating product.");
+            });
+        handleClose();
     };
 
     const filteredProducts = selectedCategory
@@ -146,9 +184,13 @@ const handleSave = () => {
 
 
     const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
-    const endIndex = startIndex + PRODUCTS_PER_PAGE;
-    const displayedProducts = products.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+    const endIndex = Math.min(startIndex + PRODUCTS_PER_PAGE, filteredProducts.length);
+    const displayedProducts = filteredProducts.slice(startIndex, endIndex);
+
+    // If the filtered results can fit in a single page, set `totalPages` to `1`
+    const totalPages = Math.max(Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE), 1);
+
+
     const uniqueCategories = new Set();
 
     subcategories.forEach((subcategory) => {
@@ -165,7 +207,7 @@ const handleSave = () => {
                 <Header
                     isDashboard={true}
                     title="DASHBOARD"
-                    subTitle="Welcome to your dashboard"
+                    subTitle="View and Edit Products"
                 />
 
                 <Box sx={{ textAlign: "right", mb: 1.3 }}>
@@ -173,7 +215,7 @@ const handleSave = () => {
                     <TextField
                         color="primary"
                         select
-                        label="Filter "
+                        label="Category"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
                         sx={{ minWidth: "150px", marginRight: "10px" }}
@@ -189,7 +231,7 @@ const handleSave = () => {
             </Stack>
 
             <Grid container spacing={2} mt={0}>
-                {filteredProducts.map((product, index) => (
+                {displayedProducts.map((product, index) => (
                     
                     
                     <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -237,7 +279,7 @@ const handleSave = () => {
                                 >
                                     Edit
                                 </Button>
-                                <Button size="small" color="secondary">
+                                <Button size="small" color="secondary" onClick={() => openDeleteDialog(product)}>
                                     Delete
                                 </Button>
                             </CardActions>
@@ -245,9 +287,29 @@ const handleSave = () => {
                     </Grid>
                 ))}
             </Grid>
+            <Dialog
+                open={isDeleteDialogOpen}
+                onClose={closeDeleteDialog}
+            >
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete "{productToDelete?.name}"?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeDeleteDialog} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDelete} color="secondary">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
 
-            
+
+ 
             <Box display="flex" justifyContent="center" mt={2}>
                 <Pagination
                     count={totalPages}
@@ -255,7 +317,8 @@ const handleSave = () => {
                     onChange={(event, value) => setPage(value)}
                     color="primary"
                 />
-            </Box>
+                </Box>
+       
 
             {editProduct && (
                 <Modal

@@ -18,6 +18,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import { useLocation, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -79,7 +80,7 @@ const Array1 = [
     { text: "Invoices", icon: <ReceiptOutlinedIcon />, path: "/invoices" },
 ];
 const Array2 = [
-    { text: "Profile Form", icon: <PersonOutlinedIcon />, path: "/form" },
+    { text: "Add Product", icon: <AddOutlinedIcon />, path: "/form" },
     { text: "Calendar", icon: <CalendarTodayOutlinedIcon />, path: "/calendar" },
     { text: "FAQ", icon: <HelpOutlinedIcon />, path: "/faq" },
 ];
