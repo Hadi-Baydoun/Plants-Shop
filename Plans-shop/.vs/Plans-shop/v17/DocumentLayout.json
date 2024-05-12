@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\components\\topbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\components\\topbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\components\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\components\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1E074607-9DC0-41BD-9CDA-2125732EE631}|Projects\\PlantsShop.API\\PlantsShop.API.csproj|solutionrelative:projects\\plantsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,11 +46,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "TopBar.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
+              "ViewState": "AQIAAGAAAAAAAAAAAAAAAHcAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-12T14:52:57.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\App.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\App.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\App.jsx",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAgwDoAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-12T14:51:19.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dashboard.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
+              "ViewState": "AQIAAOcAAAAAAAAAAAAAALsAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-12T14:48:43.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Models\\Product.cs",
+              "RelativeToolTip": "Projects\\PlantsShop.API\\Models\\Product.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T14:42:18.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Projects\\PlantsShop.API\\Controllers\\ProductController.cs",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAYwHoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T14:37:48.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Header.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\Header.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\components\\Header.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\Header.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\components\\Header.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-12T14:33:05.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "CartController.cs",
               "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Controllers\\CartController.cs",
@@ -39,20 +141,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "AddressController.cs",
               "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
               "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
               "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
               "RelativeToolTip": "Projects\\PlantsShop.API\\Controllers\\AddressController.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAAAuwFoAAAAAAAAA",
+              "ViewState": "AQIAACgAAAAAAAAAAAAuwC0AAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-12T14:20:47.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "Address.cs",
               "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\PlantsShop.API\\Models\\Address.cs",
               "RelativeDocumentMoniker": "Projects\\PlantsShop.API\\Models\\Address.cs",

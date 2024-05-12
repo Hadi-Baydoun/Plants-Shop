@@ -32,6 +32,11 @@ export default function MiniDrawer() {
             ? localStorage.getItem("currentMode")
             : "light"
     );
+    const [searchTerm, setSearchTerm] = React.useState(""); // Add searchTerm state
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
     const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
     return (
@@ -41,16 +46,17 @@ export default function MiniDrawer() {
                 {location.pathname !== "/" && (
                     <>
                         <TopBar
-                            open={open}
-                            handleDrawerOpen={handleDrawerOpen}
-                            setMode={setMode}
-                        />
+              open={open}
+              handleDrawerOpen={handleDrawerOpen}
+              setMode={setMode}
+              handleSearch={handleSearch} // Pass handleSearch to TopBar
+            />
                         <SideBar open={open} handleDrawerClose={handleDrawerClose} />
                     </>
                 )}
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <DrawerHeader />
-                    <Outlet />
+                    <Outlet context={{ searchTerm }} />
                 </Box>
             </Box>
         </ThemeProvider>

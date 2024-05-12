@@ -18,7 +18,6 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -81,7 +80,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-const TopBar = ({ open, handleDrawerOpen, setMode }) => {
+const TopBar = ({ open, handleDrawerOpen, setMode, handleSearch }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openMenu = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -116,8 +115,9 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                        placeholder="Search…"
+                        placeholder="Search products..."
                         inputProps={{ "aria-label": "search" }}
+                        onChange={handleSearch} 
                     />
                 </Search>
                 <Box flexGrow={1} />
