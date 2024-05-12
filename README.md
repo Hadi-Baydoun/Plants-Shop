@@ -22,8 +22,7 @@ To run the project before deployment, follow these steps:
 1. Download the database (will be uploaded later).
 2. Make sure you have Node.js installed.
 3. Using Visual Studio, navigate to the plantsshop.admin and plantsshop.website projects and open the terminal. Then execute the following commands:
-4. Installation Instructions:
-      
+   
       npm i 
    
       npm i @emotion/react 
@@ -57,5 +56,5 @@ To run the project before deployment, follow these steps:
       npm i react-router-dom 
 
    
-4. Right-click on the solution and select "Configure Startup Project". Choose "Multiple Startup Projects" and set all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website) to start.
-5. Start the solution. Additional dependencies may be prompted for download during this process.
+5. Right-click on the solution and select "Configure Startup Project". Choose "Multiple Startup Projects" and set all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website) to start.
+6. Start the solution. Additional dependencies may be prompted for download during this process.
