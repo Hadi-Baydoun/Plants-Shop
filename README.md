@@ -17,18 +17,44 @@ In the backend, each table in the database is associated with a model and a cont
 
 Setup Instructions
 
-To run the project before deployment, follow these steps:
+To run the project locally, follow these steps:
 
 1. Download the database (will be uploaded later).
-2. Using Visual Studio, navigate to the plantsshop.admin and plantsshop.website projects and open the terminal. Then execute the following commands:
+2. Make sure you have Node.js installed.
+3. Using Visual Studio, navigate to the plantsshop.admin and plantsshop.website projects and open the terminal. Then execute the following commands:
    
-            2.1- npm i
+      npm i 
+   
+      npm i @emotion/react 
 
-            2.2- npm i @fullcalendar/timegrid @fullcalendar/interaction
+      npm i @emotion/styled 
    
-            2.3- npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+      npm i @fullcalendar/core 
    
-            2.4- npm install react-router-dom
+      npm i @fullcalendar/daygrid 
    
-4. Right-click on the solution and select "Configure Startup Project". Choose "Multiple Startup Projects" and set all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website) to start.
-5. Start the solution. Additional dependencies may be prompted for download during this process.
+      npm i @fullcalendar/interaction
+   
+      npm i @fullcalendar/react 
+   
+      npm i @fullcalendar/timegrid 
+   
+      npm i @mui/icons-material 
+   
+      npm i @mui/material 
+   
+      npm i @mui/x-data-grid 
+   
+      npm i axios 
+   
+      npm i react 
+   
+      npm i react-dom 
+   
+      npm i react-hook-form 
+   
+      npm i react-router-dom 
+
+   
+5. Right-click on the solution and select "Configure Startup Project". Choose "Multiple Startup Projects" and set all three projects (plantsshop.admin, PlantsShop.API, plantsshop.website) to start.
+6. Start the solution. Additional dependencies may be prompted for download during this process.
