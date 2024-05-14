@@ -1,71 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\contacts\\contacts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\contacts\\contacts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\components\\topbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\components\\topbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 2,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TopBar.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\components\\TopBar.jsx",
-              "ViewState": "AQIAAJMAAAAAAAAAAAAAAF0AAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-12T15:28:44.538Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Dashboard.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ViewState": "AQIAAKcAAAAAAAAAAAApwLIAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-12T15:25:13.672Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Contacts.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Contacts\\Contacts.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Contacts\\Contacts.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Contacts\\Contacts.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Contacts\\Contacts.jsx",
-              "ViewState": "AQIAAFkAAAAAAAAAAAAAwB4AAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-12T15:07:38.502Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
