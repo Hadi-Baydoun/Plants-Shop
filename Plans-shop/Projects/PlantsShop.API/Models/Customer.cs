@@ -13,8 +13,5 @@ public partial class Customer
     public string Password { get; set; } = null!;
 
     public string Phone_Number { get; set; } = null!;
-
-    public int Address_id { get; set; }
-    public Address Address { get; set; } = null!;
 }
     

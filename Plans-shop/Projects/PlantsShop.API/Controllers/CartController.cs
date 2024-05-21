@@ -22,7 +22,6 @@ namespace PlantsShop.API.Controllers
         {
             return await _context.Carts
                 .Include(c => c.Customer)
-                    .ThenInclude(c => c.Address)  // Include the Address property of Customer
                 .ToListAsync();
         }
 
@@ -31,7 +30,6 @@ namespace PlantsShop.API.Controllers
         {
             var cart = await _context.Carts
                 .Include(c => c.Customer)
-                    .ThenInclude(c => c.Address)  // Include the Address property of Customer
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cart == null)
@@ -54,7 +52,7 @@ namespace PlantsShop.API.Controllers
             await _context.SaveChangesAsync();
 
             // Eager loading the customer data
-            return Ok(await _context.Carts.Include(c => c.Customer).ThenInclude(c => c.Address).ToListAsync());
+            return Ok(await _context.Carts.Include(c => c.Customer).ToListAsync());
         }
 
         [HttpPut("update")]
@@ -88,7 +86,7 @@ namespace PlantsShop.API.Controllers
             }
 
             // Eager loading the customer data
-            return Ok(await _context.Carts.Include(c => c.Customer).ThenInclude(c => c.Address).ToListAsync());
+            return Ok(await _context.Carts.Include(c => c.Customer).ToListAsync());
         }
 
         private bool CartExists(int id)
@@ -110,7 +108,7 @@ namespace PlantsShop.API.Controllers
             await _context.SaveChangesAsync();
 
             // Eager loading the customer data
-            return Ok(await _context.Carts.Include(c => c.Customer).ThenInclude(c => c.Address).ToListAsync());
+            return Ok(await _context.Carts.ToListAsync());
         }
 
     }

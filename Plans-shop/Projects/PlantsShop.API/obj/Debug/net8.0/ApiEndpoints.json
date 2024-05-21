@@ -87,7 +87,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PlantsShop.API.Models.Address",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PlantsShop.API.Models.Address, PlantsShop.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -113,7 +113,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PlantsShop.API.Models.Address",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PlantsShop.API.Models.Address, PlantsShop.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1478,130 +1478,6 @@
     "ReturnTypes": [
       {
         "Type": "PlantsShop.API.Models.SubCategories",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PlantsShop.API.Controllers.UserAddressController",
-    "Method": "GetUserAddress",
-    "RelativePath": "api/UserAddress/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PlantsShop.API.Models.UserAddress",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PlantsShop.API.Controllers.UserAddressController",
-    "Method": "AddUserAddress",
-    "RelativePath": "api/UserAddress/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "useraddress",
-        "Type": "PlantsShop.API.Models.UserAddress",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PlantsShop.API.Models.UserAddress",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PlantsShop.API.Controllers.UserAddressController",
-    "Method": "GetAllUserAddresses",
-    "RelativePath": "api/UserAddress/all",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PlantsShop.API.Models.UserAddress, PlantsShop.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PlantsShop.API.Controllers.UserAddressController",
-    "Method": "DeleteUserAddress",
-    "RelativePath": "api/UserAddress/delete",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PlantsShop.API.Models.UserAddress",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PlantsShop.API.Controllers.UserAddressController",
-    "Method": "UpdateUserAddress",
-    "RelativePath": "api/UserAddress/update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updateUserAddress",
-        "Type": "PlantsShop.API.Models.UserAddress",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PlantsShop.API.Models.UserAddress",
         "MediaTypes": [
           "text/plain",
           "application/json",

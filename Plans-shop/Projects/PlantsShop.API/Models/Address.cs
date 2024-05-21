@@ -12,6 +12,8 @@ namespace PlantsShop.API.Models
         public string address { get; set; } = null!;
         public string street_number { get; set; } = null!;
 
-        public string postal_code { get; set; } 
+        public string? postal_code { get; set; }
+        public int Customer_id { get; set; }
+        public Customer Customer { get; set; } = null!;
     }
 }

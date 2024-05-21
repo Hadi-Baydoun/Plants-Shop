@@ -21,6 +21,7 @@ import {
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useOutletContext } from "react-router-dom"; 
 
 const PRODUCTS_PER_PAGE = 8;
 
@@ -34,6 +35,7 @@ const Dashboard = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
+    const { searchTerm } = useOutletContext();
 
     const openDeleteDialog = (product) => {
         setProductToDelete(product);
@@ -43,6 +45,9 @@ const Dashboard = () => {
     const closeDeleteDialog = () => {
         setIsDeleteDialogOpen(false);
         setProductToDelete(null);
+    };
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
     };
 
 
@@ -171,14 +176,16 @@ const handleClose = () => {
         handleClose();
     };
 
-    const filteredProducts = selectedCategory
-        ? products.filter(
-            (product) =>
-                product.subCategories &&
+    const filteredProducts = products.filter(
+        (product) =>
+            (product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
+            (selectedCategory
+                ? product.subCategories &&
                 product.subCategories.category &&
                 product.subCategories.category.name === selectedCategory
-        )
-        : products;
+                : true)
+    );
 
 
 

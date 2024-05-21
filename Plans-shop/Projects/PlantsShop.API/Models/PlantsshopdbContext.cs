@@ -30,7 +30,6 @@ public partial class PlantsshopdbContext : DbContext
     public virtual DbSet<PaymnetMethods> paymnetmethods { get; set; }
     public virtual DbSet<ShopOrder> ShopOrders { get; set; }
     public virtual DbSet<OrderItems> orderitems { get; set; }
-    public virtual DbSet<UserAddress> UserAddresses { get; set; }
     public virtual DbSet<Wishlist> Wishlists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -52,12 +51,6 @@ public partial class PlantsshopdbContext : DbContext
             entity.Property(e => e.Last_Name).IsRequired();
             entity.Property(e => e.Password).IsRequired();
             entity.Property(e => e.Phone_Number).IsRequired();
-
-            // Define foreign key relationship with Address entity
-            entity.HasOne(c => c.Address)
-                  .WithMany()
-                  .HasForeignKey(c => c.Address_id)
-                  .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
         });
         modelBuilder.Entity<Address>(entity =>
         {
@@ -68,6 +61,10 @@ public partial class PlantsshopdbContext : DbContext
             entity.Property(e => e.address).IsRequired();
             entity.Property(e => e.street_number).IsRequired();
             entity.Property(e => e.postal_code).HasMaxLength(10);
+            entity.HasOne(c => c.Customer)
+                  .WithMany() // Assuming a cart can be associated with multiple customers
+                  .HasForeignKey(c => c.Customer_id) // Specify the foreign key property
+                  .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
         });
         modelBuilder.Entity<Cart>(entity =>
         {
@@ -196,16 +193,6 @@ public partial class PlantsshopdbContext : DbContext
             entity.HasOne(c => c.Product)
                   .WithMany() // Assuming a cart can be associated with multiple customers
                   .HasForeignKey(c => c.Product_id) // Specify the foreign key property
-                  .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
-
-        });
-        modelBuilder.Entity<UserAddress>(entity =>
-        {
-            entity.ToTable("user_address"); // Define the table name
-            entity.HasKey(e => e.Id).HasName("PRIMARY"); // Define the primary key
-            entity.HasOne(c => c.Customer)
-                  .WithMany() // Assuming a cart can be associated with multiple customers
-                  .HasForeignKey(c => c.Customer_id) // Specify the foreign key property
                   .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
 
         });

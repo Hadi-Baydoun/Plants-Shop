@@ -88,7 +88,6 @@ namespace PlantsShop.API.Controllers
                         .ThenInclude(sc => sc.Category)
                 .Include(oi => oi.ShopOrder)
                     .ThenInclude(so => so.Customer)
-                        .ThenInclude(customer => customer.Address)
                 .ToListAsync());
         }
 

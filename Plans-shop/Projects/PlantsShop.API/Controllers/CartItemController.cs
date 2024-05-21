@@ -24,7 +24,6 @@ namespace PlantsShop.API.Controllers
                         .ThenInclude(sc => sc.Category)
                 .Include(c => c.Cart)
                     .ThenInclude(cart => cart.Customer)
-                        .ThenInclude(customer => customer.Address)
                 .ToListAsync();
         }
 
@@ -37,7 +36,6 @@ namespace PlantsShop.API.Controllers
                         .ThenInclude(sc => sc.Category)
                 .Include(c => c.Cart)
                     .ThenInclude(cart => cart.Customer)
-                        .ThenInclude(customer => customer.Address)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cartItem == null)
@@ -58,7 +56,6 @@ namespace PlantsShop.API.Controllers
             // Find the existing Cart
             var cart = await _context.Carts
                 .Include(c => c.Customer)
-                .ThenInclude(customer => customer.Address)
                 .FirstOrDefaultAsync(c => c.Id == cartItem.Cart_id);
 
             // If the Product or Cart doesn't exist, return NotFound
@@ -82,7 +79,7 @@ namespace PlantsShop.API.Controllers
                 .ThenInclude(sc => sc.Category)
                 .Include(c => c.Cart)
                 .ThenInclude(cart => cart.Customer)
-                .ThenInclude(customer => customer.Address)
+                .ThenInclude(customer => customer)
                 .ToListAsync());
         }
 
