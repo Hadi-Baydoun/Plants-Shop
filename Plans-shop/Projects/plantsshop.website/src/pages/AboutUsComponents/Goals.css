@@ -1,0 +1,58 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.vision-goals-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 120px 140px 60px 140px;
+  background-color: #ffffff;
+  z-index: 0;
+  position: relative;
+  
+}
+
+.vision-section,
+.goals-section {
+  width: 48%;
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+
+.vision-title,
+.goals-title {
+  color: #6b705c !important; 
+  font-weight: bold !important;
+}
+
+.vision-description,
+.goals-description {
+  color: #4a4a4a;
+  line-height: 1.6;
+}
+
+/* Media queries for Vision and Goals Section */
+@media (max-width: 992px) {
+  .vision-goals-section {
+    flex-direction: column;
+    padding: 40px 20px;
+    top: 0px; 
+  }
+
+  .vision-section,
+  .goals-section {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+}
