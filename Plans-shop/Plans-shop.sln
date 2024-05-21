@@ -13,6 +13,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Common\Database
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "plantsshop.admin", "Projects\plantsshop.admin\plantsshop.admin.esproj", "{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "plantsshop.website", "Projects\plantsshop.website\plantsshop.website.esproj", "{60DD0503-6EBB-489E-B965-C122092F7354}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60DD0503-6EBB-489E-B965-C122092F7354}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,7 @@ Global
 		{1E074607-9DC0-41BD-9CDA-2125732EE631} = {9A3B9D3B-498D-4729-9CB8-99E55E7E50FF}
 		{29327763-EFAA-4D57-86DB-1572A2976AA7} = {43B73C83-E665-48BF-9323-46B0425AB237}
 		{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74} = {9A3B9D3B-498D-4729-9CB8-99E55E7E50FF}
+		{60DD0503-6EBB-489E-B965-C122092F7354} = {9A3B9D3B-498D-4729-9CB8-99E55E7E50FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E8F8831-3CAA-4363-A800-EF773BEB05FF}
