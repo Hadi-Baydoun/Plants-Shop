@@ -15,7 +15,7 @@ const phoneRegExp =
 
 
 
-const Form = () => {
+const AddProducts = () => {
     const [apiHost, setApiHost] = useState("");
     const [subcategories, setSubcategories] = useState([]);
     const [open, setOpen] = useState(false);
@@ -38,7 +38,7 @@ const Form = () => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-
+    // Function to handle saving the product
     const handleSave = async (formData) => {
         try {
             const response = await axios.post(`${apiHost}/api/Products/add`, formData, {
@@ -55,6 +55,7 @@ const Form = () => {
         }
     };
 
+    // Function to handle form submission
     const onSubmit = async (formData) => {
         // Find the selected subcategory object based on ID
         const selectedSubcategory = subcategories.find(
@@ -82,13 +83,14 @@ const Form = () => {
             },
             sub_categories_id: parseInt(formData.Sub_categories_id, 10),
         };
+        // Save the product and reset the form
 
         handleSave(formDataAll);
         reset();
     };
 
 
-
+    // Function to handle snackbar close
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
             return;
@@ -102,7 +104,7 @@ const Form = () => {
 
             <Box
                 onSubmit={handleSubmit(onSubmit)}
-                component="form"
+                component="AddProducts"
                 sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -219,4 +221,4 @@ const Form = () => {
     );
 };
 
-export default Form;
+export default AddProducts;
