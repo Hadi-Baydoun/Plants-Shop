@@ -3,36 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\editproduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\editproduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\productcard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\productcard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\dashboardheader.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\dashboardheader.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\deleteproduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboardcomponents\\deleteproduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\addproducts\\addproducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\addproducts\\addproducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,110 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductCard.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\ProductCard.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\ProductCard.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\ProductCard.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\ProductCard.jsx",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAkwDEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T13:22:17.14Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DeleteProduct.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DeleteProduct.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DeleteProduct.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DeleteProduct.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DeleteProduct.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T13:21:58.773Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EditProduct.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\EditProduct.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\EditProduct.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\EditProduct.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\EditProduct.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T13:21:41.44Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DashboardHeader.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DashboardHeader.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DashboardHeader.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DashboardHeader.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\DashboardComponents\\DashboardHeader.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T13:21:26.637Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Dashboard.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T13:09:32.765Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "AddProducts.jsx",
               "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
               "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
               "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
               "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAgwMYAAAAlAAAA",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAAAGEAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T12:58:00.657Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "main.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\main.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\main.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\main.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\main.jsx",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAgwB4AAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T12:56:54.141Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "App.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\App.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\App.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\App.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\App.jsx",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAAAC8AAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-22T12:56:36.848Z",
+              "WhenOpened": "2024-05-22T13:41:31.48Z",
               "EditorCaption": ""
             }
           ]

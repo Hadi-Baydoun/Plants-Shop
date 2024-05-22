@@ -104,7 +104,7 @@ const AddProducts = () => {
 
             <Box
                 onSubmit={handleSubmit(onSubmit)}
-                component="AddProducts"
+                component="form"
                 sx={{
                     display: "flex",
                     flexDirection: "column",
