@@ -13,6 +13,7 @@ import Shop from './pages/Shop';
 import { useState } from 'react';
 import LoginPopup from './components/Login/LoginPopup';
 import Cart from './components/Cart/Cart';
+import { OrderPage } from './components/Cart/OrderPage';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={<OrderPage />} />
         </Routes>
         <Footer />
       </div>
