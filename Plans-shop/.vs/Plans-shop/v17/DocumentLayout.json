@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.website\\src\\pages\\homecomponents\\hero.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|solutionrelative:projects\\plantsshop.website\\src\\pages\\homecomponents\\hero.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\addproducts\\addproducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\addproducts\\addproducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Hero.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\HomeComponents\\Hero.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.website\\src\\pages\\HomeComponents\\Hero.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\HomeComponents\\Hero.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.website\\src\\pages\\HomeComponents\\Hero.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAWAAAA",
+              "Title": "AddProducts.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\AddProducts\\AddProducts.jsx",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAAAGEAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-21T16:25:29.592Z",
+              "WhenOpened": "2024-05-22T13:41:31.48Z",
               "EditorCaption": ""
             }
           ]
