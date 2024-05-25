@@ -92,10 +92,10 @@
   background-color: rgba(128, 128, 128, 0.2);/* Light grey background for shadow effect */
 }
 
-.product-icons{
-  display: flex;
-  flex-direction: row;
-  gap: 20%;
+.product-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 .product-icons:hover{
   cursor: pointer;
