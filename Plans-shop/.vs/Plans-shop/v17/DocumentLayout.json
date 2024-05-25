@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.website\\src\\pages\\shop.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|solutionrelative:projects\\plantsshop.website\\src\\pages\\shop.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4EDE0FB6-24CD-46CA-AE57-F3E3C7002A74}|Projects\\plantsshop.admin\\plantsshop.admin.esproj|solutionrelative:projects\\plantsshop.admin\\src\\page\\dashboard\\dashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.website\\src\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|solutionrelative:projects\\plantsshop.website\\src\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|c:\\users\\msi-pc\\source\\repos\\plants-shop\\plans-shop\\projects\\plantsshop.website\\src\\pages\\shop.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{60DD0503-6EBB-489E-B965-C122092F7354}|Projects\\plantsshop.website\\plantsshop.website.esproj|solutionrelative:projects\\plantsshop.website\\src\\pages\\shop.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,28 +31,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Shop.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
-              "ViewState": "AQIAAH0AAAAAAAAAAAAkwLgAAABdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-23T17:21:01.186Z",
+              "Title": "launch.json",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\.vscode\\launch.json",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\.vscode\\launch.json",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\.vscode\\launch.json",
+              "RelativeToolTip": "Projects\\plantsshop.admin\\.vscode\\launch.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-23T20:00:47.166Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Dashboard.jsx",
-              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeDocumentMoniker": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "RelativeToolTip": "Projects\\plantsshop.admin\\src\\page\\Dashboard\\Dashboard.jsx",
-              "ViewState": "AQIAAJEBAAAAAAAAAAAmwLEBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-05-23T17:20:04.369Z",
+              "Title": "Home.css",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\Home.css",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.website\\src\\Home.css",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\Home.css",
+              "RelativeToolTip": "Projects\\plantsshop.website\\src\\Home.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAABJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-23T18:22:33.491Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Shop.jsx",
+              "DocumentMoniker": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
+              "RelativeDocumentMoniker": "Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
+              "ToolTip": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
+              "RelativeToolTip": "Projects\\plantsshop.website\\src\\pages\\Shop.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-23T17:21:01.186Z"
             }
           ]
         }

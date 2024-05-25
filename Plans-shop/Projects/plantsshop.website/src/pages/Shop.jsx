@@ -1,5 +1,4 @@
 import "../Home.css";
-import reasonPlant from "../assets/reasonPlant.jpeg";
 import { useState, useEffect } from "react";
 import {
     Typography,
