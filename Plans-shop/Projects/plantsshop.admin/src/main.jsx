@@ -18,10 +18,10 @@ import Calendar from "./page/Calendar/Calendar";
 import NotFound from "./page/notFound/NotFound";
 import SignInForm from "./page/signIn/SignInForm";
 
-
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<App />}>
+
             <Route path="/" element={<SignInForm />} />
             <Route path="dashboard" element={<Dashboard />} />
 
