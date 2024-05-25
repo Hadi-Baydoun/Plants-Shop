@@ -12,7 +12,7 @@ import Dashboard from "./page/Dashboard/Dashboard";
 import Team from "./page/Team/Team";
 import Invoices from "./page/Invoices/Invoices";
 import Contacts from "./page/Contacts/Contacts";
-import Form from "./page/Form/Form";
+import AddProducts from "./page/AddProducts/AddProducts";
 import FAQ from "./page/FAQ/FAQ";
 import Calendar from "./page/Calendar/Calendar";
 import NotFound from "./page/notFound/NotFound";
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
             <Route path="team" element={<Team />} />
             <Route path="contacts" element={<Contacts />} />
             <Route path="invoices" element={<Invoices />} />
-            <Route path="form" element={<Form />} />
+            <Route path="addProduct" element={<AddProducts />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="faq" element={<FAQ />} />
 

@@ -80,7 +80,7 @@ const Array1 = [
     { text: "Invoices", icon: <ReceiptOutlinedIcon />, path: "/invoices" },
 ];
 const Array2 = [
-    { text: "Add Product", icon: <AddOutlinedIcon />, path: "/form" },
+    { text: "Add Product", icon: <AddOutlinedIcon />, path: "/addProduct" },
     { text: "Calendar", icon: <CalendarTodayOutlinedIcon />, path: "/calendar" },
     { text: "FAQ", icon: <HelpOutlinedIcon />, path: "/faq" },
 ];
