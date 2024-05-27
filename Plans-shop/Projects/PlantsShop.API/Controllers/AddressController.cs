@@ -41,12 +41,24 @@ namespace PlantsShop.API.Controllers
 
         // Add a new address and return all addresses
         [HttpPost("add")]
-        public async Task<IEnumerable<Address>> AddAddress(Address address)
+        public async Task<IActionResult> AddAddress([FromBody] Address address)
         {
+            var customer = await _context.Customers.FindAsync(address.Customer_id);
+            if (customer == null)
+            {
+                return NotFound("Customer not found");
+            }
+
+            address.Customer = customer; 
+
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
-            return await GetAllAddresses();
+
+            return Ok(address);
         }
+
+
+
 
         // Update an existing address by ID, ensuring that customer data remains intact
         [HttpPut("update")]
