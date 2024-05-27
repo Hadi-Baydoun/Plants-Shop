@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import cross_icon from "../../assets/cross_icon.png";
+import { Snackbar, Alert } from '@mui/material';
 
 const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
     const [currState, setCurrState] = useState("Sign Up");
@@ -20,6 +21,14 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
         streetNumber: "",
         postalCode: "",
     });
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,10 +51,14 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
             const newCustomerId = customerResponse.data.id;
             setCustomerId(newCustomerId);
             setShowAddressForm(true);
-            alert("Account created successfully! Please enter your address.");
+            setSnackbarMessage("Account created successfully! Please enter your address.");
+            setSnackbarSeverity("success");
+            setSnackbarOpen(true);
         } catch (error) {
             console.error("Error during customer creation:", error);
-            alert("Customer creation failed. Please try again.");
+            setSnackbarMessage("Customer creation failed. Please try again.");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
         }
     };
 
@@ -61,7 +74,7 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 address: formData.address,
                 street_number: formData.streetNumber,
                 postal_code: formData.postalCode,
-                Customer_id: customerId, // Ensure this is included and correctly spelled
+                Customer_id: customerId, 
                 Customer: {
                     first_Name: formData.firstName,
                     last_Name: formData.lastName,
@@ -71,7 +84,7 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 }
             };
 
-            console.log("Payload:", JSON.stringify(payload)); // Log payload for debugging
+          
 
             await axios.post(`${apiBaseUrl}/api/Address/add`, payload);
 
@@ -83,11 +96,15 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 email: formData.email,
             });
 
-            alert("Address added successfully!");
+            setSnackbarMessage("Address added successfully!");
+            setSnackbarSeverity("success");
+            setSnackbarOpen(true);
             setShowLogin(false);
         } catch (error) {
             console.error("Error during address creation:", error);
-            alert("Address creation failed. Please try again.");
+            setSnackbarMessage("Address creation failed. Please try again.");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
         }
     };
 
@@ -106,16 +123,33 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
 
             if (matchedCustomer) {
                 setLoggedInUser(matchedCustomer);
-                alert(`Welcome back, ${matchedCustomer.first_Name}!`);
-                setShowLogin(false);
+                setSnackbarMessage('Login Successful!');
+                setSnackbarSeverity('success');
+                setSnackbarOpen(true);
+                console.log('Snackbar set to open (success): ', true);
             } else {
-                alert("Login failed. Please check your credentials and try again.");
+                setSnackbarMessage("Login failed. Please check your credentials and try again.");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+                console.log('Snackbar set to open (error): ', true);
             }
         } catch (error) {
             console.error("Error during login:", error);
-            alert("Login failed. Please check your credentials and try again.");
+            setSnackbarMessage("Login failed. Please check your credentials and try again.");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+            console.log('Snackbar set to open (error): ', true);
         }
     };
+
+    useEffect(() => {
+        if (snackbarOpen && snackbarSeverity === 'success') {
+            const timer = setTimeout(() => {
+                setShowLogin(false);
+            }, 2000); 
+            return () => clearTimeout(timer);
+        }
+    }, [snackbarOpen, snackbarSeverity]);
 
 
 
@@ -143,7 +177,7 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 transition={{ duration: 0.5 }}
             >
                 <div className="login-popup-title">
-                    <h2>{loggedInUser ? `Hello, ${loggedInUser.first_Name}` : currState}</h2>
+                    <h2>{loggedInUser ? `Welcome` : currState}</h2>
                     <img onClick={() => setShowLogin(false)} src={cross_icon} alt="close" />
                 </div>
                 {loggedInUser ? (
@@ -280,7 +314,17 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                         )}
                     </>
                 )}
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleSnackbarClose}
+                >
+                    <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </motion.form>
+            
         </div>
     );
 

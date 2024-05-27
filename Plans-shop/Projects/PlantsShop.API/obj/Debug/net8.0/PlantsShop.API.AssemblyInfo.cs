@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlantsShop.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ddfe251c11cfb51754a6c9bfd04e1747e9bcc7b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bde1f366dba29884bf619b6610eb93ada7ae4bdc")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlantsShop.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlantsShop.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
