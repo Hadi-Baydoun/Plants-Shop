@@ -30,9 +30,15 @@
   align-items: center;
   color: black;
 }
+.logged-in-content{
+    color:black;
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
 .login-popup-title img {
-  width: 16px;
-  cursor: pointer;
+    width: 16px;
+    cursor: pointer;
 }
 .login-popup-inputs {
   display: flex;
