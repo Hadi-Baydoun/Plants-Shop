@@ -2,36 +2,30 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderPage.css";
 
-export const OrderPage = () => {
-    const [customer, setCustomer] = useState(null);
+export const OrderPage = ({ loggedInUser, cartId, customerId }) => {
     const [address, setAddress] = useState(null);
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
 
     useEffect(() => {
+        if (!loggedInUser) {
+            console.error('No logged in user');
+            return;
+        }
+
         const fetchCustomerAndAddress = async () => {
             try {
                 const response = await axios.get("/src/assets/Constants.json");
                 const apiBaseUrl = response.data.API_HOST;
 
-                // Fetch cart items to get the cart_id
-                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/all`);
+                // Fetch cart items by cart ID
+                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${cartId}`);
                 if (cartItemsResponse.data.length === 0) {
                     console.error("No cart items found.");
                     return;
                 }
 
                 setCartItems(cartItemsResponse.data);
-
-                const cartId = cartItemsResponse.data[0].cart_id;
-
-                // Fetch cart to get the customer_id
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/${cartId}`);
-                const customerId = cartResponse.data.customer_id;
-
-                // Fetch customer data
-                const customerResponse = await axios.get(`${apiBaseUrl}/api/Customer/${customerId}`);
-                setCustomer(customerResponse.data);
 
                 // Fetch address data
                 const addressResponse = await axios.get(`${apiBaseUrl}/api/Address/all`);
@@ -47,9 +41,9 @@ export const OrderPage = () => {
         };
 
         fetchCustomerAndAddress();
-    }, []);
+    }, [loggedInUser, cartId, customerId]);
 
-    if (!customer || !address) {
+    if (!loggedInUser || !address) {
         return <div>Loading...</div>;
     }
 
@@ -59,11 +53,11 @@ export const OrderPage = () => {
                 <p className="title">Delivery Information</p>
                 <div className="field-group">
                     <label>First Name</label>
-                    <input type="text" value={customer.first_Name} readOnly />
+                    <input type="text" value={loggedInUser.first_Name} readOnly />
                 </div>
                 <div className="field-group">
                     <label>Last Name</label>
-                    <input type="text" value={customer.last_Name} readOnly />
+                    <input type="text" value={loggedInUser.last_Name} readOnly />
                 </div>
                 <div className="field-group">
                     <label>Address</label>
@@ -85,7 +79,7 @@ export const OrderPage = () => {
                 </div>
                 <div className="field-group">
                     <label>Phone Number</label>
-                    <input type="text" value={customer.phone_Number} readOnly />
+                    <input type="text" value={loggedInUser.phone_Number} readOnly />
                 </div>
             </div>
 

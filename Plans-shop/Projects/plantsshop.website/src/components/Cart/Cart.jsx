@@ -2,8 +2,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./Cart.css";
+import {
+    ButtonGroup,
+    IconButton,
+    Typography,
+    Box
+} from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function Cart() {
+export default function Cart({ loggedInUser, setCartId, setCustomerId }) {
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
 
@@ -13,15 +22,26 @@ export default function Cart() {
                 const response = await axios.get("/src/assets/Constants.json");
                 const apiBaseUrl = response.data.API_HOST;
 
-                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/all`);
+                // Fetch or create cart by customer ID
+                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                const currentCartId = cartResponse.data.id;
+
+                // Fetch cart items by cart ID
+                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
                 setCartItems(cartItemsResponse.data);
+
+                // Set cart ID and customer ID for OrderPage
+                setCartId(currentCartId);
+                setCustomerId(loggedInUser.id);
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
         };
 
-        fetchCartItems();
-    }, []);
+        if (loggedInUser) {
+            fetchCartItems();
+        }
+    }, [loggedInUser]);
 
     const removeFromCart = async (id) => {
         try {
@@ -32,6 +52,22 @@ export default function Cart() {
             setCartItems(cartItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Error removing item from cart:', error);
+        }
+    };
+
+    const updateQuantity = async (id, newQuantity) => {
+        try {
+            const response = await axios.get("/src/assets/Constants.json");
+            const apiBaseUrl = response.data.API_HOST;
+
+            const updatedItem = cartItems.find(item => item.id === id);
+            updatedItem.quantity = newQuantity;
+            updatedItem.total = updatedItem.product.price * newQuantity;
+
+            await axios.put(`${apiBaseUrl}/api/CartItem/update`, updatedItem);
+            setCartItems(cartItems.map(item => item.id === id ? updatedItem : item));
+        } catch (error) {
+            console.error('Error updating item quantity:', error);
         }
     };
 
@@ -59,12 +95,22 @@ export default function Cart() {
                 {cartItems.map((item) => (
                     <div key={item.id}>
                         <div className="cart-items-title cart-items-item">
-                            <img src={item.product.image_url} alt={item.product.name} /> 
+                            <img src={item.product.image_url} alt={item.product.name} />
                             <p>{item.product.name}</p>
                             <p>${item.product.price.toFixed(2)}</p>
-                            <p>{item.quantity}</p>
+                            <Box display="flex" alignItems="center">
+                                <IconButton onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>
+                                    <RemoveIcon />
+                                </IconButton>
+                                <Typography style={{ margin: "0 10px" }}>{item.quantity}</Typography>
+                                <IconButton onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                                    <AddIcon />
+                                </IconButton>
+                            </Box>
                             <p>${item.total.toFixed(2)}</p>
-                            <p className="cross" onClick={() => removeFromCart(item.id)}>x</p>
+                            <IconButton onClick={() => removeFromCart(item.id)}>
+                                <DeleteIcon />
+                            </IconButton>
                         </div>
                         <hr />
                     </div>

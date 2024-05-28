@@ -79,9 +79,31 @@ namespace PlantsShop.API.Controllers
                 .ThenInclude(sc => sc.Category)
                 .Include(c => c.Cart)
                 .ThenInclude(cart => cart.Customer)
-                .ThenInclude(customer => customer)
                 .ToListAsync());
         }
+
+        [HttpGet("getByCustomerId/{customerId}")]
+        public async Task<ActionResult<Cart>> GetCartByCustomerId(int customerId)
+        {
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.Customer_id == customerId);
+            if (cart == null)
+                return NotFound("Cart not found for this customer.");
+            return Ok(cart);
+        }
+
+        [HttpGet("getByCartId/{cartId}")]
+        public async Task<IEnumerable<CartItem>> GetCartItemsByCartId(int cartId)
+        {
+            return await _context.CartItems
+                .Include(c => c.Product)
+                    .ThenInclude(p => p.SubCategories)
+                        .ThenInclude(sc => sc.Category)
+                .Include(c => c.Cart)
+                    .ThenInclude(cart => cart.Customer)
+                .Where(c => c.Cart_id == cartId)
+                .ToListAsync();
+        }
+
 
         [HttpPut("update")]
         public async Task<ActionResult<CartItem>> UpdateCartItem(CartItem updateCartItem)
@@ -92,7 +114,7 @@ namespace PlantsShop.API.Controllers
 
             // Update the quantity and product id
             dbCartItem.Quantity = updateCartItem.Quantity;
-            dbCartItem.Product_id = updateCartItem.Product_id; // Add this line to update the Product_id
+            dbCartItem.Product_id = updateCartItem.Product_id; 
 
             // Find the product to get the price for total calculation
             var product = await _context.Products.FindAsync(updateCartItem.Product_id);
@@ -108,7 +130,7 @@ namespace PlantsShop.API.Controllers
         }
 
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<CartItem>> DeleteCartItem(int id)
         {
             var dbCartItem = await _context.CartItems.FindAsync(id);
@@ -116,9 +138,13 @@ namespace PlantsShop.API.Controllers
                 return NotFound("Cart Item Not Found");
             _context.CartItems.Remove(dbCartItem);
             await _context.SaveChangesAsync();
-            // Eager loading the address data
-            return Ok(await _context.CartItems.Include(c => c.Product).Include(c => c.Cart).ToListAsync());
+            return NoContent();
         }
+
+
+
+
+
 
 
     }

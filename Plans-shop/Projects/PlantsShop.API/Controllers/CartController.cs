@@ -111,5 +111,19 @@ namespace PlantsShop.API.Controllers
             return Ok(await _context.Carts.ToListAsync());
         }
 
+        [HttpGet("getOrCreateCartByCustomerId/{customerId}")]
+        public async Task<ActionResult<Cart>> GetOrCreateCartByCustomerId(int customerId)
+        {
+            var cart = await _context.Carts.FirstOrDefaultAsync(c => c.Customer_id == customerId);
+            if (cart == null)
+            {
+                cart = new Cart { Customer_id = customerId };
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(cart);
+        }
+
+
     }
 }
