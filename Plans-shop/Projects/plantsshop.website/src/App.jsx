@@ -18,6 +18,8 @@ import { OrderPage } from './components/Cart/OrderPage';
 function App() {
     const [showLogin, setShowLogin] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [cartId, setCartId] = useState(null);
+    const [customerId, setCustomerId] = useState(null);
 
     return (
         <Router>
@@ -29,14 +31,18 @@ function App() {
                         setLoggedInUser={setLoggedInUser}
                     />
                 )}
-                <NavBar setShowLogin={setShowLogin} loggedInUser={loggedInUser} />
+                <NavBar
+                    setShowLogin={setShowLogin}
+                    loggedInUser={loggedInUser}
+                    setCartId={setCartId}
+                />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/order" element={<OrderPage />} />
+                    <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />
+                    <Route path="/order" element={<OrderPage loggedInUser={loggedInUser} cartId={cartId} customerId={customerId} />} />
                 </Routes>
                 <Footer />
             </div>

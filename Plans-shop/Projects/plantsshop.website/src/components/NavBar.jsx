@@ -1,18 +1,23 @@
 import './NavBar.css';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { Snackbar, Alert } from '@mui/material';
+import axios from 'axios';
 
-export const NavBar = ({ setShowLogin }) => {
+export const NavBar = ({ setShowLogin, loggedInUser, setCartId }) => {
     const [menu, setMenu] = useState("Home");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [loggedInUser, setLoggedInUser] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const location = useLocation();
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -25,6 +30,38 @@ export const NavBar = ({ setShowLogin }) => {
         } else {
             setIsScrolled(false);
         }
+    };
+
+    const handleCartClick = async () => {
+        if (loggedInUser) {
+            try {
+                const response = await axios.get("/src/assets/Constants.json");
+                const apiBaseUrl = response.data.API_HOST;
+
+                // Check if the cart already exists for the customer
+                const existingCartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                const existingCartId = existingCartResponse.data.id;
+
+                // Set the existing cart ID and navigate to the cart page
+                setCartId(existingCartId);
+                navigate('/cart');
+            } catch (error) {
+                console.error("Error checking or creating cart:", error);
+                setSnackbarMessage("Failed to access cart. Please try again.");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+            }
+        } else {
+            setSnackbarMessage("Please log in to access your cart.");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+            setShowLogin(true);
+        }
+    };
+
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     useEffect(() => {
@@ -70,15 +107,24 @@ export const NavBar = ({ setShowLogin }) => {
             </ul>
             <div className='navbar-right'>
                 <div className="navbar-search-icon">
-                    <Link to='/cart'><ShoppingBasketOutlinedIcon className="navbar-icon" /></Link>
+                    <ShoppingBasketOutlinedIcon className="navbar-icon" onClick={handleCartClick} />
                 </div>
-                <Person2OutlinedIcon className="navbar-icon" onClick={() => setShowLogin(true, setLoggedInUser)} />
+                <Person2OutlinedIcon className="navbar-icon" onClick={() => setShowLogin(true)} />
                 {!isMenuOpen && (
                     <div className="navbar-hamburger" onClick={toggleMenu}>
                         <MenuIcon className="navbar-icon" />
                     </div>
                 )}
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

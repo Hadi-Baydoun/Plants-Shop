@@ -337,6 +337,32 @@
   },
   {
     "ContainingType": "PlantsShop.API.Controllers.CartController",
+    "Method": "GetOrCreateCartByCustomerId",
+    "RelativePath": "api/Cart/getOrCreateCartByCustomerId/{customerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PlantsShop.API.Models.Cart",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PlantsShop.API.Controllers.CartController",
     "Method": "UpdateCart",
     "RelativePath": "api/Cart/update",
     "HttpMethod": "PUT",
@@ -436,7 +462,7 @@
   {
     "ContainingType": "PlantsShop.API.Controllers.CartItemController",
     "Method": "DeleteCartItem",
-    "RelativePath": "api/CartItem/delete",
+    "RelativePath": "api/CartItem/delete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -444,12 +470,64 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
         "Type": "PlantsShop.API.Models.CartItem",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PlantsShop.API.Controllers.CartItemController",
+    "Method": "GetCartItemsByCartId",
+    "RelativePath": "api/CartItem/getByCartId/{cartId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PlantsShop.API.Models.CartItem, PlantsShop.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PlantsShop.API.Controllers.CartItemController",
+    "Method": "GetCartByCustomerId",
+    "RelativePath": "api/CartItem/getByCustomerId/{customerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PlantsShop.API.Models.Cart",
         "MediaTypes": [
           "text/plain",
           "application/json",
