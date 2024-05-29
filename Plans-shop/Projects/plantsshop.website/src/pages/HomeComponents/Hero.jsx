@@ -3,6 +3,7 @@ import "../HomeComponents/Hero.css";
 import Hero2 from "../../assets/Hero2.jpg";
 import Hero1 from "../../assets/Hero1.jpg";
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const textVariants = {
   hidden: { opacity: 0, x: -50 },
@@ -20,6 +21,7 @@ const imageVariants = {
 };
 
 export default function Hero() {
+    const navigate = useNavigate();
   return (
     <div className="welcome-section">
       <div className="welcome-left">
@@ -46,7 +48,7 @@ export default function Hero() {
           animate="visible"
           variants={buttonVariants}
         >
-          <Button variant="contained" color="primary" className="shop-button">
+                  <Button variant="contained" color="primary" className="shop-button" onClick={() => navigate('/shop')}>
             SHOP NOW
           </Button>
         </motion.div>

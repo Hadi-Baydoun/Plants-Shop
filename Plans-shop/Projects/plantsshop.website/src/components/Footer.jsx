@@ -16,9 +16,7 @@ export default function Footer() {
       <div className="col">
         <h4>About</h4>
         <a href="#">About us</a>
-        <a href="#">Delivery Information</a>
         <a href="#">Privacy Policy</a>
-        <a href="#">Terms & Conditions</a>
         <a href="/contact.html">Contact us</a>
       </div>
 
@@ -27,8 +25,6 @@ export default function Footer() {
         <a href="#">Sign in</a>
         <a href="#">View Cart</a>
         <a href="#">My Wishlist</a>
-        <a href="#">Track My Order</a>
-        <a href="#">Help</a>
       </div>
       
       <div className="col install">

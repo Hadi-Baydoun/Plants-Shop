@@ -37,7 +37,7 @@ function App() {
                     setCartId={setCartId}
                 />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
                     <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/contact" element={<Contact />} />
