@@ -16,8 +16,8 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
     const totalSlides = 4;
     const containerRef = useRef(null);
     const [favorite, setFavorite] = useState(Array(15).fill(false));
-    const [snackbar, setSnackbar] = useState({ open: false, message: "" });
-    const [cart, setCart] = useState(Array(15).fill(false));
+    const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+    const [cart, setCart] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,17 +26,39 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
                 const response = await axios.get("/src/assets/Constants.json");
                 const apiBaseUrl = response.data.API_HOST;
                 const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
-                const fetchedItems = productsResponse.data.slice(0, 15); 
+                const fetchedItems = productsResponse.data.slice(0, 15);
                 setItems(fetchedItems);
                 setFavorite(Array(fetchedItems.length).fill(false));
-                setCart(Array(fetchedItems.length).fill(false));
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
         };
 
+        const fetchCartItems = async () => {
+            try {
+                if (loggedInUser) {
+                    const response = await axios.get("/src/assets/Constants.json");
+                    const apiBaseUrl = response.data.API_HOST;
+
+                    // Fetch or create cart by customer ID
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                    const currentCartId = cartResponse.data.id;
+
+                    // Fetch cart items by cart ID
+                    const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
+                    setCart(cartItemsResponse.data);
+
+                    // Set cart ID for future use
+                    setCartId(currentCartId);
+                }
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
+        };
+
         fetchProducts();
-    }, []);
+        fetchCartItems();
+    }, [loggedInUser, setCartId]);
 
     const handleNext = () => {
         setSlideIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -67,7 +89,8 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
         });
         setSnackbar({
             open: true,
-            message: favorite[index] ? "Item removed from wishlist" : "Item added to wishlist"
+            message: favorite[index] ? "Item removed from wishlist" : "Item added to wishlist",
+            severity: favorite[index] ? "warning" : "success"
         });
     };
 
@@ -81,88 +104,96 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
             const response = await axios.get("/src/assets/Constants.json");
             const apiBaseUrl = response.data.API_HOST;
 
-            // Check if the cart exists for the logged-in user
-            let currentCartId = cartId;
-            if (!currentCartId) {
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
-                if (cartResponse.data && cartResponse.data.id) {
-                    currentCartId = cartResponse.data.id;
-                } else {
-                    const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
-                        Customer_id: loggedInUser.id,
+            // Check if the product is already in the cart
+            const existingCartItem = cart.find((item) => item.product_id === product.id);
+
+            if (existingCartItem) {
+                // If the product is in the cart, remove it
+                await axios.delete(`${apiBaseUrl}/api/CartItem/delete/${existingCartItem.id}`);
+                setCart((prevCart) => prevCart.filter((item) => item.id !== existingCartItem.id));
+
+                // Show snackbar for item removed
+                setSnackbar({ open: true, message: "Item removed from cart", severity: "warning" });
+            } else {
+                // If the product is not in the cart, add it
+                let currentCartId = cartId;
+                if (!currentCartId) {
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
+                    if (cartResponse.data && cartResponse.data.id) {
+                        currentCartId = cartResponse.data.id;
+                    } else {
+                        const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
+                            Customer_id: loggedInUser.id,
+                            Customer: {
+                                first_Name: loggedInUser.first_Name,
+                                last_Name: loggedInUser.last_Name,
+                                phone_Number: loggedInUser.phone_Number,
+                                email: loggedInUser.email,
+                                password: loggedInUser.password
+                            }
+                        });
+                        currentCartId = newCartResponse.data.id;
+                    }
+                    setCartId(currentCartId);
+                }
+
+                // Fetch subcategory and category details
+                const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
+                const subCategory = subcategoryResponse.data;
+                const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
+                const category = categoryResponse.data;
+
+                // Calculate total
+                const quantity = 1;  // Default quantity
+                const total = product.price * quantity;
+
+                // Add item to cart with all necessary details
+                const cartItem = {
+                    cart_id: currentCartId,
+                    product_id: product.id,
+                    quantity: quantity,
+                    total: total,
+                    Product: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image_url: product.image_url,
+                        sub_categories_id: product.sub_categories_id,
+                        SubCategories: {
+                            id: subCategory.id,
+                            name: subCategory.name,
+                            Category: {
+                                id: category.id,
+                                name: category.name
+                            }
+                        }
+                    },
+                    Cart: {
+                        id: currentCartId,
                         Customer: {
+                            id: loggedInUser.id,
                             first_Name: loggedInUser.first_Name,
                             last_Name: loggedInUser.last_Name,
                             phone_Number: loggedInUser.phone_Number,
                             email: loggedInUser.email,
                             password: loggedInUser.password
                         }
-                    });
-                    currentCartId = newCartResponse.data.id;
-                }
-                setCartId(currentCartId);
+                    }
+                };
+
+                await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
+                setCart((prevCart) => [...prevCart, cartItem]);
+
+                // Show snackbar for item added
+                setSnackbar({ open: true, message: "Item added to cart", severity: "success" });
             }
-
-            // Fetch subcategory and category details
-            const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
-            const subCategory = subcategoryResponse.data;
-            const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
-            const category = categoryResponse.data;
-
-            // Calculate total
-            const quantity = 1;  // Default quantity
-            const total = product.price * quantity;
-
-            // Add item to cart with all necessary details
-            const cartItem = {
-                cart_id: currentCartId,
-                product_id: product.id,
-                quantity: quantity,
-                total: total,
-                Product: {
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image_url: product.image_url,
-                    sub_categories_id: product.sub_categories_id,
-                    SubCategories: {
-                        id: subCategory.id,
-                        name: subCategory.name,
-                        Category: {
-                            id: category.id,
-                            name: category.name
-                        }
-                    }
-                },
-                Cart: {
-                    id: currentCartId,
-                    Customer: {
-                        id: loggedInUser.id,
-                        first_Name: loggedInUser.first_Name,
-                        last_Name: loggedInUser.last_Name,
-                        phone_Number: loggedInUser.phone_Number,
-                        email: loggedInUser.email,
-                        password: loggedInUser.password
-                    }
-                }
-            };
-
-            await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
-
-            setCart((prevCart) => {
-                if (prevCart.some((cartItem) => cartItem.product_id === product.id)) {
-                    return prevCart.filter((cartItem) => cartItem.product_id !== product.id);
-                } else {
-                    return [...prevCart, cartItem];
-                }
-            });
         } catch (error) {
-            console.error("Error adding item to cart:", error);
+            console.error("Error adding/removing item to/from cart:", error);
         }
     };
 
     const handleCloseSnackbar = () => {
-        setSnackbar({ open: false, message: "" });
+        setSnackbar({ open: false, message: "", severity: "success" });
     };
 
     return (
@@ -216,9 +247,9 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
                 open={snackbar.open}
                 autoHideDuration={3000}
                 onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
                     {snackbar.message}
                 </Alert>
             </Snackbar>
