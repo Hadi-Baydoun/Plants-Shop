@@ -75,6 +75,31 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId }) => {
         window.scrollTo(0, 0);
     }, [location]);
 
+    // Set the active menu item based on the current path
+    useEffect(() => {
+        
+        switch (location.pathname) {
+            case '/':
+                setMenu("Home");
+                break;
+            case '/shop':
+                setMenu("Shop");
+                break;
+            case '/about':
+                setMenu("About Us");
+                break;
+            case '/contact':
+                setMenu("Contact");
+                break;
+            case '/cart':
+                setMenu("");
+                break;
+            default:
+                setMenu("");
+                break;
+        }
+    }, [location.pathname]);
+
     return (
         <div className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
             {!isScrolled ? (
