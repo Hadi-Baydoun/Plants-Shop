@@ -1,4 +1,4 @@
-import { Button, Typography,IconButton,Snackbar, Alert } from "@mui/material";
+import { Button, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState, useEffect, useRef } from "react";
@@ -6,154 +6,222 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import axios from 'axios';
 import "../HomeComponents/Arrivals.css";
+import { useNavigate } from 'react-router-dom';
 
-export default function Arrivals() {
-  const [slideIndex, setSlideIndex] = useState(0);
-  const totalSlides = 4; // Total number of items
-  const containerRef = useRef(null);
-  const [favorite, setFavorite] = useState(Array(4).fill(false));
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
-  const [cart, setCart] = useState(Array(4).fill(false));
+export default function Arrivals({ loggedInUser, cartId, setCartId }) {
+    const [slideIndex, setSlideIndex] = useState(0);
+    const [items, setItems] = useState([]);
+    const totalSlides = 4;
+    const containerRef = useRef(null);
+    const [favorite, setFavorite] = useState(Array(15).fill(false));
+    const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+    const [cart, setCart] = useState(Array(15).fill(false));
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const container = containerRef.current;
-    let animationId;
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("/src/assets/Constants.json");
+                const apiBaseUrl = response.data.API_HOST;
+                const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
+                const fetchedItems = productsResponse.data.slice(0, 15); 
+                setItems(fetchedItems);
+                setFavorite(Array(fetchedItems.length).fill(false));
+                setCart(Array(fetchedItems.length).fill(false));
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
 
-    const handleScroll = () => {
-      container.scrollLeft += 1;
-      animationId = requestAnimationFrame(handleScroll);
+        fetchProducts();
+    }, []);
+
+    const handleNext = () => {
+        setSlideIndex((prevIndex) => (prevIndex + 1) % items.length);
     };
 
-    animationId = requestAnimationFrame(handleScroll);
+    const handlePrev = () => {
+        setSlideIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    };
 
-    return () => cancelAnimationFrame(animationId);
-  }, [slideIndex]);
+    const visibleItems = [];
+    for (let i = 0; i < totalSlides; i++) {
+        visibleItems.push(items[(slideIndex + i) % items.length]);
+    }
 
-  const handleNext = () => {
-    setSlideIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-  };
+    useEffect(() => {
+        const container = containerRef.current;
+        container.scrollTo({
+            left: 0,
+            behavior: "smooth",
+        });
+    }, [slideIndex]);
 
-  const handlePrev = () => {
-    setSlideIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides);
-  };
+    const handleFavoriteToggle = (index) => {
+        setFavorite((prevFavorite) => {
+            const newFavorite = [...prevFavorite];
+            newFavorite[index] = !newFavorite[index];
+            return newFavorite;
+        });
+        setSnackbar({
+            open: true,
+            message: favorite[index] ? "Item removed from wishlist" : "Item added to wishlist"
+        });
+    };
 
-  const productItems = [
-    {
-      image: "https://houseplantshop.com/cdn/shop/products/8-MONSTERA-3_837x837.jpg?v=1627692378",
-      name: "Massa",
-      price: "$20",
-    },
-    {
-      image: "https://houseplantshop.com/cdn/shop/products/MonsteraDeliciosa_TerraCotta_837x837.jpg?v=1636582102",
-      name: "Massa",
-      price: "$20",
-    },
-    {
-      image: "https://houseplantshop.com/cdn/shop/products/4_MONSTERA_DELICIOSA_1_837x837.jpg?v=1627692378",
-      name: "Massa",
-      price: "$20",
-    },
-    {
-      image: "https://images.loox.io/uploads/2024/5/13/mcxSmhxm0.jpg",
-      name: "Massa",
-      price: "$20",
-    },
-  ];
+    const handleCartToggle = async (product) => {
+        if (!loggedInUser) {
+            alert("Please log in to add items to the cart.");
+            return;
+        }
 
-  const visibleItems = [
-    ...productItems.slice(slideIndex, totalSlides),
-    ...productItems.slice(0, slideIndex),
-  ];
+        try {
+            const response = await axios.get("/src/assets/Constants.json");
+            const apiBaseUrl = response.data.API_HOST;
 
-  useEffect(() => {
-    const container = containerRef.current;
-    container.scrollTo({
-      left: slideIndex * (container.scrollWidth / totalSlides),
-      behavior: "smooth",
-    });
-  }, [slideIndex, totalSlides]);
+            // Check if the cart exists for the logged-in user
+            let currentCartId = cartId;
+            if (!currentCartId) {
+                const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
+                if (cartResponse.data && cartResponse.data.id) {
+                    currentCartId = cartResponse.data.id;
+                } else {
+                    const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
+                        Customer_id: loggedInUser.id,
+                        Customer: {
+                            first_Name: loggedInUser.first_Name,
+                            last_Name: loggedInUser.last_Name,
+                            phone_Number: loggedInUser.phone_Number,
+                            email: loggedInUser.email,
+                            password: loggedInUser.password
+                        }
+                    });
+                    currentCartId = newCartResponse.data.id;
+                }
+                setCartId(currentCartId);
+            }
 
-  const handleFavoriteToggle = (index) => {
-    setFavorite((prevFavorite) => {
-      const newFavorite = [...prevFavorite];
-      newFavorite[index] = !newFavorite[index];
-      return newFavorite;
-    });
-    setSnackbar({
-      open: true,
-      message: favorite[index] ? "Item removed from wishlist" : "Item added to wishlist"
-    });
-  };
-  const handleCartToggle = (index) => {
-    setCart((prevCart) => {
-      const newCart = [...prevCart];
-      newCart[index] = !newCart[index];
-      return newCart;
-    });
-    setSnackbar({
-      open: true,
-      message: cart[index] ? "Item removed from cart" : "Item added to cart"
-    });
-  };
-  const handleCloseSnackbar = () => {
-    setSnackbar({ open: false, message: "" });
-  };
-  return (
-    <div className="new-arrivals">
-        <div className="new-arrivals-title">
-          <Typography variant="h3">Most Popular</Typography>
-        </div>
-        <div className="new-arrivals-products" ref={containerRef}>
-          <div className="arrow-icon">
-            <ArrowBackIosIcon onClick={handlePrev} className="arrow-icon-left" />
-          </div>
-          {visibleItems.map((item, index) => (
-            <div key={index} className="new-arrivals-product">
-              <div className="product-image">
-                <img src={item.image} alt={`Product ${index}`} />
-              </div>
-              <div className="product-info">
-                <Typography className="product-name">{item.name}</Typography>
-                <div className="product-prices">
-                  <Typography className="current-price">{item.price}</Typography>
-                </div>
-                <div className="product-icons">
-                <IconButton onClick={() => handleFavoriteToggle(index)}>
-                      {favorite[index] ? (
-                        <FavoriteOutlinedIcon />
-                      ) : (
-                        <FavoriteBorderOutlinedIcon />
-                      )}
-                    </IconButton>
-                    <IconButton onClick={() => handleCartToggle(index)}>
-                      {cart[index] ? (
-                        <ShoppingCartOutlinedIcon />
-                      ) : (
-                        <AddShoppingCartOutlinedIcon />
-                      )}
-                    </IconButton>
-                </div>
-              </div>
+            // Fetch subcategory and category details
+            const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
+            const subCategory = subcategoryResponse.data;
+            const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
+            const category = categoryResponse.data;
+
+            // Calculate total
+            const quantity = 1;  // Default quantity
+            const total = product.price * quantity;
+
+            // Add item to cart with all necessary details
+            const cartItem = {
+                cart_id: currentCartId,
+                product_id: product.id,
+                quantity: quantity,
+                total: total,
+                Product: {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image_url: product.image_url,
+                    sub_categories_id: product.sub_categories_id,
+                    SubCategories: {
+                        id: subCategory.id,
+                        name: subCategory.name,
+                        Category: {
+                            id: category.id,
+                            name: category.name
+                        }
+                    }
+                },
+                Cart: {
+                    id: currentCartId,
+                    Customer: {
+                        id: loggedInUser.id,
+                        first_Name: loggedInUser.first_Name,
+                        last_Name: loggedInUser.last_Name,
+                        phone_Number: loggedInUser.phone_Number,
+                        email: loggedInUser.email,
+                        password: loggedInUser.password
+                    }
+                }
+            };
+
+            await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
+
+            setCart((prevCart) => {
+                if (prevCart.some((cartItem) => cartItem.product_id === product.id)) {
+                    return prevCart.filter((cartItem) => cartItem.product_id !== product.id);
+                } else {
+                    return [...prevCart, cartItem];
+                }
+            });
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+        }
+    };
+
+    const handleCloseSnackbar = () => {
+        setSnackbar({ open: false, message: "" });
+    };
+
+    return (
+        <div className="new-arrivals">
+            <div className="new-arrivals-title">
+                <Typography variant="h3">Most Popular</Typography>
             </div>
-          ))}
-          <div className="arrow-icon">
-            <ArrowForwardIosIcon onClick={handleNext} className="arrow-icon-right" />
-          </div>
+            <div className="new-arrivals-products" ref={containerRef}>
+                <div className="arrow-icon">
+                    <ArrowBackIosIcon onClick={handlePrev} className="arrow-icon-left" />
+                </div>
+                {visibleItems.map((item, index) => (
+                    item && item.image_url ? (
+                        <div key={index} className="new-arrivals-product">
+                            <div className="product-image">
+                                <img src={item.image_url} alt={`Product ${index}`} />
+                            </div>
+                            <div className="product-info">
+                                <Typography className="product-name">{item.name}</Typography>
+                                <div className="product-prices">
+                                    <Typography className="current-price">{item.price}</Typography>
+                                </div>
+                                <div className="product-icons">
+                                    <IconButton onClick={() => handleFavoriteToggle(index)}>
+                                        {favorite[index] ? (
+                                            <FavoriteOutlinedIcon />
+                                        ) : (
+                                            <FavoriteBorderOutlinedIcon />
+                                        )}
+                                    </IconButton>
+                                    <IconButton onClick={() => handleCartToggle(item)}>
+                                        {cart.some((cartItem) => cartItem.product_id === item.id) ? (
+                                            <ShoppingCartOutlinedIcon />
+                                        ) : (
+                                            <AddShoppingCartOutlinedIcon />
+                                        )}
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null
+                ))}
+                <div className="arrow-icon">
+                    <ArrowForwardIosIcon onClick={handleNext} className="arrow-icon-right" />
+                </div>
+            </div>
+            <Button variant="contained" color="primary" className="arrival-button" onClick={() => navigate('/shop')}>
+                Explore All
+            </Button>
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </div>
-        <Button variant="contained" color="primary" className="arrival-button">
-          Explore All
-        </Button>
-        <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          {snackbar.message}
-        </Alert>
-        </Snackbar>
-      </div>
-  )
+    );
 }

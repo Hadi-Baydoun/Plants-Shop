@@ -4,13 +4,13 @@ import AboutUsHome from "./HomeComponents/AboutUsHome";
 import Arrivals from "./HomeComponents/Arrivals";
 import Reasons from "./HomeComponents/Reasons";
 import Testimonials from "./HomeComponents/Testimonials";
-export default function Home() {
+export default function Home({ loggedInUser, cartId, setCartId }) {
   
   return (
     <div className="home">
       <Hero />
       <Features />
-      <Arrivals />
+      <Arrivals loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />
       <AboutUsHome />
       <Reasons />
       <Testimonials />

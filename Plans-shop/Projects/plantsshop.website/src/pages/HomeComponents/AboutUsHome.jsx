@@ -7,7 +7,9 @@ import benefits5 from "../../assets/benefits5.jpg";
 import benefits6 from "../../assets/benefits6.jpg";
 import benefitsBig from "../../assets/benefitsBig.jpg";
 import { Typography, Button } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 export default function AboutUsHome() {
+    const navigate = useNavigate();
   return (
     <div className="story-area">
       <div className="story-left-side">
@@ -71,7 +73,8 @@ export default function AboutUsHome() {
         <Button
           variant="contained"
           color="primary"
-          className="story-button"
+                  className="story-button"
+                  onClick={() => navigate('/about')}
         >
           Read Our Story
         </Button>
