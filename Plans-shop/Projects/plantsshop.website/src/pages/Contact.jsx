@@ -1,6 +1,6 @@
-import ContactHero from "./ContactComponents/ContactHero";
-import Form from "./ContactComponents/Form";
-import FAQ from "./ContactComponents/FAQ";
+import FAQ from "./ContactComponents/FAQSection/FAQ";
+import Form from "./ContactComponents/FormSection/Form";
+import ContactHero from "./ContactComponents/HeroSection/ContactHero";
 
 export default function Contact() {
   return (

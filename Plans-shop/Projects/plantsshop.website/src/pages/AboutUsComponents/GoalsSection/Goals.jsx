@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import "../AboutUsComponents/Goals.css";
+import "./Goals.css";
 export default function Goals() {
   return (
     <div className="vision-goals-section">

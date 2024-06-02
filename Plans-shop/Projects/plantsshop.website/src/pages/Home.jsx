@@ -1,9 +1,10 @@
-import Hero from "./HomeComponents/Hero";
-import Features from "./HomeComponents/Features";
-import AboutUsHome from "./HomeComponents/AboutUsHome";
-import Arrivals from "./HomeComponents/Arrivals";
-import Reasons from "./HomeComponents/Reasons";
-import Testimonials from "./HomeComponents/Testimonials";
+import AboutUsHome from "./HomeComponents/AboutUsSection/AboutUsHome";
+import Arrivals from "./HomeComponents/ArrivalsSection/Arrivals";
+import Features from "./HomeComponents/FeaturesSection/Features";
+import Hero from "./HomeComponents/HeroSection/Hero";
+import Reasons from "./HomeComponents/ReasonsSection/Reasons";
+import Testimonials from "./HomeComponents/TestimonialsSection/Testimonials";
+
 export default function Home({ loggedInUser, cartId, setCartId }) {
   
   return (

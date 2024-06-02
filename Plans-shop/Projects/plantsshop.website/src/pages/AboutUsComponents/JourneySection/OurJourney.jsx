@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from "@mui/material";
-import aboutJourney from "../../assets/aboutJourney.jpg";
-import "../AboutUsComponents/OurJourney.css";
+import aboutJourney from "../../../assets/aboutJourney.jpg";
+import "./OurJourney.css";
 export default function OurJourney() {
   return (
     <div className="our-journey">

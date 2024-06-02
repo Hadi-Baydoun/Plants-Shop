@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { NavBar } from './components/NavBar';
-import Footer from './components/Footer';
+import { NavBar } from './components/NavBar/NavBar';
+import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import AboutUs from './pages/AboutUs';
@@ -12,8 +12,8 @@ import '@fontsource/roboto/700.css';
 import Shop from './pages/Shop';
 import { useState } from 'react';
 import LoginPopup from './components/Login/LoginPopup';
-import Cart from './components/Cart/Cart';
-import { OrderPage } from './components/Cart/OrderPage';
+import Cart from './components/Cart/CartSection/Cart';
+import { OrderPage } from './components/Cart/OrderPageSection/OrderPage';
 
 function App() {
     const [showLogin, setShowLogin] = useState(false);

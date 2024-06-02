@@ -1,4 +1,4 @@
-import "../ContactComponents/FAQ.css";
+import "./FAQ.css";
 import {
   Typography,
   Accordion,

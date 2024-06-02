@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import aboutUsMainPic from "../../assets/aboutUsMainPic.jpg";
-import "../AboutUsComponents/AboutUsHero.css";
+import aboutUsMainPic from "../../../assets/aboutUsMainPic.jpg";
+import "./AboutUsHero.css";
 
 export default function AboutUsHero() {
   return (

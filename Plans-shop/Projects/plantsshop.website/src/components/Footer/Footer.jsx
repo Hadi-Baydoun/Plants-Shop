@@ -1,6 +1,6 @@
 import './Footer.css';
-import LogoBlack from '../assets/LogoBlack.svg';
-import pay from '../assets/pay.png';
+import LogoBlack from '../../assets/LogoBlack.svg';
+import pay from '../../assets/pay.png';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';

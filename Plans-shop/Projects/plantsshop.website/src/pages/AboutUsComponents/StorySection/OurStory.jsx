@@ -1,7 +1,7 @@
 import React from 'react'
-import aboutStory from "../../assets/aboutStory.jpg";
+import aboutStory from "../../../assets/aboutStory.jpg";
 import { Typography } from "@mui/material";
-import "../AboutUsComponents/OurStory.css";
+import "./OurStory.css";
 export default function OurStory() {
   return (
     <div className="our-story-section">

@@ -1,11 +1,11 @@
-import "../HomeComponents/AboutUs.css";
-import benefits1 from "../../assets/benefits1.jpg";
-import benefits2 from "../../assets/benefits2.jpg";
-import benefits3 from "../../assets/benefits3.jpg";
-import benefits4 from "../../assets/benefits4.jpg";
-import benefits5 from "../../assets/benefits5.jpg";
-import benefits6 from "../../assets/benefits6.jpg";
-import benefitsBig from "../../assets/benefitsBig.jpg";
+import "./AboutUs.css";
+import benefits1 from "../../../assets/benefits1.jpg";
+import benefits2 from "../../../assets/benefits2.jpg";
+import benefits3 from "../../../assets/benefits3.jpg";
+import benefits4 from "../../../assets/benefits4.jpg";
+import benefits5 from "../../../assets/benefits5.jpg";
+import benefits6 from "../../../assets/benefits6.jpg";
+import benefitsBig from "../../../assets/benefitsBig.jpg";
 import { Typography, Button } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 export default function AboutUsHome() {
