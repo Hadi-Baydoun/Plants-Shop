@@ -2,7 +2,7 @@ import { Typography, TextField, Button } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
-import "../ContactComponents/Form.css";
+import "./Form.css";
 export default function Form() {
   return (
     <div className="contact-us-section">

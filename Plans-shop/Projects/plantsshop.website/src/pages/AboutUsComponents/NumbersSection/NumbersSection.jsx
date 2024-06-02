@@ -1,4 +1,4 @@
-import "../AboutUsComponents/NumbersSection.css";
+import "./NumbersSection.css";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { useInView } from "react-intersection-observer";

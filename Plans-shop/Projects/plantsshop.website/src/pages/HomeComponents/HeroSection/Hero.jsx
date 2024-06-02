@@ -1,7 +1,7 @@
 import { Typography, Button } from "@mui/material";
-import "../HomeComponents/Hero.css";
-import Hero2 from "../../assets/Hero2.jpg";
-import Hero1 from "../../assets/Hero1.jpg";
+import "./Hero.css";
+import Hero2 from "../../../assets/Hero2.jpg";
+import Hero1 from "../../../assets/Hero1.jpg";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 

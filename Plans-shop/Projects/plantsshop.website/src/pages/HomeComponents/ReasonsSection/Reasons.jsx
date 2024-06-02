@@ -1,9 +1,9 @@
 import { Typography, Button } from "@mui/material";
-import reasonPlant from "../../assets/reasonPlant.jpeg";
+import reasonPlant from "../../../assets/reasonPlant.jpeg";
 import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import "../HomeComponents/Reasons.css";
+import "./Reasons.css";
 
 const reasonVariants = {
   hidden: { opacity: 0 },

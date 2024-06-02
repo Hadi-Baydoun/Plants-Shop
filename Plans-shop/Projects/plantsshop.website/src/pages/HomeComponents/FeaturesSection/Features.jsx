@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import "../HomeComponents/Features.css";
+import "./Features.css";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";

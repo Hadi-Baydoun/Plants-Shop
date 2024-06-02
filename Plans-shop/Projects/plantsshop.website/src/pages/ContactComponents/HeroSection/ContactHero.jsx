@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import benefitsBig from "../../assets/benefitsBig.jpg";
-import "../AboutUsComponents/AboutUsHero.css";
+import benefitsBig from "../../../assets/benefitsBig.jpg";
+import "../../AboutUsComponents/HeroSection/AboutUsHero.css";
 export default function ContactHero() {
   return (
     <div className="aboutus-section">

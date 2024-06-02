@@ -7,7 +7,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import axios from 'axios';
-import "../HomeComponents/Arrivals.css";
+import "./Arrivals.css";
 import { useNavigate } from 'react-router-dom';
 
 export default function Arrivals({ loggedInUser, cartId, setCartId }) {

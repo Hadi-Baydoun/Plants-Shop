@@ -1,10 +1,10 @@
 
-import AboutUsHero from "./AboutUsComponents/AboutUsHero";
-import NumbersSection from "./AboutUsComponents/NumbersSection";
-import Goals from "./AboutUsComponents/Goals";
-import OurJourney from "./AboutUsComponents/OurJourney";
-import OurStory from "./AboutUsComponents/OurStory";
-import Reasons from "./HomeComponents/Reasons";
+import AboutUsHero from "./AboutUsComponents/HeroSection/AboutUsHero";
+import NumbersSection from "./AboutUsComponents/NumbersSection/NumbersSection";
+import Goals from "./AboutUsComponents/GoalsSection/Goals";
+import OurJourney from "./AboutUsComponents/JourneySection/OurJourney";
+import OurStory from "./AboutUsComponents/StorySection/OurStory";
+import Reasons from "./HomeComponents/ReasonsSection/Reasons";
 
 
 
