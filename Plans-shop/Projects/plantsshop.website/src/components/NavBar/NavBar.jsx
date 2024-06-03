@@ -8,8 +8,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
-export const NavBar = ({ setShowLogin, loggedInUser, setCartId }) => {
+export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId }) => {
     const [menu, setMenu] = useState("Home");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -53,6 +54,33 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId }) => {
             }
         } else {
             setSnackbarMessage("Please log in to access your cart.");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+            setShowLogin(true);
+        }
+    };
+
+    const handleWishlistClick = async () => {
+        if (loggedInUser) {
+            try {
+                const response = await axios.get("/src/assets/Constants.json");
+                const apiBaseUrl = response.data.API_HOST;
+
+                // Check if the wishlist already exists for the customer
+                const existingWishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getByCustomerId/${loggedInUser.id}`);
+                const existingWishlistId = existingWishlistResponse.data.id;
+
+                // Set the existing wishlist ID and navigate to the wishlist page
+                setWishlistId(existingWishlistId);
+                navigate('/wishlist');
+            } catch (error) {
+                console.error("Error checking or creating wishlist:", error);
+                setSnackbarMessage("Failed to access wishlist. Please try again.");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+            }
+        } else {
+            setSnackbarMessage("Please log in to access your wishlist.");
             setSnackbarSeverity("error");
             setSnackbarOpen(true);
             setShowLogin(true);
@@ -131,7 +159,8 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId }) => {
                 )}
             </ul>
             <div className='navbar-right'>
-                <div className="navbar-search-icon">
+                <LoyaltyIcon className="navbar-icon" onClick={handleWishlistClick} />
+                <div className="navbar-search-icon"> 
                     <ShoppingBasketOutlinedIcon className="navbar-icon" onClick={handleCartClick} />
                 </div>
                 <Person2OutlinedIcon className="navbar-icon" onClick={() => setShowLogin(true)} />
