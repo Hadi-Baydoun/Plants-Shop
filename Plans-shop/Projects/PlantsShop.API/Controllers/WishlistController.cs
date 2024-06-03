@@ -39,6 +39,27 @@ namespace PlantsShop.API.Controllers
             return Ok(wishlist);
         }
 
+        [HttpGet("getByCustomerId/{customerId}")]
+        public async Task<ActionResult<Wishlist>> GetWishlistByCustomerId(int customerId)
+        {
+            var wishlist = await _context.Wishlists.FirstOrDefaultAsync(w => w.Customer_id == customerId);
+            if (wishlist == null)
+                return NotFound("Wishlist not found for this customer.");
+            return Ok(wishlist);
+        }
+
+        [HttpGet("getByWishlistId/{wishlistId}")]
+        public async Task<IEnumerable<Wishlist>> GetWishlistItemsByWishlistId(int wishlistId)
+        {
+            return await _context.Wishlists
+                .Include(w => w.Product)
+                    .ThenInclude(p => p.SubCategories)
+                        .ThenInclude(sc => sc.Category)
+                .Include(w => w.Customer)
+                .Where(w => w.Id == wishlistId)
+                .ToListAsync();
+        }
+
         [HttpPost("add")]
         public async Task<ActionResult<Wishlist>> AddWishlist(Wishlist wishlist)
         {

@@ -75,6 +75,27 @@ color: white !important;
 border-color: #3c5232 !important;
 }
 
+.add-all {
+    display: flex;
+    justify-content: end;
+    margin-top: 60px;
+}
+
+    .add-all button {
+        background-color: #3c5232;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+        .add-all button:hover {
+            background-color: #2f4026;
+        }
+
 @media (max-width: 1024px) {
   .cart {
     padding: 40px 60px;

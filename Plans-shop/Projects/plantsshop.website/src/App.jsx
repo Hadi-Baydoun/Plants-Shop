@@ -12,14 +12,16 @@ import '@fontsource/roboto/700.css';
 import Shop from './pages/Shop';
 import { useState } from 'react';
 import LoginPopup from './components/Login/LoginPopup';
-import Cart from './components/Cart/CartSection/Cart';
-import { OrderPage } from './components/Cart/OrderPageSection/OrderPage';
+import Cart from './pages/CartPage/Cart';
+import { OrderPage } from './pages/OrderPage/OrderPage';
+import Wishlist from './pages/WishlistPage/wishlist';
 
 function App() {
     const [showLogin, setShowLogin] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [cartId, setCartId] = useState(null);
     const [customerId, setCustomerId] = useState(null);
+    const [wishlistId, setWishlistId] = useState(null);
 
     return (
         <Router>
@@ -35,6 +37,7 @@ function App() {
                     setShowLogin={setShowLogin}
                     loggedInUser={loggedInUser}
                     setCartId={setCartId}
+                    setWishlistId={setWishlistId} 
                 />
                 <Routes>
                     <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
@@ -43,6 +46,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />
                     <Route path="/order" element={<OrderPage loggedInUser={loggedInUser} cartId={cartId} customerId={customerId} />} />
+                     <Route path="/wishlist" element={<Wishlist loggedInUser={loggedInUser} setWishlistId={setWishlistId} setCustomerId={setCustomerId} cartId={cartId} setCartId={setCartId} />} />
                 </Routes>
                 <Footer />
             </div>
