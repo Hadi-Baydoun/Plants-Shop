@@ -2,7 +2,7 @@ import "./LoginPopup.css";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import cross_icon from "../../assets/cross_icon.png";
+import cross_icon from "../../assets/pictures/cross_icon.png";
 import { Snackbar, Alert } from '@mui/material';
 
 const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {

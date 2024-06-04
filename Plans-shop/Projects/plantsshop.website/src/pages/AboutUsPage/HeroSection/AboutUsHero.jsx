@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import aboutUsMainPic from "../../../assets/aboutUsMainPic.jpg";
+import aboutUsMainPic from "../../../assets/pictures/aboutUsMainPic.jpg";
 import "./AboutUsHero.css";
 
 export default function AboutUsHero() {
