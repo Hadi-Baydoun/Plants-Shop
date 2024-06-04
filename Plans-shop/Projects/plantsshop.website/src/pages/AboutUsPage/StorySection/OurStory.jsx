@@ -1,5 +1,5 @@
 import React from 'react'
-import aboutStory from "../../../assets/aboutStory.jpg";
+import aboutStory from "../../../assets/pictures/aboutStory.jpg";
 import { Typography } from "@mui/material";
 import "./OurStory.css";
 export default function OurStory() {

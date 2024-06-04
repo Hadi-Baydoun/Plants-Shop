@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import benefitsBig from "../../../assets/benefitsBig.jpg";
+import benefitsBig from "../../../assets/pictures/benefitsBig.jpg";
 import "../../AboutUsPage/HeroSection/AboutUsHero.css";
 export default function ContactHero() {
   return (

@@ -1,5 +1,5 @@
 import { Typography, Button } from "@mui/material";
-import reasonPlant from "../../../assets/reasonPlant.jpeg";
+import reasonPlant from "../../../assets/pictures/reasonPlant.jpeg";
 import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";

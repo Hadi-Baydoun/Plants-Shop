@@ -9,7 +9,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Shop from './pages/Shop';
+import Shop from './pages/ShopPage/Shop';
 import { useState } from 'react';
 import LoginPopup from './components/Login/LoginPopup';
 import Cart from './pages/CartPage/Cart';

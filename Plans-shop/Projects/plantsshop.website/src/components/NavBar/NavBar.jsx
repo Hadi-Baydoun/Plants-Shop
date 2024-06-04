@@ -1,7 +1,7 @@
 import './NavBar.css';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/pictures/logo.png';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';

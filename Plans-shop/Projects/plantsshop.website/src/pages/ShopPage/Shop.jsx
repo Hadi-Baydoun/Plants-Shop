@@ -1,4 +1,4 @@
-import "../Home.css";
+import "../../Home.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -23,7 +23,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
-import "./HomePage/ArrivalsSection/Arrivals.css";
+import ".././HomePage/ArrivalsSection/Arrivals.css";
 
 const ITEMS_PER_PAGE = 9;
 
