@@ -24,11 +24,11 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import ".././HomePage/ArrivalsSection/Arrivals.css";
+import { useNavigate } from 'react-router-dom';
 
 const ITEMS_PER_PAGE = 9;
 
 export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
-    const [favoriteItems, setFavoriteItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -40,6 +40,7 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -343,6 +344,10 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
         setOpenCategories(newOpenCategories);
     };
 
+    const handleItemClick = (product) => {
+        navigate(`/product/${product.id}`, { state: { product } });
+    };
+
     const handleSubcategoryClick = (subcategoryId) => {
         setSelectedSubcategory((prevSelectedSubcategory) => {
             if (prevSelectedSubcategory === subcategoryId) {
@@ -387,7 +392,7 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                             </ListItem>
                             <Collapse in={openCategories[index]} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    {category.subcategories?.map((subcategory, subIndex) => (
+                                    {category.subcategories?.map((subcategory) => (
                                         <ListItem
                                             button
                                             key={subcategory.id}
@@ -427,7 +432,7 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                 </div>
                 <div className="shop-section">
                     {displayedItems.map((item) => (
-                        <div key={item.id} className="new-arrivals-product new-shop">
+                        <div key={item.id} className="new-arrivals-product new-shop" onClick={() => handleItemClick(item)}>
                             <div className="product-image">
                                 <img src={item.image_url} alt={`Product ${item.id}`} />
                             </div>
@@ -439,18 +444,18 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                                     </Typography>
                                 </div>
                                 <div className="product-icons">
-                                    <IconButton onClick={() => handleFavoriteToggle(item)}>
+                                    <IconButton onClick={(e) => { e.stopPropagation(); handleFavoriteToggle(item); }}>
                                         {wishlistItems.some((wishlistItem) => wishlistItem.product_id === item.id) ? (
                                             <FavoriteOutlinedIcon />
                                         ) : (
                                             <FavoriteBorderOutlinedIcon />
                                         )}
                                     </IconButton>
-                                    <IconButton onClick={() => handleCartToggle(item)}>
+                                    <IconButton onClick={(e) => { e.stopPropagation(); handleCartToggle(item); }}>
                                         {cartItems.some((cartItem) => cartItem.product_id === item.id) ? (
-                                            < ShoppingCartOutlinedIcon />
+                                            <ShoppingCartOutlinedIcon />
                                         ) : (
-                                                < AddShoppingCartOutlinedIcon />
+                                            <AddShoppingCartOutlinedIcon />
                                         )}
                                     </IconButton>
                                 </div>
@@ -476,7 +481,7 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-
         </div>
     );
+
 }
