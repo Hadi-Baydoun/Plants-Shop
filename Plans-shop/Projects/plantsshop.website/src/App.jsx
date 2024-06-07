@@ -15,6 +15,7 @@ import LoginPopup from './components/Login/LoginPopup';
 import Cart from './pages/CartPage/Cart';
 import { OrderPage } from './pages/OrderPage/OrderPage';
 import Wishlist from './pages/WishlistPage/wishlist';
+import ProductDescription from './pages/ShopPage/ProductDescription/ProductDescription';
 
 function App() {
     const [showLogin, setShowLogin] = useState(false);
@@ -42,11 +43,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
                     <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
+                    <Route path="/product/:id" element={<ProductDescription loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />
                     <Route path="/order" element={<OrderPage loggedInUser={loggedInUser} cartId={cartId} customerId={customerId} />} />
-                     <Route path="/wishlist" element={<Wishlist loggedInUser={loggedInUser} setWishlistId={setWishlistId} setCustomerId={setCustomerId} cartId={cartId} setCartId={setCartId} />} />
+                    <Route path="/wishlist" element={<Wishlist loggedInUser={loggedInUser} setWishlistId={setWishlistId} setCustomerId={setCustomerId} cartId={cartId} setCartId={setCartId} />} />
                 </Routes>
                 <Footer />
             </div>
