@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./wishlist.css";
 import {
@@ -18,7 +17,6 @@ export default function Wishlist({ loggedInUser, setWishlistId, setCustomerId, c
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchWishlistItems = async () => {
@@ -31,7 +29,7 @@ export default function Wishlist({ loggedInUser, setWishlistId, setCustomerId, c
                 const currentWishlistId = wishlistResponse.data.id;
 
                 // Fetch wishlist items by wishlist ID
-                const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getByWishlistId/${currentWishlistId}`);
+                const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
                 setWishlistItems(wishlistItemsResponse.data);
 
                 // Set wishlist ID and customer ID
@@ -53,7 +51,7 @@ export default function Wishlist({ loggedInUser, setWishlistId, setCustomerId, c
             const apiBaseUrl = response.data.API_HOST;
 
             // Pass the id as a query parameter
-            await axios.delete(`${apiBaseUrl}/api/Wishlist/delete`, { params: { id: id } });
+            await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${id}`);
             setWishlistItems(wishlistItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Error removing item from wishlist:', error);

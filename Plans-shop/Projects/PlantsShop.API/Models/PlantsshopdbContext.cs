@@ -31,6 +31,7 @@ public partial class PlantsshopdbContext : DbContext
     public virtual DbSet<ShopOrder> ShopOrders { get; set; }
     public virtual DbSet<OrderItems> orderitems { get; set; }
     public virtual DbSet<Wishlist> Wishlists { get; set; }
+    public virtual DbSet<WishlistItems> WishlistItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -141,6 +142,20 @@ public partial class PlantsshopdbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
 
         });
+        modelBuilder.Entity<WishlistItems>(entity =>
+        {
+            entity.ToTable("wishlist_items"); // Define the table name
+            entity.HasKey(e => e.Id).HasName("PRIMARY"); // Define the primary key
+            entity.HasOne(c => c.Product)
+                  .WithMany() // Assuming a cart can be associated with multiple customers
+                  .HasForeignKey(c => c.Product_id) // Specify the foreign key property
+                  .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
+            entity.HasOne(c => c.Wishlist)
+            .WithMany() // Assuming a cart can be associated with multiple customers
+            .HasForeignKey(c => c.Wishlist_id) // Specify the foreign key property
+            .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
+
+        });
         modelBuilder.Entity<OrderStatus>(entity =>
         {
             entity.ToTable("order_status"); // Define the table name
@@ -200,12 +215,6 @@ public partial class PlantsshopdbContext : DbContext
         {
             entity.ToTable("wishlist"); // Define the table name
             entity.HasKey(e => e.Id).HasName("PRIMARY"); // Define the primary key
-            entity.Property(e => e.Price);
-            entity.Property(e => e.Quantity);
-            entity.HasOne(c => c.Product)
-                  .WithMany() // Assuming a cart can be associated with multiple customers
-                  .HasForeignKey(c => c.Product_id) // Specify the foreign key property
-                  .OnDelete(DeleteBehavior.Restrict); // or other desired behavior
             entity.HasOne(c => c.Customer)
                   .WithMany() // Assuming a cart can be associated with multiple customers
                   .HasForeignKey(c => c.Customer_id) // Specify the foreign key property

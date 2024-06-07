@@ -10,7 +10,7 @@ import axios from 'axios';
 import "./Arrivals.css";
 import { useNavigate } from 'react-router-dom';
 
-export default function Arrivals({ loggedInUser, cartId, setCartId }) {
+export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
     const [slideIndex, setSlideIndex] = useState(0);
     const [items, setItems] = useState([]);
     const totalSlides = 4;
@@ -18,6 +18,7 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
     const [favorite, setFavorite] = useState(Array(15).fill(false));
     const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
     const [cart, setCart] = useState([]);
+    const [wishlist, setWishlist] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,6 +61,47 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
         fetchCartItems();
     }, [loggedInUser, setCartId]);
 
+    useEffect(() => {
+
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("/src/assets/Constants.json");
+                const apiBaseUrl = response.data.API_HOST;
+                const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
+                const fetchedItems = productsResponse.data.slice(0, 15);
+                setItems(fetchedItems);
+                setFavorite(Array(fetchedItems.length).fill(false));
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+    const fetchWishlistItems = async () => {
+        try {
+            if (loggedInUser) {
+                const response = await axios.get("/src/assets/Constants.json");
+                const apiBaseUrl = response.data.API_HOST;
+
+                // Fetch or create wishlist by customer ID
+                const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${loggedInUser.id}`);
+                const currentWishlistId = wishlistResponse.data.id;
+
+                // Fetch wishlist items by wishlist ID
+                const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
+                setWishlist(wishlistItemsResponse.data);
+
+                // Set wishlist ID for future use
+                setWishlistId(currentWishlistId);
+            }
+        } catch (error) {
+            console.error('Error fetching wishlist items:', error);
+        }
+    };
+
+    fetchProducts();
+    fetchWishlistItems();
+}, [loggedInUser, setWishlistId]);
+
     const handleNext = () => {
         setSlideIndex((prevIndex) => (prevIndex + 1) % items.length);
     };
@@ -80,19 +122,6 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
             behavior: "smooth",
         });
     }, [slideIndex]);
-
-    const handleFavoriteToggle = (index) => {
-        setFavorite((prevFavorite) => {
-            const newFavorite = [...prevFavorite];
-            newFavorite[index] = !newFavorite[index];
-            return newFavorite;
-        });
-        setSnackbar({
-            open: true,
-            message: favorite[index] ? "Item removed from wishlist" : "Item added to wishlist",
-            severity: favorite[index] ? "warning" : "success"
-        });
-    };
 
     const handleCartToggle = async (product) => {
         if (!loggedInUser) {
@@ -196,6 +225,99 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
         setSnackbar({ open: false, message: "", severity: "success" });
     };
 
+    const handleFavoriteToggle = async (product) => {
+        if (!loggedInUser) {
+            alert("Please log in to add items to the wishlist.");
+            return;
+        }
+
+        try {
+            const response = await axios.get("/src/assets/Constants.json");
+            const apiBaseUrl = response.data.API_HOST;
+
+            // Check if the product is already in the wishlist
+            const existingWishlistItem = wishlist.find((item) => item.product_id === product.id);
+
+            if (existingWishlistItem) {
+                // If the product is in the wishlist, remove it
+                await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${existingWishlistItem.id}`);
+                setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== existingWishlistItem.id));
+
+                // Show snackbar for item removed
+                setSnackbar({ open: true, message: "Item removed from wishlist", severity: "warning" });
+            } else {
+                // If the product is not in the wishlist, add it
+                let currentWishlistId = wishlistId;
+                if (!currentWishlistId) {
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${loggedInUser.id}`);
+                    if (wishlistResponse.data && wishlistResponse.data.id) {
+                        currentWishlistId = wishlistResponse.data.id;
+                    } else {
+                        const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
+                            Customer_id: loggedInUser.id,
+                            Customer: {
+                                first_Name: loggedInUser.first_Name,
+                                last_Name: loggedInUser.last_Name,
+                                phone_Number: loggedInUser.phone_Number,
+                                email: loggedInUser.email,
+                                password: loggedInUser.password
+                            }
+                        });
+                        currentWishlistId = newWishlistResponse.data.id;
+                    }
+                    setWishlistId(currentWishlistId);
+                }
+
+                // Fetch subcategory and category details
+                const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
+                const subCategory = subcategoryResponse.data;
+                const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
+                const category = categoryResponse.data;
+
+                // Add item to wishlist with all necessary details
+                const wishlistItem = {
+                    wishlist_id: currentWishlistId,
+                    product_id: product.id,
+                    Product: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image_url: product.image_url,
+                        sub_categories_id: product.sub_categories_id,
+                        SubCategories: {
+                            id: subCategory.id,
+                            name: subCategory.name,
+                            Category: {
+                                id: category.id,
+                                name: category.name
+                            }
+                        }
+                    },
+                    Wishlist: {
+                        id: currentWishlistId,
+                        Customer: {
+                            id: loggedInUser.id,
+                            first_Name: loggedInUser.first_Name,
+                            last_Name: loggedInUser.last_Name,
+                            phone_Number: loggedInUser.phone_Number,
+                            email: loggedInUser.email,
+                            password: loggedInUser.password
+                        }
+                    }
+                };
+
+                await axios.post(`${apiBaseUrl}/api/WishlistItems/add`, wishlistItem);
+                setWishlist((prevWishlist) => [...prevWishlist, wishlistItem]);
+
+                // Show snackbar for item added
+                setSnackbar({ open: true, message: "Item added to wishlist", severity: "success" });
+            }
+        } catch (error) {
+            console.error("Error adding/removing item to/from wishlist:", error);
+        }
+    };
+
+
     return (
         <div className="new-arrivals">
             <div className="new-arrivals-title">
@@ -217,8 +339,8 @@ export default function Arrivals({ loggedInUser, cartId, setCartId }) {
                                     <Typography className="current-price">{item.price}</Typography>
                                 </div>
                                 <div className="product-icons">
-                                    <IconButton onClick={() => handleFavoriteToggle(index)}>
-                                        {favorite[index] ? (
+                                    <IconButton onClick={() => handleFavoriteToggle(item)}>
+                                        {wishlist.some((wishlistItem) => wishlistItem.product_id === item.id) ? (
                                             <FavoriteOutlinedIcon />
                                         ) : (
                                             <FavoriteBorderOutlinedIcon />

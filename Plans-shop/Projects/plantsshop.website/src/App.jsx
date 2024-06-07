@@ -40,8 +40,8 @@ function App() {
                     setWishlistId={setWishlistId} 
                 />
                 <Routes>
-                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
-                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
+                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
+                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />

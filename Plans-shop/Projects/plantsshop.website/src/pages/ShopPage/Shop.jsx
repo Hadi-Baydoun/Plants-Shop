@@ -27,9 +27,10 @@ import ".././HomePage/ArrivalsSection/Arrivals.css";
 
 const ITEMS_PER_PAGE = 9;
 
-export default function Shop({ loggedInUser, cartId, setCartId }) {
+export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    const [wishlistItems, setWishlistItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [page, setPage] = useState(1);
     const [openCategories, setOpenCategories] = useState([]);
@@ -106,20 +107,129 @@ export default function Shop({ loggedInUser, cartId, setCartId }) {
             }
         };
 
+        const fetchWishlistItems = async () => {
+            try {
+                if (loggedInUser) {
+                    const response = await axios.get("/src/assets/Constants.json");
+                    const apiBaseUrl = response.data.API_HOST;
+
+                    // Fetch or create wishlist by customer ID
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${loggedInUser.id}`);
+                    const currentWishlistId = wishlistResponse.data.id;
+
+                    // Fetch wishlist items by wishlist ID
+                    const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
+                    setWishlistItems(wishlistItemsResponse.data);
+
+                    // Set wishlist ID for future use
+                    setWishlistId(currentWishlistId);
+                }
+            } catch (error) {
+                console.error('Error fetching wishlist items:', error);
+            }
+        };
+
         if (loggedInUser) {
             fetchCartItems();
+            fetchWishlistItems();
         }
-    }, [loggedInUser, setCartId]);
+    }, [loggedInUser, setCartId, setWishlistId]);
 
-    const handleFavoriteToggle = (id) => {
-        setFavoriteItems((prevFavoriteItems) => {
-            if (prevFavoriteItems.includes(id)) {
-                return prevFavoriteItems.filter((itemId) => itemId !== id);
+    const handleFavoriteToggle = async (product) => {
+        if (!loggedInUser) {
+            alert("Please log in to add items to the wishlist.");
+            return;
+        }
+
+        try {
+            const response = await axios.get("/src/assets/Constants.json");
+            const apiBaseUrl = response.data.API_HOST;
+
+            // Check if the product is already in the wishlist
+            const existingWishlistItem = wishlistItems.find((item) => item.product_id === product.id);
+
+            if (existingWishlistItem) {
+                // If the product is in the wishlist, remove it
+                await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${existingWishlistItem.id}`);
+                setWishlistItems((prevWishlist) => prevWishlist.filter((item) => item.id !== existingWishlistItem.id));
+
+                // Show snackbar for item removed
+                setSnackbarMessage("Item removed from wishlist");
+                setSnackbarSeverity("warning");
+                setSnackbarOpen(true);
             } else {
-                return [...prevFavoriteItems, id];
+                // If the product is not in the wishlist, add it
+                let currentWishlistId = wishlistId;
+                if (!currentWishlistId) {
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${loggedInUser.id}`);
+                    if (wishlistResponse.data && wishlistResponse.data.id) {
+                        currentWishlistId = wishlistResponse.data.id;
+                    } else {
+                        const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
+                            Customer_id: loggedInUser.id,
+                            Customer: {
+                                first_Name: loggedInUser.first_Name,
+                                last_Name: loggedInUser.last_Name,
+                                phone_Number: loggedInUser.phone_Number,
+                                email: loggedInUser.email,
+                                password: loggedInUser.password
+                            }
+                        });
+                        currentWishlistId = newWishlistResponse.data.id;
+                    }
+                    setWishlistId(currentWishlistId);
+                }
+                // Fetch subcategory and category details
+                const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
+                const subCategory = subcategoryResponse.data;
+                const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
+                const category = categoryResponse.data;
+
+                // Add item to wishlist with all necessary details
+                const wishlistItem = {
+                    wishlist_id: currentWishlistId,
+                    product_id: product.id,
+                    Product: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image_url: product.image_url,
+                        sub_categories_id: product.sub_categories_id,
+                        SubCategories: {
+                            id: subCategory.id,
+                            name: subCategory.name,
+                            Category: {
+                                id: category.id,
+                                name: category.name
+                            }
+                        }
+                    },
+                    Wishlist: {
+                        id: currentWishlistId,
+                        Customer: {
+                            id: loggedInUser.id,
+                            first_Name: loggedInUser.first_Name,
+                            last_Name: loggedInUser.last_Name,
+                            phone_Number: loggedInUser.phone_Number,
+                            email: loggedInUser.email,
+                            password: loggedInUser.password
+                        }
+                    }
+                };
+
+                await axios.post(`${apiBaseUrl}/api/WishlistItems/add`, wishlistItem);
+                setWishlistItems((prevWishlist) => [...prevWishlist, wishlistItem]);
+
+                // Show snackbar for item added
+                setSnackbarMessage("Item added to wishlist");
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
             }
-        });
+        } catch (error) {
+            console.error("Error adding/removing item to/from wishlist:", error);
+        }
     };
+
 
     const handleCartToggle = async (product) => {
         if (!loggedInUser) {
@@ -329,8 +439,8 @@ export default function Shop({ loggedInUser, cartId, setCartId }) {
                                     </Typography>
                                 </div>
                                 <div className="product-icons">
-                                    <IconButton onClick={() => handleFavoriteToggle(item.id)}>
-                                        {favoriteItems.includes(item.id) ? (
+                                    <IconButton onClick={() => handleFavoriteToggle(item)}>
+                                        {wishlistItems.some((wishlistItem) => wishlistItem.product_id === item.id) ? (
                                             <FavoriteOutlinedIcon />
                                         ) : (
                                             <FavoriteBorderOutlinedIcon />
