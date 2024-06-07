@@ -48,6 +48,9 @@
   padding-bottom: 100%; /* Aspect ratio 1:1 */
   position: relative;
 }
+.product-image:hover {
+    cursor:pointer;
+}
 
 .product-image img {
   position: absolute;
