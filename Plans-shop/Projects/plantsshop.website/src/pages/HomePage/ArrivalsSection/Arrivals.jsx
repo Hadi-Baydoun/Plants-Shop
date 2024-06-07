@@ -317,6 +317,10 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
         }
     };
 
+    const handleItemClick = (product) => {
+        navigate(`/product/${product.id}`, { state: { product } });
+    };
+
 
     return (
         <div className="new-arrivals">
@@ -329,7 +333,7 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                 </div>
                 {visibleItems.map((item, index) => (
                     item && item.image_url ? (
-                        <div key={index} className="new-arrivals-product">
+                        <div key={index} className="new-arrivals-product" onClick={() => handleItemClick(item)}>
                             <div className="product-image">
                                 <img src={item.image_url} alt={`Product ${index}`} />
                             </div>
