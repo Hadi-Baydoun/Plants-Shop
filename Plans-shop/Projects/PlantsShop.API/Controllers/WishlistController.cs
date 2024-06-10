@@ -20,7 +20,6 @@ namespace PlantsShop.API.Controllers
         {
             return await _context.Wishlists
                 .Include(c => c.Customer)
-                .Include(c => c.Product)
                 .ToListAsync();
         }
 
@@ -30,7 +29,6 @@ namespace PlantsShop.API.Controllers
         {
             var wishlist = await _context.Wishlists
                 .Include(c => c.Customer) 
-                .Include(c => c.Product)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (wishlist == null)
@@ -39,24 +37,37 @@ namespace PlantsShop.API.Controllers
             return Ok(wishlist);
         }
 
+        [HttpGet("getByCustomerId/{customerId}")]
+        public async Task<ActionResult<Wishlist>> GetWishlistByCustomerId(int customerId)
+        {
+            var wishlist = await _context.Wishlists.FirstOrDefaultAsync(w => w.Customer_id == customerId);
+            if (wishlist == null)
+                return NotFound("Wishlist not found for this customer.");
+            return Ok(wishlist);
+        }
+
+        [HttpGet("getByWishlistId/{wishlistId}")]
+        public async Task<IEnumerable<Wishlist>> GetWishlistItemsByWishlistId(int wishlistId)
+        {
+            return await _context.Wishlists
+                .Include(w => w.Customer)
+                .Where(w => w.Id == wishlistId)
+                .ToListAsync();
+        }
+
         [HttpPost("add")]
         public async Task<ActionResult<Wishlist>> AddWishlist(Wishlist wishlist)
         {
             // Check if the provided wishlist has valid customer ID and product ID
-            var customerExists = await _context.Customers.AnyAsync(c => c.Id == wishlist.Customer_id);
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == wishlist.Product_id);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == wishlist.Customer_id);
 
-            if (!customerExists || product == null)
+            if (customer == null)
             {
-                return BadRequest("Invalid customer ID or product ID.");
+                return BadRequest("Invalid customer ID. ");
             }
 
-            // Calculate the Price based on the Product's Price and Quantity
-            wishlist.Price = product.Price * wishlist.Quantity;
-
-            // Set the Customer and Product navigation properties to null
-            wishlist.Customer = null;
-            wishlist.Product = null;
+            // Set the Customer and Product navigation properties
+            wishlist.Customer = customer;
 
             // Add the new Wishlist to the context
             _context.Wishlists.Add(wishlist);
@@ -82,36 +93,12 @@ namespace PlantsShop.API.Controllers
         public async Task<ActionResult<Wishlist>> UpdateWishlist(Wishlist updateWishlist)
         {
             var dbWishlist = await _context.Wishlists
-                .Include(w => w.Product)
                 .FirstOrDefaultAsync(w => w.Id == updateWishlist.Id);
 
             if (dbWishlist == null)
                 return NotFound("Wishlist Not Found");
 
-            // Check if the Product_id has changed
-            if (dbWishlist.Product_id != updateWishlist.Product_id)
-            {
-                // Retrieve the new Product
-                var newProduct = await _context.Products.FindAsync(updateWishlist.Product_id);
-                if (newProduct == null)
-                    return NotFound("Product not found.");
-
-                // Update the Product and Price
-                dbWishlist.Product = newProduct;
-                dbWishlist.Price = newProduct.Price * updateWishlist.Quantity;
-            }
-            else
-            {
-                // Recalculate the Price based on the existing Product and updated Quantity
-                var product = await _context.Products.FindAsync(dbWishlist.Product_id);
-                if (product != null)
-                {
-                    dbWishlist.Price = product.Price * updateWishlist.Quantity;
-                }
-            }
-
             // Update other properties
-            dbWishlist.Quantity = updateWishlist.Quantity;
             dbWishlist.Customer_id = updateWishlist.Customer_id;
 
             // Mark the entity as modified
@@ -132,7 +119,6 @@ namespace PlantsShop.API.Controllers
             // Eager loading the related data
             return Ok(await _context.Wishlists
                 .Include(w => w.Customer)
-                .Include(w => w.Product)
                 .ToListAsync());
         }
 
@@ -150,7 +136,28 @@ namespace PlantsShop.API.Controllers
             _context.Wishlists.Remove(dbWishlist);
             await _context.SaveChangesAsync();
             // Eager loading the address data
-            return Ok(await _context.Wishlists.Include(c => c.Customer).Include(c => c.Product).ToListAsync());
+            return Ok(await _context.Wishlists.Include(c => c.Customer).ToListAsync());
+        }
+
+
+        [HttpGet("getOrCreateWishlistByCustomerId/{customerId}")]
+        public async Task<ActionResult<Wishlist>> GetOrCreateWishlistByCustomerId(int customerId)
+        {
+            var wishlist = await _context.Wishlists.FirstOrDefaultAsync(c => c.Customer_id == customerId);
+            if (wishlist == null)
+            {
+                // Check if a Wishlist already exists for the given customerId
+                var existingWishlist = await _context.Wishlists.FirstOrDefaultAsync(w => w.Customer_id == customerId);
+                if (existingWishlist != null)
+                {
+                    return Ok(existingWishlist);
+                }
+
+                wishlist = new Wishlist { Customer_id = customerId };
+                _context.Wishlists.Add(wishlist);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(wishlist);
         }
 
     }

@@ -1,25 +1,28 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { NavBar } from './components/NavBar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Contact from './pages/Contact';
-import AboutUs from './pages/AboutUs';
+import { NavBar } from './components/NavBar/NavBar';
+import Footer from './components/Footer/Footer';
+import Home from './pages/HomePage/Home';
+import Contact from './pages/ContactPage/Contact';
+import AboutUs from './pages/AboutUsPage/AboutUs';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Shop from './pages/Shop';
+import Shop from './pages/ShopPage/Shop';
 import { useState } from 'react';
 import LoginPopup from './components/Login/LoginPopup';
-import Cart from './components/Cart/Cart';
-import { OrderPage } from './components/Cart/OrderPage';
+import Cart from './pages/CartPage/Cart';
+import { OrderPage } from './pages/OrderPage/OrderPage';
+import Wishlist from './pages/WishlistPage/wishlist';
+import ProductDescription from './pages/ShopPage/ProductDescription/ProductDescription';
 
 function App() {
     const [showLogin, setShowLogin] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [cartId, setCartId] = useState(null);
     const [customerId, setCustomerId] = useState(null);
+    const [wishlistId, setWishlistId] = useState(null);
 
     return (
         <Router>
@@ -35,14 +38,17 @@ function App() {
                     setShowLogin={setShowLogin}
                     loggedInUser={loggedInUser}
                     setCartId={setCartId}
+                    setWishlistId={setWishlistId} 
                 />
                 <Routes>
-                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
-                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} />} />
+                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
+                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
+                    <Route path="/product/:id" element={<ProductDescription loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />
                     <Route path="/order" element={<OrderPage loggedInUser={loggedInUser} cartId={cartId} customerId={customerId} />} />
+                    <Route path="/wishlist" element={<Wishlist loggedInUser={loggedInUser} setWishlistId={setWishlistId} setCustomerId={setCustomerId} cartId={cartId} setCartId={setCartId} />} />
                 </Routes>
                 <Footer />
             </div>
