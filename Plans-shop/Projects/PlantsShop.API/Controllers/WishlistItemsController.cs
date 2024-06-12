@@ -134,11 +134,5 @@ namespace PlantsShop.API.Controllers
             return NoContent();
         }
 
-
-
-
-
-
-
     }
 }

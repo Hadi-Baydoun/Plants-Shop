@@ -137,3 +137,4 @@ C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\PlantsShop.API\obj\
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\PlantsShop.API\obj\Debug\net8.0\PlantsShop.API.pdb
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\PlantsShop.API\obj\Debug\net8.0\PlantsShop.API.genruntimeconfig.cache
 C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\PlantsShop.API\obj\Debug\net8.0\ref\PlantsShop.API.dll
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\PlantsShop.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
