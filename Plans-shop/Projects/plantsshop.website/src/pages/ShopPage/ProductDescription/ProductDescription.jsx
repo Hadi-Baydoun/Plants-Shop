@@ -1,18 +1,19 @@
 import { useParams, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
 import { Button, Typography, Snackbar, Alert } from "@mui/material";
 import "./ProductDescription.css";
+import { AuthContext } from '../../../context/AuthContext';
 
-export default function ProductDescription({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
+export default function ProductDescription() {
     const { id } = useParams();
     const location = useLocation();
     const [product, setProduct] = useState(location.state?.product || null);
-    const [cart, setCart] = useState([]);
-    const [wishlist, setWishlist] = useState([]);
     const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+    const { user, cartId, setCartId, wishlistId, setWishlistId, cart, setCart, wishlist, setWishlist } = useContext(AuthContext);
 
     function StarIcon(props) {
+        
         return (
             <svg
                 {...props}
@@ -49,12 +50,12 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
-                if (loggedInUser) {
+                if (user) {
                     const response = await axios.get("/src/assets/Constants.json");
                     const apiBaseUrl = response.data.API_HOST;
 
                     // Fetch or create cart by customer ID
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                     const currentCartId = cartResponse.data.id;
 
                     // Fetch cart items by cart ID
@@ -71,12 +72,12 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
 
         const fetchWishlistItems = async () => {
             try {
-                if (loggedInUser) {
+                if (user) {
                     const response = await axios.get("/src/assets/Constants.json");
                     const apiBaseUrl = response.data.API_HOST;
 
                     // Fetch or create wishlist by customer ID
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${loggedInUser.id}`);
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
                     const currentWishlistId = wishlistResponse.data.id;
 
                     // Fetch wishlist items by wishlist ID
@@ -93,10 +94,10 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
 
         fetchCartItems();
         fetchWishlistItems();
-    }, [loggedInUser, setCartId, setWishlistId]);
+    }, [user, setCartId, setWishlistId]);
 
     const handleCartToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the cart.");
             return;
         }
@@ -119,18 +120,18 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
                 // If the product is not in the cart, add it
                 let currentCartId = cartId;
                 if (!currentCartId) {
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${user.id}`);
                     if (cartResponse.data && cartResponse.data.id) {
                         currentCartId = cartResponse.data.id;
                     } else {
                         const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
-                            Customer_id: loggedInUser.id,
+                            Customer_id: user.id,
                             Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
+                                first_Name: user.first_Name,
+                                last_Name: user.last_Name,
+                                phone_Number: user.phone_Number,
+                                email: user.email,
+                                password: user.password
                             }
                         });
                         currentCartId = newCartResponse.data.id;
@@ -172,12 +173,12 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
                     Cart: {
                         id: currentCartId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password
                         }
                     }
                 };
@@ -194,7 +195,7 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
     };
 
     const handleFavoriteToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the wishlist.");
             return;
         }
@@ -217,18 +218,18 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
                 // If the product is not in the wishlist, add it
                 let currentWishlistId = wishlistId;
                 if (!currentWishlistId) {
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${loggedInUser.id}`);
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${user.id}`);
                     if (wishlistResponse.data && wishlistResponse.data.id) {
                         currentWishlistId = wishlistResponse.data.id;
                     } else {
                         const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
-                            Customer_id: loggedInUser.id,
+                            Customer_id: user.id,
                             Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
+                                first_Name: user.first_Name,
+                                last_Name: user.last_Name,
+                                phone_Number: user.phone_Number,
+                                email: user.email,
+                                password: user.password
                             }
                         });
                         currentWishlistId = newWishlistResponse.data.id;
@@ -262,12 +263,12 @@ export default function ProductDescription({ loggedInUser, cartId, setCartId, wi
                     Wishlist: {
                         id: currentWishlistId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password
                         }
                     }
                 };

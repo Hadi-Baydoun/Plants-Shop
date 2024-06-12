@@ -1,14 +1,16 @@
 import "./LoginPopup.css";
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import cross_icon from "../../assets/pictures/cross_icon.png";
 import { Snackbar, Alert } from '@mui/material';
+import axios from "axios";
+import { AuthContext } from '../../context/AuthContext';
 
 const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
-    const [currState, setCurrState] = useState("Sign Up");
-    const [showAddressForm, setShowAddressForm] = useState(false);
-    const [customerId, setCustomerId] = useState(null);
+    const { user, login, logout } = useContext(AuthContext);
+    const [currState, setCurrState] = useState("Sign Up"); // State for current form state (Login/Sign Up)
+    const [showAddressForm, setShowAddressForm] = useState(false); // State to show/hide address form
+    const [customerId, setCustomerId] = useState(null); // State for customer ID
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -30,16 +32,34 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
         setSnackbarOpen(false);
     };
 
+    // Handle form field changes
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+        const { email, password } = formData;
+        const result = await login(email, password); // Call login function from AuthContext
+        if (result.success) {
+            setSnackbarMessage('Login Successful!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
+        } else {
+            setSnackbarMessage(result.message);
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+        }
+    };
+
+    // Handle customer registration form submission
     const handleCustomerSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.get("/src/assets/Constants.json");
             const apiBaseUrl = response.data.API_HOST;
-
             const customerResponse = await axios.post(`${apiBaseUrl}/api/Customer/add`, {
                 first_Name: formData.firstName,
                 last_Name: formData.lastName,
@@ -48,20 +68,22 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 password: formData.password,
             });
 
-            const newCustomerId = customerResponse.data.id;
-            setCustomerId(newCustomerId);
-            setShowAddressForm(true);
-            setSnackbarMessage("Account created successfully! Please enter your address.");
-            setSnackbarSeverity("success");
-            setSnackbarOpen(true);
+            if (customerResponse.status === 200) {
+                setSnackbarMessage('Account created successfully! Please login.');
+                setSnackbarSeverity('success');
+                setCurrState("Login"); // Switch to login form after successful registration
+            } else {
+                setSnackbarMessage('Failed to create account. Please try again.');
+                setSnackbarSeverity('error');
+            }
         } catch (error) {
-            console.error("Error during customer creation:", error);
-            setSnackbarMessage("Customer creation failed. Please try again.");
-            setSnackbarSeverity("error");
-            setSnackbarOpen(true);
+            setSnackbarMessage('Failed to create account. Please try again.');
+            setSnackbarSeverity('error');
         }
+        setSnackbarOpen(true);
     };
 
+    // Handle address form submission
     const handleAddressSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -74,7 +96,7 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 address: formData.address,
                 street_number: formData.streetNumber,
                 postal_code: formData.postalCode,
-                Customer_id: customerId, 
+                Customer_id: customerId,
                 Customer: {
                     first_Name: formData.firstName,
                     last_Name: formData.lastName,
@@ -83,8 +105,6 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                     password: formData.password
                 }
             };
-
-          
 
             await axios.post(`${apiBaseUrl}/api/Address/add`, payload);
 
@@ -101,64 +121,28 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
             setSnackbarOpen(true);
             setShowLogin(false);
         } catch (error) {
-            console.error("Error during address creation:", error);
             setSnackbarMessage("Address creation failed. Please try again.");
             setSnackbarSeverity("error");
             setSnackbarOpen(true);
         }
     };
 
-    const handleLoginSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
-
-            const customersResponse = await axios.get(`${apiBaseUrl}/api/Customer/all`);
-            const customers = customersResponse.data;
-
-            const matchedCustomer = customers.find(customer =>
-                customer.email === formData.email && customer.password === formData.password
-            );
-
-            if (matchedCustomer) {
-                setLoggedInUser(matchedCustomer);
-                setSnackbarMessage('Login Successful!');
-                setSnackbarSeverity('success');
-                setSnackbarOpen(true);
-                console.log('Snackbar set to open (success): ', true);
-            } else {
-                setSnackbarMessage("Login failed. Please check your credentials and try again.");
-                setSnackbarSeverity("error");
-                setSnackbarOpen(true);
-                console.log('Snackbar set to open (error): ', true);
-            }
-        } catch (error) {
-            console.error("Error during login:", error);
-            setSnackbarMessage("Login failed. Please check your credentials and try again.");
-            setSnackbarSeverity("error");
-            setSnackbarOpen(true);
-            console.log('Snackbar set to open (error): ', true);
-        }
-    };
-
+    // Close the login popup after showing a success message
     useEffect(() => {
         if (snackbarOpen && snackbarSeverity === 'success') {
             const timer = setTimeout(() => {
                 setShowLogin(false);
-            }, 2000); 
+            }, 2000);
             return () => clearTimeout(timer);
         }
     }, [snackbarOpen, snackbarSeverity]);
 
-
-
-
     const handleSignOut = () => {
-        setLoggedInUser(null);
-        setCurrState("Sign Up");
-        setShowAddressForm(false);
+        logout();  // Call logout function from AuthContext
+        setCurrState("Sign Up");  // Switch to sign up form
+        setShowAddressForm(false);  // Hide address form
     };
+
 
     useEffect(() => {
         const form = document.querySelector('.login-popup-container');
@@ -175,14 +159,15 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.5 }}
+                onSubmit={currState === "Login" ? handleLoginSubmit : handleCustomerSubmit}
             >
                 <div className="login-popup-title">
-                    <h2>{loggedInUser ? `Welcome` : currState}</h2>
+                    <h2>{user ? `Welcome` : currState}</h2>
                     <img onClick={() => setShowLogin(false)} src={cross_icon} alt="close" />
                 </div>
-                {loggedInUser ? (
+                {user ? (
                     <div className="logged-in-content">
-                        <p>{`Hello, ${loggedInUser.first_Name}`}</p>
+                        <p>{`Hello, ${user.first_Name}`}</p>
                         <button type="button" onClick={handleSignOut}>Sign Out</button>
                     </div>
                 ) : (
@@ -324,10 +309,8 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                     </Alert>
                 </Snackbar>
             </motion.form>
-            
         </div>
     );
-
 };
 
 export default LoginPopup;

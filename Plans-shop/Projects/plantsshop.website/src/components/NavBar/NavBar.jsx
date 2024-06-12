@@ -1,5 +1,5 @@
 import './NavBar.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/pictures/logo.png';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
@@ -9,8 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import { AuthContext } from '../../context/AuthContext';
 
-export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId }) => {
+export const NavBar = ({ setShowLogin }) => {
     const [menu, setMenu] = useState("Home");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -19,6 +20,8 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { user, cartId, wishlistId } = useContext(AuthContext);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -33,21 +36,11 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
         }
     };
 
-    const handleCartClick = async () => {
-        if (loggedInUser) {
-            try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-
-                // Check if the cart already exists for the customer
-                const existingCartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
-                const existingCartId = existingCartResponse.data.id;
-
-                // Set the existing cart ID and navigate to the cart page
-                setCartId(existingCartId);
+    const handleCartClick = () => {
+        if (user) {
+            if (cartId) {
                 navigate('/cart');
-            } catch (error) {
-                console.error("Error checking or creating cart:", error);
+            } else {
                 setSnackbarMessage("Failed to access cart. Please try again.");
                 setSnackbarSeverity("error");
                 setSnackbarOpen(true);
@@ -60,21 +53,11 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
         }
     };
 
-    const handleWishlistClick = async () => {
-        if (loggedInUser) {
-            try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-
-                // Check if the wishlist already exists for the customer
-                const existingWishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getByCustomerId/${loggedInUser.id}`);
-                const existingWishlistId = existingWishlistResponse.data.id;
-
-                // Set the existing wishlist ID and navigate to the wishlist page
-                setWishlistId(existingWishlistId);
+    const handleWishlistClick = () => {
+        if (user) {
+            if (wishlistId) {
                 navigate('/wishlist');
-            } catch (error) {
-                console.error("Error checking or creating wishlist:", error);
+            } else {
                 setSnackbarMessage("Failed to access wishlist. Please try again.");
                 setSnackbarSeverity("error");
                 setSnackbarOpen(true);
@@ -86,7 +69,6 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
             setShowLogin(true);
         }
     };
-
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
@@ -103,9 +85,7 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
         window.scrollTo(0, 0);
     }, [location]);
 
-    // Set the active menu item based on the current path
     useEffect(() => {
-        
         switch (location.pathname) {
             case '/':
                 setMenu("Home");
@@ -160,7 +140,7 @@ export const NavBar = ({ setShowLogin, loggedInUser, setCartId, setWishlistId })
             </ul>
             <div className='navbar-right'>
                 <LoyaltyIcon className="navbar-icon" onClick={handleWishlistClick} />
-                <div className="navbar-search-icon"> 
+                <div className="navbar-search-icon">
                     <ShoppingBasketOutlinedIcon className="navbar-icon" onClick={handleCartClick} />
                 </div>
                 <Person2OutlinedIcon className="navbar-icon" onClick={() => setShowLogin(true)} />

@@ -1,7 +1,7 @@
 import { Button, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -9,17 +9,16 @@ import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutl
 import axios from 'axios';
 import "./Arrivals.css";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 
-export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
+export default function Arrivals() {
     const [slideIndex, setSlideIndex] = useState(0);
     const [items, setItems] = useState([]);
     const totalSlides = 4;
     const containerRef = useRef(null);
-    const [favorite, setFavorite] = useState(Array(15).fill(false));
     const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
-    const [cart, setCart] = useState([]);
-    const [wishlist, setWishlist] = useState([]);
     const navigate = useNavigate();
+    const { user, cartId, setCartId, wishlistId, setWishlistId, cart, setCart, wishlist, setWishlist } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -29,7 +28,6 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                 const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
                 const fetchedItems = productsResponse.data.slice(0, 15);
                 setItems(fetchedItems);
-                setFavorite(Array(fetchedItems.length).fill(false));
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -37,12 +35,12 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
 
         const fetchCartItems = async () => {
             try {
-                if (loggedInUser) {
+                if (user) {
                     const response = await axios.get("/src/assets/Constants.json");
                     const apiBaseUrl = response.data.API_HOST;
 
                     // Fetch or create cart by customer ID
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                     const currentCartId = cartResponse.data.id;
 
                     // Fetch cart items by cart ID
@@ -50,57 +48,43 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                     setCart(cartItemsResponse.data);
 
                     // Set cart ID for future use
-                    setCartId(currentCartId);
+                    if (setCartId) {
+                        setCartId(currentCartId);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
         };
 
-        fetchProducts();
-        fetchCartItems();
-    }, [loggedInUser, setCartId]);
-
-    useEffect(() => {
-
-        const fetchProducts = async () => {
+        const fetchWishlistItems = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-                const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
-                const fetchedItems = productsResponse.data.slice(0, 15);
-                setItems(fetchedItems);
-                setFavorite(Array(fetchedItems.length).fill(false));
+                if (user) {
+                    const response = await axios.get("/src/assets/Constants.json");
+                    const apiBaseUrl = response.data.API_HOST;
+
+                    // Fetch or create wishlist by customer ID
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
+                    const currentWishlistId = wishlistResponse.data.id;
+
+                    // Fetch wishlist items by wishlist ID
+                    const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
+                    setWishlist(wishlistItemsResponse.data);
+
+                    // Set wishlist ID for future use
+                    if (setWishlistId) {
+                        setWishlistId(currentWishlistId);
+                    }
+                }
             } catch (error) {
-                console.error("Error fetching products:", error);
+                console.error('Error fetching wishlist items:', error);
             }
         };
 
-    const fetchWishlistItems = async () => {
-        try {
-            if (loggedInUser) {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-
-                // Fetch or create wishlist by customer ID
-                const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${loggedInUser.id}`);
-                const currentWishlistId = wishlistResponse.data.id;
-
-                // Fetch wishlist items by wishlist ID
-                const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
-                setWishlist(wishlistItemsResponse.data);
-
-                // Set wishlist ID for future use
-                setWishlistId(currentWishlistId);
-            }
-        } catch (error) {
-            console.error('Error fetching wishlist items:', error);
-        }
-    };
-
-    fetchProducts();
-    fetchWishlistItems();
-}, [loggedInUser, setWishlistId]);
+        fetchProducts();
+        fetchCartItems();
+        fetchWishlistItems();
+    }, [user, setCartId, setWishlistId, setCart, setWishlist]);
 
     const handleNext = () => {
         setSlideIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -123,8 +107,13 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
         });
     }, [slideIndex]);
 
+
+    const handleCloseSnackbar = () => {
+        setSnackbar({ open: false, message: "", severity: "success" });
+    };
+
     const handleCartToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the cart.");
             return;
         }
@@ -147,18 +136,18 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                 // If the product is not in the cart, add it
                 let currentCartId = cartId;
                 if (!currentCartId) {
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                     if (cartResponse.data && cartResponse.data.id) {
                         currentCartId = cartResponse.data.id;
                     } else {
                         const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
-                            Customer_id: loggedInUser.id,
+                            Customer_id: user.id,
                             Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
+                                first_Name: user.first_Name,
+                                last_Name: user.last_Name,
+                                phone_Number: user.phone_Number,
+                                email: user.email,
+                                password: user.password // Include the password here
                             }
                         });
                         currentCartId = newCartResponse.data.id;
@@ -200,12 +189,12 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                     Cart: {
                         id: currentCartId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password // Include the password here
                         }
                     }
                 };
@@ -221,12 +210,9 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
         }
     };
 
-    const handleCloseSnackbar = () => {
-        setSnackbar({ open: false, message: "", severity: "success" });
-    };
 
     const handleFavoriteToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the wishlist.");
             return;
         }
@@ -249,23 +235,25 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                 // If the product is not in the wishlist, add it
                 let currentWishlistId = wishlistId;
                 if (!currentWishlistId) {
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${loggedInUser.id}`);
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
                     if (wishlistResponse.data && wishlistResponse.data.id) {
                         currentWishlistId = wishlistResponse.data.id;
                     } else {
                         const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
-                            Customer_id: loggedInUser.id,
+                            Customer_id: user.id,
                             Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
+                                first_Name: user.first_Name,
+                                last_Name: user.last_Name,
+                                phone_Number: user.phone_Number,
+                                email: user.email,
+                                password: user.password
                             }
                         });
                         currentWishlistId = newWishlistResponse.data.id;
                     }
-                    setWishlistId(currentWishlistId);
+                    if (setWishlistId) {
+                        setWishlistId(currentWishlistId);
+                    }
                 }
 
                 // Fetch subcategory and category details
@@ -296,12 +284,12 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                     Wishlist: {
                         id: currentWishlistId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password
                         }
                     }
                 };
@@ -316,6 +304,7 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
             console.error("Error adding/removing item to/from wishlist:", error);
         }
     };
+
 
     const handleItemClick = (product) => {
         navigate(`/product/${product.id}`, { state: { product } });
@@ -333,8 +322,8 @@ export default function Arrivals({ loggedInUser, cartId, setCartId, wishlistId, 
                 </div>
                 {visibleItems.map((item, index) => (
                     item && item.image_url ? (
-                        <div key={index} className="new-arrivals-product" onClick={() => handleItemClick(item)}>
-                            <div className="product-image">
+                        <div key={index} className="new-arrivals-product" >
+                <div className="product-image" onClick={() => handleItemClick(item) }>
                                 <img src={item.image_url} alt={`Product ${index}`} />
                             </div>
                             <div className="product-info">

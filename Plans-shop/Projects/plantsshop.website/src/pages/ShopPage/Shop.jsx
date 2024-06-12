@@ -1,5 +1,5 @@
 import "../../Home.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
     Typography,
@@ -25,12 +25,11 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import ".././HomePage/ArrivalsSection/Arrivals.css";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const ITEMS_PER_PAGE = 9;
 
-export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setWishlistId }) {
-    const [cartItems, setCartItems] = useState([]);
-    const [wishlistItems, setWishlistItems] = useState([]);
+export default function Shop() {
     const [searchQuery, setSearchQuery] = useState("");
     const [page, setPage] = useState(1);
     const [openCategories, setOpenCategories] = useState([]);
@@ -41,7 +40,7 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const navigate = useNavigate();
-
+    const { user, cartId, setCartId, wishlistId, setWishlistId, cart, setCart, wishlist, setWishlist } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -90,19 +89,21 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
+                if (user) {
+                    const response = await axios.get("/src/assets/Constants.json");
+                    const apiBaseUrl = response.data.API_HOST;
 
-                // Fetch or create cart by customer ID
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
-                const currentCartId = cartResponse.data.id;
+                    // Fetch or create cart by customer ID
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
+                    const currentCartId = cartResponse.data.id;
 
-                // Fetch cart items by cart ID
-                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
-                setCartItems(cartItemsResponse.data);
+                    // Fetch cart items by cart ID
+                    const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
+                    setCart(cartItemsResponse.data);
 
-                // Set cart ID and customer ID for future use
-                setCartId(currentCartId);
+                    // Set cart ID for future use
+                    setCartId(currentCartId);
+                }
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
@@ -110,17 +111,17 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
 
         const fetchWishlistItems = async () => {
             try {
-                if (loggedInUser) {
+                if (user) {
                     const response = await axios.get("/src/assets/Constants.json");
                     const apiBaseUrl = response.data.API_HOST;
 
                     // Fetch or create wishlist by customer ID
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${loggedInUser.id}`);
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
                     const currentWishlistId = wishlistResponse.data.id;
 
                     // Fetch wishlist items by wishlist ID
                     const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
-                    setWishlistItems(wishlistItemsResponse.data);
+                    setWishlist(wishlistItemsResponse.data);
 
                     // Set wishlist ID for future use
                     setWishlistId(currentWishlistId);
@@ -130,14 +131,14 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
             }
         };
 
-        if (loggedInUser) {
+        if (user) {
             fetchCartItems();
             fetchWishlistItems();
         }
-    }, [loggedInUser, setCartId, setWishlistId]);
+    }, [user, setCartId, setWishlistId, setCart, setWishlist]);
 
     const handleFavoriteToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the wishlist.");
             return;
         }
@@ -147,12 +148,12 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
             const apiBaseUrl = response.data.API_HOST;
 
             // Check if the product is already in the wishlist
-            const existingWishlistItem = wishlistItems.find((item) => item.product_id === product.id);
+            const existingWishlistItem = wishlist.find((item) => item.product_id === product.id);
 
             if (existingWishlistItem) {
                 // If the product is in the wishlist, remove it
                 await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${existingWishlistItem.id}`);
-                setWishlistItems((prevWishlist) => prevWishlist.filter((item) => item.id !== existingWishlistItem.id));
+                setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== existingWishlistItem.id));
 
                 // Show snackbar for item removed
                 setSnackbarMessage("Item removed from wishlist");
@@ -162,24 +163,11 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                 // If the product is not in the wishlist, add it
                 let currentWishlistId = wishlistId;
                 if (!currentWishlistId) {
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByCustomerId/${loggedInUser.id}`);
-                    if (wishlistResponse.data && wishlistResponse.data.id) {
-                        currentWishlistId = wishlistResponse.data.id;
-                    } else {
-                        const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
-                            Customer_id: loggedInUser.id,
-                            Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
-                            }
-                        });
-                        currentWishlistId = newWishlistResponse.data.id;
-                    }
+                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
+                    currentWishlistId = wishlistResponse.data.id;
                     setWishlistId(currentWishlistId);
                 }
+
                 // Fetch subcategory and category details
                 const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
                 const subCategory = subcategoryResponse.data;
@@ -208,18 +196,18 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                     Wishlist: {
                         id: currentWishlistId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password
                         }
                     }
                 };
 
                 await axios.post(`${apiBaseUrl}/api/WishlistItems/add`, wishlistItem);
-                setWishlistItems((prevWishlist) => [...prevWishlist, wishlistItem]);
+                setWishlist((prevWishlist) => [...prevWishlist, wishlistItem]);
 
                 // Show snackbar for item added
                 setSnackbarMessage("Item added to wishlist");
@@ -231,9 +219,8 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
         }
     };
 
-
     const handleCartToggle = async (product) => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to the cart.");
             return;
         }
@@ -243,12 +230,14 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
             const apiBaseUrl = response.data.API_HOST;
 
             // Check if the product is already in the cart
-            const existingCartItem = cartItems.find((item) => item.product_id === product.id);
+            const existingCartItem = cart.find((item) => item.product_id === product.id);
 
             if (existingCartItem) {
                 // If the product is in the cart, remove it
                 await axios.delete(`${apiBaseUrl}/api/CartItem/delete/${existingCartItem.id}`);
-                setCartItems((prevCartItems) => prevCartItems.filter((item) => item.id !== existingCartItem.id));
+                setCart((prevCart) => prevCart.filter((item) => item.id !== existingCartItem.id));
+
+                // Show snackbar for item removed
                 setSnackbarMessage("Item removed from cart");
                 setSnackbarSeverity("warning");
                 setSnackbarOpen(true);
@@ -256,22 +245,8 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                 // If the product is not in the cart, add it
                 let currentCartId = cartId;
                 if (!currentCartId) {
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${loggedInUser.id}`);
-                    if (cartResponse.data && cartResponse.data.id) {
-                        currentCartId = cartResponse.data.id;
-                    } else {
-                        const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
-                            Customer_id: loggedInUser.id,
-                            Customer: {
-                                first_Name: loggedInUser.first_Name,
-                                last_Name: loggedInUser.last_Name,
-                                phone_Number: loggedInUser.phone_Number,
-                                email: loggedInUser.email,
-                                password: loggedInUser.password
-                            }
-                        });
-                        currentCartId = newCartResponse.data.id;
-                    }
+                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
+                    currentCartId = cartResponse.data.id;
                     setCartId(currentCartId);
                 }
 
@@ -309,24 +284,23 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                     Cart: {
                         id: currentCartId,
                         Customer: {
-                            id: loggedInUser.id,
-                            first_Name: loggedInUser.first_Name,
-                            last_Name: loggedInUser.last_Name,
-                            phone_Number: loggedInUser.phone_Number,
-                            email: loggedInUser.email,
-                            password: loggedInUser.password
+                            id: user.id,
+                            first_Name: user.first_Name,
+                            last_Name: user.last_Name,
+                            phone_Number: user.phone_Number,
+                            email: user.email,
+                            password: user.password
                         }
                     }
                 };
 
                 await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
-                setCartItems((prevCartItems) => [...prevCartItems, cartItem]);
+                setCart((prevCart) => [...prevCart, cartItem]);
 
                 // Show snackbar for item added
                 setSnackbarMessage("Item added to cart");
                 setSnackbarSeverity("success");
                 setSnackbarOpen(true);
-
             }
         } catch (error) {
             console.error("Error adding/removing item to/from cart:", error);
@@ -362,7 +336,6 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
     };
-
 
     const filteredItems = items.filter((item) => {
         return (
@@ -445,14 +418,14 @@ export default function Shop({ loggedInUser, cartId, setCartId, wishlistId, setW
                                 </div>
                                 <div className="product-icons">
                                     <IconButton onClick={(e) => { e.stopPropagation(); handleFavoriteToggle(item); }}>
-                                        {wishlistItems.some((wishlistItem) => wishlistItem.product_id === item.id) ? (
+                                        {wishlist.some((wishlistItem) => wishlistItem.product_id === item.id) ? (
                                             <FavoriteOutlinedIcon />
                                         ) : (
                                             <FavoriteBorderOutlinedIcon />
                                         )}
                                     </IconButton>
                                     <IconButton onClick={(e) => { e.stopPropagation(); handleCartToggle(item); }}>
-                                        {cartItems.some((cartItem) => cartItem.product_id === item.id) ? (
+                                        {cart.some((cartItem) => cartItem.product_id === item.id) ? (
                                             <ShoppingCartOutlinedIcon />
                                         ) : (
                                             <AddShoppingCartOutlinedIcon />

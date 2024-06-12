@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./Cart.css";
@@ -11,10 +11,12 @@ import {
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { AuthContext } from '../../context/AuthContext';
 
-export default function Cart({ loggedInUser, setCartId, setCustomerId }) {
+export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
+    const { user, cartId, setCartId } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -23,25 +25,27 @@ export default function Cart({ loggedInUser, setCartId, setCustomerId }) {
                 const apiBaseUrl = response.data.API_HOST;
 
                 // Fetch or create cart by customer ID
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${loggedInUser.id}`);
+                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                 const currentCartId = cartResponse.data.id;
 
                 // Fetch cart items by cart ID
                 const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
                 setCartItems(cartItemsResponse.data);
 
-                // Set cart ID and customer ID for OrderPage
-                setCartId(currentCartId);
-                setCustomerId(loggedInUser.id);
+                // Set cart ID for OrderPage
+                if (setCartId) {
+                    setCartId(currentCartId);
+                }
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
         };
 
-        if (loggedInUser) {
+
+        if (user) {
             fetchCartItems();
         }
-    }, [loggedInUser]);
+    }, [user, setCartId]);
 
     const removeFromCart = async (id) => {
         try {

@@ -16,43 +16,37 @@ import Cart from './pages/CartPage/Cart';
 import { OrderPage } from './pages/OrderPage/OrderPage';
 import Wishlist from './pages/WishlistPage/wishlist';
 import ProductDescription from './pages/ShopPage/ProductDescription/ProductDescription';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
     const [showLogin, setShowLogin] = useState(false);
-    const [loggedInUser, setLoggedInUser] = useState(null);
-    const [cartId, setCartId] = useState(null);
-    const [customerId, setCustomerId] = useState(null);
-    const [wishlistId, setWishlistId] = useState(null);
 
     return (
-        <Router>
-            <div className='app'>
-                {showLogin && (
-                    <LoginPopup
+        <AuthProvider>
+            <Router>
+                <div className='app'>
+                    {showLogin && (
+                        <LoginPopup
+                            setShowLogin={setShowLogin}
+                        />
+                    )}
+                    <NavBar
                         setShowLogin={setShowLogin}
-                        loggedInUser={loggedInUser}
-                        setLoggedInUser={setLoggedInUser}
                     />
-                )}
-                <NavBar
-                    setShowLogin={setShowLogin}
-                    loggedInUser={loggedInUser}
-                    setCartId={setCartId}
-                    setWishlistId={setWishlistId} 
-                />
-                <Routes>
-                    <Route path="/" element={<Home loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
-                    <Route path="/shop" element={<Shop loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
-                    <Route path="/product/:id" element={<ProductDescription loggedInUser={loggedInUser} cartId={cartId} setCartId={setCartId} wishlistId={wishlistId} setWishlistId={setWishlistId} />} />
-                    <Route path="/about" element={<AboutUs />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/cart" element={<Cart loggedInUser={loggedInUser} setCartId={setCartId} setCustomerId={setCustomerId} />} />
-                    <Route path="/order" element={<OrderPage loggedInUser={loggedInUser} cartId={cartId} customerId={customerId} />} />
-                    <Route path="/wishlist" element={<Wishlist loggedInUser={loggedInUser} setWishlistId={setWishlistId} setCustomerId={setCustomerId} cartId={cartId} setCartId={setCartId} />} />
-                </Routes>
-                <Footer />
-            </div>
-        </Router>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/shop" element={<Shop />} />
+                        <Route path="/product/:id" element={<ProductDescription />} />
+                        <Route path="/about" element={<AboutUs />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/order" element={<OrderPage />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                    </Routes>
+                    <Footer />
+                </div>
+            </Router>
+        </AuthProvider>
     );
 }
 
