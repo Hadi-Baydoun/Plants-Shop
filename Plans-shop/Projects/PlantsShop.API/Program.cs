@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PlantsShop.API.Models;
-using PlantsShop.API.Utilities; // Import the namespace for the KeyGenerator class
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
