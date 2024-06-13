@@ -3,6 +3,8 @@ import { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
 import { Button, Typography, Snackbar, Alert } from "@mui/material";
 import "./ProductDescription.css";
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { AuthContext } from '../../../context/AuthContext';
 
 export default function ProductDescription() {
@@ -11,26 +13,6 @@ export default function ProductDescription() {
     const [product, setProduct] = useState(location.state?.product || null);
     const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
     const { user, cartId, setCartId, wishlistId, setWishlistId, cart, setCart, wishlist, setWishlist } = useContext(AuthContext);
-
-    function StarIcon(props) {
-        
-        return (
-            <svg
-                {...props}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-        )
-    }
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -293,16 +275,13 @@ export default function ProductDescription() {
             if (i < filledStars) {
                 stars.push(<StarIcon key={i} className="star filled" />);
             } else {
-                stars.push(<StarIcon key={i} className="star" />);
+                stars.push(<StarBorderIcon key={i} className="star" />);
             }
         }
 
         return stars;
     };
 
-    if (!product) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="desc-container">
