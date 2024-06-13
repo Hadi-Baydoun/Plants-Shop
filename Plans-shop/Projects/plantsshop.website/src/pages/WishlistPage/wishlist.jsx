@@ -11,6 +11,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from '../../context/AuthContext';
+import { fetchWishlistItems, handleCartToggle } from '../../utils/HelperFunctions';
 
 export default function Wishlist() {
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -21,48 +22,60 @@ export default function Wishlist() {
     const { user, wishlistId, setWishlistId, cartId, setCartId } = useContext(AuthContext);
 
     useEffect(() => {
-        const fetchWishlistItems = async () => {
-            try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-
-                // Fetch wishlist by customer ID
-                const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getByCustomerId/${user.id}`);
-                const currentWishlistId = wishlistResponse.data.id;
-
-                // Fetch wishlist items by wishlist ID
-                const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
-                setWishlistItems(wishlistItemsResponse.data);
-
-                // Set wishlist ID
-                setWishlistId(currentWishlistId);
-            } catch (error) {
-                console.error('Error fetching wishlist items:', error);
-            }
-        };
-
         if (user) {
-            fetchWishlistItems();
+            fetchWishlistItems(user, setWishlistItems, setWishlistId);
         }
     }, [user, setWishlistId]);
 
-    const removeFromWishlist = async (id) => {
+    const removeFromWishlist = async (wishlistItemId) => {
         try {
             const response = await axios.get("/src/assets/Constants.json");
             const apiBaseUrl = response.data.API_HOST;
 
             // Delete the wishlist item using its ID
-            await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${id}`);
+            await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${wishlistItemId}`);
 
             // Update the wishlist state by filtering out the removed item
-            setWishlistItems((prevWishlistItems) => prevWishlistItems.filter(item => item.id !== id));
+            setWishlistItems((prevWishlistItems) => prevWishlistItems.filter(item => item.id !== wishlistItemId));
         } catch (error) {
-            console.error('Error removing item from wishlist:', error);
+            console.error(`Error removing item with ID ${wishlistItemId} from wishlist:`, error);
         }
     };
 
 
+
     const addToCart = async (product) => {
+        if (!user) {
+            alert("Please log in to add items to the cart.");
+            return;
+        }
+
+        // Use handleCartToggle for adding to the cart
+        await handleCartToggle(
+            product,
+            user,
+            cartItems,
+            cartId,
+            setCartItems,
+            setCartId,
+            setSnackbarMessage,
+            setSnackbarSeverity
+        );
+
+        // Remove item from wishlist after adding to cart
+        const wishlistItem = wishlistItems.find(item => item.product.id === product.id);
+        if (wishlistItem) {
+            await removeFromWishlist(wishlistItem.id);
+            setWishlistItems((prevWishlistItems) => prevWishlistItems.filter(item => item.product.id !== product.id));
+        }
+
+        setSnackbarOpen(true);
+    };
+
+
+
+
+    const addAllToCart = async () => {
         if (!user) {
             alert("Please log in to add items to the cart.");
             return;
@@ -85,96 +98,6 @@ export default function Wishlist() {
                             last_Name: user.last_Name,
                             phone_Number: user.phone_Number,
                             email: user.email,
-                            password: user.password // Include the password here
-                        }
-                    });
-                    currentCartId = newCartResponse.data.id;
-                }
-                setCartId(currentCartId);
-            }
-
-            const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
-            const subCategory = subcategoryResponse.data;
-            const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
-            const category = categoryResponse.data;
-
-            const quantity = 1;
-            const total = product.price * quantity;
-
-            const cartItem = {
-                cart_id: currentCartId,
-                product_id: product.id,
-                quantity: quantity,
-                total: total,
-                Product: {
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image_url: product.image_url,
-                    sub_categories_id: product.sub_categories_id,
-                    SubCategories: {
-                        id: subCategory.id,
-                        name: subCategory.name,
-                        Category: {
-                            id: category.id,
-                            name: category.name
-                        }
-                    }
-                },
-                Cart: {
-                    id: currentCartId,
-                    Customer: {
-                        id: user.id,
-                        first_Name: user.first_Name,
-                        last_Name: user.last_Name,
-                        phone_Number: user.phone_Number,
-                        email: user.email,
-                        password: user.password // Include the password here
-                    }
-                }
-            };
-
-            await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
-            setCartItems((prevCartItems) => [...prevCartItems, cartItem]);
-
-            // Remove item from wishlist after adding to cart
-            await removeFromWishlist(product.id);
-            setWishlistItems((prevWishlistItems) => prevWishlistItems.filter(item => item.product.id !== product.id));
-            setCartItems((prevCartItems) => [...prevCartItems, cartItem]);
-
-            setSnackbarMessage("Item added to cart");
-            setSnackbarSeverity("success");
-            setSnackbarOpen(true);
-        } catch (error) {
-            console.error("Error adding item to cart:", error);
-        }
-    };
-
-
-
-    const addAllToCart = async () => {
-        if (!user) {
-            alert("Please log in to add items to the cart.");
-            return;
-        }
-
-        try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
-
-            let currentCartId = cartId;
-            if (!currentCartId) {
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCustomerId/${user.id}`);
-                if (cartResponse.data && cartResponse.data.id) {
-                    currentCartId = cartResponse.data.id;
-                } else {
-                    const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
-                        Customer_id: user.id,
-                        Customer: {
-                            first_Name: user.first_Name,
-                            last_Name: user.last_Name,
-                            phone_Number: user.phone_Number,
-                            email: user.email,
                             password: user.password
                         }
                     });
@@ -184,51 +107,20 @@ export default function Wishlist() {
             }
 
             const addItemsRequests = wishlistItems.map(async (item) => {
-                const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${item.product.sub_categories_id}`);
-                const subCategory = subcategoryResponse.data;
-                const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
-                const category = categoryResponse.data;
-
-                const quantity = 1;
-                const total = item.product.price * quantity;
-
-                const cartItem = {
-                    cart_id: currentCartId,
-                    product_id: item.product.id,
-                    quantity: quantity,
-                    total: total,
-                    Product: {
-                        id: item.product.id,
-                        name: item.product.name,
-                        price: item.product.price,
-                        image_url: item.product.image_url,
-                        sub_categories_id: item.product.sub_categories_id,
-                        SubCategories: {
-                            id: subCategory.id,
-                            name: subCategory.name,
-                            Category: {
-                                id: category.id,
-                                name: category.name
-                            }
-                        }
-                    },
-                    Cart: {
-                        id: currentCartId,
-                        Customer: {
-                            id: user.id,
-                            first_Name: user.first_Name,
-                            last_Name: user.last_Name,
-                            phone_Number: user.phone_Number,
-                            email: user.email,
-                            password: user.password
-                        }
-                    }
-                };
-
-                await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
+                await handleCartToggle(
+                    item.product,
+                    user,
+                    cartItems,
+                    currentCartId,
+                    setCartItems,
+                    setCartId,
+                    setSnackbarMessage,
+                    setSnackbarSeverity,
+                    true
+                );
 
                 await removeFromWishlist(item.id);
-                return cartItem;
+                return item.product;
             });
 
             const newCartItems = await Promise.all(addItemsRequests);
@@ -242,6 +134,7 @@ export default function Wishlist() {
             console.error("Error adding all items to cart:", error);
         }
     };
+
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);

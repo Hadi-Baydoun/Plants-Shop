@@ -65,10 +65,11 @@ namespace PlantsShop.API.Controllers
             new Claim(ClaimTypes.NameIdentifier, customer.Id.ToString()),
             // Add a claim for the customer's email
             new Claim(ClaimTypes.Email, customer.Email),
+
             // Add a unique GUID claim to ensure each token is unique
             new Claim("unique_id", Guid.NewGuid().ToString())
         }),
-                Expires = DateTime.UtcNow.AddMinutes(1), // Set the desired expiration time
+                Expires = DateTime.UtcNow.AddMinutes(180), // Set the desired expiration time
 
                  // Specify the signing credentials, using the symmetric key and HMAC SHA-256 algorithm
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
