@@ -12,38 +12,18 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from '../../context/AuthContext';
+import { fetchCartItems} from '../../utils/HelperFunctions';
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
     const { user, cartId, setCartId } = useContext(AuthContext);
 
+
+    //maybe it will give an issue later ( setCartItems and not setCart)
     useEffect(() => {
-        const fetchCartItems = async () => {
-            try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-
-                // Fetch or create cart by customer ID
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
-                const currentCartId = cartResponse.data.id;
-
-                // Fetch cart items by cart ID
-                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
-                setCartItems(cartItemsResponse.data);
-
-                // Set cart ID for OrderPage
-                if (setCartId) {
-                    setCartId(currentCartId);
-                }
-            } catch (error) {
-                console.error('Error fetching cart items:', error);
-            }
-        };
-
-
         if (user) {
-            fetchCartItems();
+            fetchCartItems(user, setCartItems, setCartId);
         }
     }, [user, setCartId]);
 

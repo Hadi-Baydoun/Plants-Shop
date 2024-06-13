@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
             customer.password = password;
             setUser(customer); // Set the user object with the customer data
             setToken(token);
-            const expiryTime = Date.now() + 1 * 60 * 1000; // Set token expiry to 1 minute from now
+            const expiryTime = Date.now() + 180 * 60 * 1000; // Set token expiry to 1 minute from now
             setTokenExpiry(expiryTime); // Set the token expiry time
             localStorage.setItem('user', JSON.stringify(customer));
             localStorage.setItem('token', token);
