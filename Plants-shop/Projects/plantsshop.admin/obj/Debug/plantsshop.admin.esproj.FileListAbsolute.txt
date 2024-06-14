@@ -1,0 +1,3 @@
+C:\Users\MSI-PC\source\repos\Plants-shop\Plans-shop\Projects\plantsshop.admin\obj\Debug\plantsshop.admin.esproj.CoreCompileInputs.cache
+C:\Users\MSI-PC\source\repos\Plants-shop\Plants-shop\Projects\plantsshop.admin\obj\Debug\plantsshop.admin.esproj.CoreCompileInputs.cache
+C:\Users\MSI-PC\source\repos\Plant-shop\Plants-shop\Projects\plantsshop.admin\obj\Debug\plantsshop.admin.esproj.CoreCompileInputs.cache
