@@ -1,0 +1,134 @@
+.contact-us-section {
+  display: flex;
+  flex-direction: row;
+  padding: 140px 140px 60px 140px;
+  background-color: #ffffff;
+  gap: 7%;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 5%;
+}
+.contact-details,
+.contact-form,
+.feedback-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+
+.contact-description {
+  margin-bottom: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-icon-div{
+  display: flex;
+
+}
+
+
+.contact-button{
+  background-color: #4c6b3c !important;
+  color: white !important;
+  border: 2px solid #4c6b3c !important;
+  padding: 10px 30px !important;
+  font-size: 1rem !important;
+  border-radius: 0 !important;
+  transition: background-color 0.3s ease !important;
+  width: 100% !important;
+}
+
+.contact-button:hover {
+  background-color: #3c5232 !important;
+  color: white !important;
+  border-color: #3c5232 !important;
+}
+
+.contact-icon {
+  margin-right: 10px;
+  color: #3c5232;
+}
+
+.form-title,.contact-title,.contact-subtitle {
+  color: #3c5232 !important;
+  font-weight: bold !important;
+}
+
+.contact-info {
+  margin-bottom: 10px;
+}
+
+.contact-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-social a {
+  color: #3c5232;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.contact-form {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 100px;
+  border-radius: 8px;
+}
+
+.ContactDivider {
+  width: 100%;
+  color: #e2e8f0 !important;
+}
+
+
+@media (max-width: 992px) {
+  .contact-us-section{
+    display: flex;
+    flex-direction: column;
+    padding: 120px 20px;
+  }
+
+  .contact-details,
+  .contact-form,
+  .feedback-section {
+    max-width: 100%;
+  }
+  .ContactDivider {
+    margin: 20px 0px;
+    width: 75%;
+  }
+  .contact-title {
+    margin-bottom: 10px !important;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  
+  .contact-details,
+  .contact-form,
+  .feedback-section {
+    padding: 20px;
+  }
+  .contact-title,.contact-description {
+    margin-bottom: 20px !important;
+  }
+  .contact-form {
+    padding: 100px;
+  }
+}

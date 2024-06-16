@@ -1,0 +1,85 @@
+
+
+.our-journey {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 375px 140px 60px 140px;
+  background-color: #f1f4f1;
+  z-index: 1; 
+  
+}
+
+.journey-image {
+  margin-bottom: -10%;
+  width: 40%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+}
+
+.our-journey-content {
+  width: 50%;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+.journey-subtitle {
+  color: #6b705c; 
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  font-weight: bold !important;
+}
+
+.journey-title {
+  color: #3c5232 !important; 
+  font-weight: bold !important;
+  margin-bottom: 20px;
+}
+
+.journey-description {
+  color: #4a4a4a !important;
+  line-height: 1.6;
+}
+
+/* Media queries for responsive design */
+
+@media (max-width: 1400px) {
+  .our-journey {
+    flex-direction: column;
+    padding: 40px 20px !important;
+    
+  }
+  .journey-image {
+    width: 50%;
+    max-width: none;
+    margin-bottom: 4%;
+    height: auto;
+  }
+}
+@media (max-width: 992px) {
+  .our-journey {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+
+  .journey-image {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 0 !important;
+    height: auto;
+  }
+
+  .our-journey-content {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 20px;
+  }
+
+  .journey-title {
+    font-size: 2rem;
+  }
+}

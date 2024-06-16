@@ -1,0 +1,46 @@
+.numbers-section {
+  display: flex;
+  flex-direction: row;
+  background-color: #111111;
+  justify-content: space-around;
+  padding: 60px 140px 5px 140px;
+  flex-wrap: wrap; /* Allows wrapping for responsiveness */
+}
+
+.number-item {
+  color: white !important;
+  text-align: center; /* Center text within each number item */
+  margin: 10px; /* Adds some margin for spacing */
+}
+
+.numbers-title {
+  color: white !important;
+  text-align: center;
+  width: 100%; /* Takes full width to center align */
+  margin-bottom: 20px; /* Adds some margin below the title */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 992px) {
+  .numbers-section {
+    flex-direction: column;
+    padding: 30px 20px;
+    align-items: center; /* Center the items within the column */
+  }
+
+  .number-item {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .numbers-section {
+    flex-direction: column;
+    padding: 20px 10px;
+    align-items: center; /* Center the items within the column */
+  }
+
+  .number-item {
+    margin-bottom: 15px;
+  }
+}
