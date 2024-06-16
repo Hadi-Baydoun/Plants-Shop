@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace PlantsShop.API.Utilities
+namespace PlantsShop.API.Models
 {
     public static class KeyGenerator
     {

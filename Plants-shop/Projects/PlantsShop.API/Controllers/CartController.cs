@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlantsShop.API.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace PlantsShop.API.Controllers
 {
