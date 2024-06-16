@@ -15,6 +15,7 @@ namespace PlantsShop.API.Controllers
             _context = context;
         }
 
+
         [HttpGet("all")]
         public async Task<IEnumerable<CartItem>> GetAllCartItems()
         {
