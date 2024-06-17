@@ -7,7 +7,7 @@
   "type": "chrome",
   "request": "launch",
   "url": "http://localhost:5173",
-  "webRoot": "C:\\Users\\MSI-PC\\source\\repos\\Plants-shop\\Plans-shop\\Projects\\plantsshop.website"
+  "webRoot": "C:\\Users\\MSI-PC\\source\\repos\\Plants-Shop\\Plants-shop\\Projects\\plantsshop.website"
 }</LaunchJsonTarget>
   </PropertyGroup>
 </Project>

@@ -7,7 +7,9 @@ const AuthProvider = ({ children }) => {
     // Initialize state variables for user, token, token expiry, cart, and wishlist
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
     const [token, setToken] = useState(localStorage.getItem('token') || '');
+    const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refreshToken') || '');
     const [tokenExpiry, setTokenExpiry] = useState(localStorage.getItem('tokenExpiry') || 0);
+    const [refreshTokenExpiry, setRefreshTokenExpiry] = useState(Number(localStorage.getItem('refreshTokenExpiry')) || 0);
     const [cartId, setCartId] = useState(null);
     const [wishlistId, setWishlistId] = useState(null);
     const [cart, setCart] = useState([]);
@@ -19,18 +21,46 @@ const AuthProvider = ({ children }) => {
             const response = await axios.get("/src/assets/Constants.json");
             const apiBaseUrl = response.data.API_HOST;
             const loginResponse = await axios.post(`${apiBaseUrl}/api/Customer/login`, { email, password });
-            const { token, customer } = loginResponse.data;
+            const { token, customer, refreshToken, refreshTokenExpiry } = loginResponse.data;
             customer.password = password;
             setUser(customer); // Set the user object with the customer data
             setToken(token);
-            const expiryTime = Date.now() + 180 * 60 * 1000; // Set token expiry to 1 minute from now
+            setRefreshToken(refreshToken);
+            const expiryTime = Date.now() + 60 * 60 * 1000; // Set token expiry to 60 minute from now
+            const refreshExpiryTime = Date.now() + 7 * 24 * 60 * 60 * 1000;
             setTokenExpiry(expiryTime); // Set the token expiry time
             localStorage.setItem('user', JSON.stringify(customer));
             localStorage.setItem('token', token);
+            localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('tokenExpiry', expiryTime);
+            localStorage.setItem('refreshTokenExpiry', refreshExpiryTime);
             return { success: true };
         } catch (error) {
             return { success: false, message: 'Login failed. Please check your credentials and try again.' };
+        }
+    };
+
+    const refreshAccessToken = async () => {
+        if (Date.now() > refreshTokenExpiry) {
+            logout();
+            return;
+        }
+        try {
+            const response = await axios.get("/src/assets/Constants.json");
+            const apiBaseUrl = response.data.API_HOST;
+            const refreshResponse = await axios.post(`${apiBaseUrl}/api/Customer/refresh`, { token, refreshToken });
+            const { token: newToken, refreshToken: newRefreshToken, refreshTokenExpiry: newRefreshTokenExpiry } = refreshResponse.data;
+            setToken(newToken);
+            setRefreshToken(newRefreshToken);
+            const expiryTime = Date.now() + 15 * 60 * 1000; // Set token expiry to 15 minutes from now
+            setTokenExpiry(expiryTime);
+            setRefreshTokenExpiry(newRefreshTokenExpiry);
+            localStorage.setItem('token', newToken);
+            localStorage.setItem('refreshToken', newRefreshToken);
+            localStorage.setItem('tokenExpiry', expiryTime);
+            localStorage.setItem('refreshTokenExpiry', newRefreshTokenExpiry);
+        } catch (error) {
+            logout();
         }
     };
 
@@ -46,18 +76,21 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem('user');  
         localStorage.removeItem('token');  
         localStorage.removeItem('tokenExpiry');  
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('refreshTokenExpiry');
     };
 
-    // check token expiry and logout if expired
+    const checkTokenExpiry = () => {
+        if (token && Date.now() > tokenExpiry) {
+            refreshAccessToken();
+        }
+    };
 
     useEffect(() => {
-        if (token) {
-            const expiryTime = localStorage.getItem('tokenExpiry');
-            if (Date.now() > expiryTime) {
-                logout();
-            }
-        }
-    }, [token]);
+        checkTokenExpiry();
+        const interval = setInterval(checkTokenExpiry, 1 * 60 * 1000); // Check token expiry every minute
+        return () => clearInterval(interval);
+    }, [token, tokenExpiry]);
 
     // fetch cart and wishlist data when the user state changes
     useEffect(() => {
@@ -99,7 +132,8 @@ const AuthProvider = ({ children }) => {
                 cart,             // The array of items in the user's cart
                 setCart,          // Function to set the cart items
                 wishlist,         // The array of items in the user's wishlist
-                setWishlist       // Function to set the wishlist items
+                setWishlist,       // Function to set the wishlist items
+                refreshAccessToken
             }}
         >
             {children}
