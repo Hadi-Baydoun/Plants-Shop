@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import { Box, Stack, styled, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha } from "@mui/material/styles";
+import { API_HOST } from '../../assets/constants';
 
 const Search = styled('div')(({ theme }) => ({
     position: "relative",
@@ -51,28 +52,21 @@ export default function Contacts() {
     const [searchTerm, setSearchTerm] = useState('');
 
     const fetchCustomerData = () => {
-        axios.get("/src/assets/Constants.json")
-            .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                return axios.get(`${apiBaseUrl}/api/Customer/all`);
-            })
+        axios.get(`${API_HOST}/api/Customer/all`)
             .then((response) => {
                 const customersData = response.data;
-
                 const dynamicColumns = Object.keys(customersData[0] || {})
-                    .filter(key => key !== 'password' && key !== 'id')  
+                    .filter(key => key !== 'password' && key !== 'id')
                     .map((field) => ({
                         field: field,
                         headerName: field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
                         flex: 1,
                     }));
-
                 const idColumn = {
                     field: 'id',
                     headerName: 'ID',
                     width: 60
                 };
-
                 setColumns([idColumn, ...dynamicColumns]);
                 setRows(customersData);
             })

@@ -5,6 +5,7 @@ import cross_icon from "../../assets/pictures/cross_icon.png";
 import { Snackbar, Alert } from '@mui/material';
 import axios from "axios";
 import { AuthContext } from '../../context/AuthContext';
+import { API_HOST } from '../../assets/constants';
 
 const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
     const { user, login, logout } = useContext(AuthContext);
@@ -58,9 +59,8 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
     const handleCustomerSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
-            const customerResponse = await axios.post(`${apiBaseUrl}/api/Customer/add`, {
+
+            const customerResponse = await axios.post(`${API_HOST}/api/Customer/add`, {
                 first_Name: formData.firstName,
                 last_Name: formData.lastName,
                 phone_Number: formData.phoneNumber,
@@ -87,8 +87,6 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
     const handleAddressSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
 
             const payload = {
                 city: formData.city,
@@ -106,7 +104,7 @@ const LoginPopup = ({ setShowLogin, loggedInUser, setLoggedInUser }) => {
                 }
             };
 
-            await axios.post(`${apiBaseUrl}/api/Address/add`, payload);
+            await axios.post(`${API_HOST}/api/Address/add`, payload);
 
             // Set the logged in user state
             setLoggedInUser({

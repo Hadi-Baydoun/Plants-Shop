@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { API_HOST } from '../assets/constants';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -18,9 +18,7 @@ const AuthProvider = ({ children }) => {
     // Function to handle login
     const login = async (email, password) => {
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
-            const loginResponse = await axios.post(`${apiBaseUrl}/api/Customer/login`, { email, password });
+            const loginResponse = await axios.post(`${API_HOST}/api/Customer/login`, { email, password });
             const { token, customer, refreshToken, refreshTokenExpiry } = loginResponse.data;
             customer.password = password;
             setUser(customer); // Set the user object with the customer data
@@ -46,9 +44,7 @@ const AuthProvider = ({ children }) => {
             return;
         }
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
-            const refreshResponse = await axios.post(`${apiBaseUrl}/api/Customer/refresh`, { token, refreshToken });
+            const refreshResponse = await axios.post(`${API_HOST }/api/Customer/refresh`, { token, refreshToken });
             const { token: newToken, refreshToken: newRefreshToken, refreshTokenExpiry: newRefreshTokenExpiry } = refreshResponse.data;
             setToken(newToken);
             setRefreshToken(newRefreshToken);
@@ -97,17 +93,15 @@ const AuthProvider = ({ children }) => {
         if (user) {
             const fetchCartAndWishlist = async () => {
                 try {
-                    const response = await axios.get("/src/assets/Constants.json");
-                    const apiBaseUrl = response.data.API_HOST;
 
-                    const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
+                    const cartResponse = await axios.get(`${API_HOST }/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                     setCartId(cartResponse.data.id);
-                    const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${cartResponse.data.id}`);
+                    const cartItemsResponse = await axios.get(`${API_HOST }/api/CartItem/getByCartId/${cartResponse.data.id}`);
                     setCart(cartItemsResponse.data);
 
-                    const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
+                    const wishlistResponse = await axios.get(`${API_HOST }/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
                     setWishlistId(wishlistResponse.data.id);
-                    const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${wishlistResponse.data.id}`);
+                    const wishlistItemsResponse = await axios.get(`${API_HOST }/api/WishlistItems/getByWishlistId/${wishlistResponse.data.id}`);
                     setWishlist(wishlistItemsResponse.data);
                 } catch (error) {
                     console.error("Error fetching cart and wishlist:", error);

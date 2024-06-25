@@ -27,6 +27,7 @@ import ".././HomePage/ArrivalsSection/Arrivals.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { handleCartToggle, handleFavoriteToggle, fetchCartItems, fetchWishlistItems, handleCloseSnackbar } from '../../utils/HelperFunctions';
+import { API_HOST } from '../../assets/constants';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -44,9 +45,7 @@ export default function Shop() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-                const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
+                const productsResponse = await axios.get(`${API_HOST}/api/Products/all`);
                 setItems(productsResponse.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -55,9 +54,7 @@ export default function Shop() {
 
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-                const subCategoriesResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/all`);
+                const subCategoriesResponse = await axios.get(`${API_HOST}/api/SubCategories/all`);
                 const groupedCategories = groupCategories(subCategoriesResponse.data);
                 setCategories(groupedCategories);
                 setOpenCategories(Array(groupedCategories.length).fill(false));

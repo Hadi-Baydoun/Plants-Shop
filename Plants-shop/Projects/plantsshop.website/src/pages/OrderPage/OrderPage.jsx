@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./OrderPage.css";
+import { API_HOST } from '../../assets/constants';
 
 export const OrderPage = ({ loggedInUser, cartId, customerId }) => {
     const [address, setAddress] = useState(null);
@@ -15,11 +16,9 @@ export const OrderPage = ({ loggedInUser, cartId, customerId }) => {
 
         const fetchCustomerAndAddress = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
 
                 // Fetch cart items by cart ID
-                const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${cartId}`);
+                const cartItemsResponse = await axios.get(`${API_HOST}/api/CartItem/getByCartId/${cartId}`);
                 if (cartItemsResponse.data.length === 0) {
                     console.error("No cart items found.");
                     return;
@@ -28,7 +27,7 @@ export const OrderPage = ({ loggedInUser, cartId, customerId }) => {
                 setCartItems(cartItemsResponse.data);
 
                 // Fetch address data
-                const addressResponse = await axios.get(`${apiBaseUrl}/api/Address/all`);
+                const addressResponse = await axios.get(`${API_HOST}/api/Address/all`);
                 const customerAddress = addressResponse.data.find(address => address.customer_id === customerId);
                 setAddress(customerAddress);
 

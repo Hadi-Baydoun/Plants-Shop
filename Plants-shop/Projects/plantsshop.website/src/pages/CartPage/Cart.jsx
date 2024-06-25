@@ -12,7 +12,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from '../../context/AuthContext';
-import { fetchCartItems} from '../../utils/HelperFunctions';
+import { fetchCartItems } from '../../utils/HelperFunctions';
+import { API_HOST } from '../../assets/constants';
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -29,10 +30,8 @@ export default function Cart() {
 
     const removeFromCart = async (id) => {
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
 
-            await axios.delete(`${apiBaseUrl}/api/CartItem/delete/${id}`);
+            await axios.delete(`${API_HOST}/api/CartItem/delete/${id}`);
             setCartItems(cartItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Error removing item from cart:', error);
@@ -41,14 +40,12 @@ export default function Cart() {
 
     const updateQuantity = async (id, newQuantity) => {
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
 
             const updatedItem = cartItems.find(item => item.id === id);
             updatedItem.quantity = newQuantity;
             updatedItem.total = updatedItem.product.price * newQuantity;
 
-            await axios.put(`${apiBaseUrl}/api/CartItem/update`, updatedItem);
+            await axios.put(`${API_HOST}/api/CartItem/update`, updatedItem);
             setCartItems(cartItems.map(item => item.id === id ? updatedItem : item));
         } catch (error) {
             console.error('Error updating item quantity:', error);
