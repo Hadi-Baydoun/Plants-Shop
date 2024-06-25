@@ -6,12 +6,8 @@ import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { API_HOST } from '../../assets/constants';
 
-/*const regEmail =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;*/
 
 
 
@@ -21,18 +17,12 @@ const AddProducts = () => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        axios
-            .get("/src/assets/Constants.json")
-            .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                setApiHost(apiBaseUrl);
-                return axios.get(`${apiBaseUrl}/api/SubCategories/all`);
-            })
+        axios.get(`${API_HOST}/api/SubCategories/all`)
             .then((response) => {
                 setSubcategories(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching subcategories:", error.response.data);
+                console.error("Error fetching subcategories:", error);
             });
     }, []);
 

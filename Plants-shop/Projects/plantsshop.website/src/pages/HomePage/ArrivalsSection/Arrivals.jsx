@@ -11,6 +11,7 @@ import "./Arrivals.css";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { handleCartToggle, handleFavoriteToggle, fetchCartItems, handleCloseSnackbar, fetchWishlistItems } from '../../../utils/HelperFunctions';
+import { API_HOST } from '../../../assets/constants'; 
 
 export default function Arrivals() {
     const [slideIndex, setSlideIndex] = useState(0);
@@ -24,9 +25,7 @@ export default function Arrivals() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("/src/assets/Constants.json");
-                const apiBaseUrl = response.data.API_HOST;
-                const productsResponse = await axios.get(`${apiBaseUrl}/api/Products/all`);
+                const productsResponse = await axios.get(`${API_HOST}/api/Products/all`);
                 const fetchedItems = productsResponse.data.slice(0, 15);
                 setItems(fetchedItems);
             } catch (error) {

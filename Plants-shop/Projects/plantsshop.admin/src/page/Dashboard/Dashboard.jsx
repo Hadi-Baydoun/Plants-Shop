@@ -6,6 +6,7 @@ import ProductCard from "./DashboardComponents/ProductCard";
 import DeleteProduct from "./DashboardComponents/DeleteProduct";
 import EditProduct from "./DashboardComponents/EditProduct";
 import DashboardHeader from "./DashboardComponents/DashboardHeader";
+import { API_HOST } from '../../assets/constants';
 
 const PRODUCTS_PER_PAGE = 8;
 
@@ -33,43 +34,32 @@ const Dashboard = () => {
     // Fetch Products
 
     const fetchProducts = () => {
-        axios
-            .get("/src/assets/Constants.json")
+        // Fetch products
+        axios.get(`${API_HOST}/api/Products/all`)
             .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                setApiHost(apiBaseUrl);
-                return axios.get(`${apiBaseUrl}/api/Products/all`);
-            })
-            .then((response) => {
-                const productsData = response.data.map(product => {
-                    return {
-                        ...product,
-                        categoryName: product.subCategories.category.name
-                    };
-                });
+                const productsData = response.data.map(product => ({
+                    ...product,
+                    categoryName: product.subCategories.category.name
+                }));
                 setProducts(productsData);
             })
             .catch((error) => {
-                console.error("Error fetching products:");
+                console.error("Error fetching products:", error);
             });
 
         // Fetch subcategories
-
-        axios
-            .get("/src/assets/Constants.json")
-            .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                return axios.get(`${apiBaseUrl}/api/SubCategories/all`);
-            })
+        axios.get(`${API_HOST}/api/SubCategories/all`)
             .then((response) => {
                 setSubcategories(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching subcategories:");
+                console.error("Error fetching subcategories:", error);
             });
     };
 
-    useEffect(fetchProducts, []);
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     // Open edit product modal
 
@@ -119,17 +109,13 @@ const Dashboard = () => {
 
     const handleDelete = () => {
         if (productToDelete) {
-            axios
-                .get("/src/assets/Constants.json")
-                .then((response) => {
-                    const apiBaseUrl = response.data.API_HOST;
-                    return axios.delete(`${apiBaseUrl}/api/Products/delete?id=${productToDelete.id}`);
-                })
+            axios.delete(`${API_HOST}/api/Products/delete?id=${productToDelete.id}`)
                 .then((response) => {
                     setProducts(response.data);
                     closeDeleteDialog();
                 })
                 .catch((error) => {
+                    console.error("Error deleting product:", error);
                     alert("Error deleting product.");
                     closeDeleteDialog();
                 });
@@ -137,23 +123,19 @@ const Dashboard = () => {
     };
 
     const handleSave = () => {
-        axios
-            .get("/src/assets/Constants.json")
-            .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                return axios.put(`${apiBaseUrl}/api/Products/update`, editProduct);
-            })
+        axios.put(`${API_HOST}/api/Products/update`, editProduct)
             .then((response) => {
                 setProducts((prevProducts) =>
                     prevProducts.map((product) =>
                         product.id === editProduct.id ? editProduct : product
                     )
                 );
+                handleClose();
             })
             .catch((error) => {
+                console.error("Error updating product:", error);
                 alert("Error updating product.");
             });
-        handleClose();
     };
 
     // Filter products based on search term and selected category

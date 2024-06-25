@@ -12,6 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from '../../context/AuthContext';
 import { fetchWishlistItems, handleCartToggle } from '../../utils/HelperFunctions';
+import { API_HOST } from '../../assets/constants';
 
 export default function Wishlist() {
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -29,11 +30,10 @@ export default function Wishlist() {
 
     const removeFromWishlist = async (wishlistItemId) => {
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
+
 
             // Delete the wishlist item using its ID
-            await axios.delete(`${apiBaseUrl}/api/WishlistItems/delete/${wishlistItemId}`);
+            await axios.delete(`${API_HOST}/api/WishlistItems/delete/${wishlistItemId}`);
 
             // Update the wishlist state by filtering out the removed item
             setWishlistItems((prevWishlistItems) => prevWishlistItems.filter(item => item.id !== wishlistItemId));
@@ -82,16 +82,14 @@ export default function Wishlist() {
         }
 
         try {
-            const response = await axios.get("/src/assets/Constants.json");
-            const apiBaseUrl = response.data.API_HOST;
 
             let currentCartId = cartId;
             if (!currentCartId) {
-                const cartResponse = await axios.get(`${apiBaseUrl}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
+                const cartResponse = await axios.get(`${API_HOST}/api/Cart/getOrCreateCartByCustomerId/${user.id}`);
                 if (cartResponse.data && cartResponse.data.id) {
                     currentCartId = cartResponse.data.id;
                 } else {
-                    const newCartResponse = await axios.post(`${apiBaseUrl}/api/Cart/add`, {
+                    const newCartResponse = await axios.post(`${API_HOST}/api/Cart/add`, {
                         Customer_id: user.id,
                         Customer: {
                             first_Name: user.first_Name,

@@ -19,6 +19,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useLocation } from "react-router-dom";
+import { API_HOST } from '../../assets/constants';
 
 export default function SignInForm() {
     const theme = useTheme();
@@ -30,18 +31,7 @@ export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [apiHost, setApiHost] = useState("");
 
-    // Load the API base URL
-    useEffect(() => {
-        axios
-            .get("/src/assets/Constants.json")
-            .then((response) => {
-                const apiBaseUrl = response.data.API_HOST;
-                setApiHost(apiBaseUrl);
-            })
-            .catch((error) => {
-                console.error("Error loading API URL:", error);
-            });
-    }, []);
+
 
     const paperStyle = {
         padding: 40,
@@ -58,7 +48,7 @@ export default function SignInForm() {
 
     const handleSignIn = () => {
         axios
-            .get(`${apiHost}/api/Admin/all`)
+            .get(`${API_HOST}/api/Admin/all`)
             .then((response) => {
                 const admins = response.data;
                 const matchedAdmin = admins.find(
