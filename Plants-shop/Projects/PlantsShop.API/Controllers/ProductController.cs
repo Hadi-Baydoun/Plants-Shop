@@ -24,6 +24,23 @@ namespace PlantsShop.API.Controllers
                 .ToListAsync();
         }
 
+
+
+        [HttpGet("details/{id}")]
+        public async Task<ActionResult<Product>> GetProductDetails(int id)
+        {
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+                return NotFound("Product Not Found");
+
+            return Ok(product);
+        }
+
+
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {

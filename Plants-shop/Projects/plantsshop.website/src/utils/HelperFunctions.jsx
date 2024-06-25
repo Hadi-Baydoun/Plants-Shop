@@ -24,11 +24,7 @@ export const handleCartToggle = async (product, user, cart, cartId, setCart, set
                 currentCartId = cartResponse.data.id;
                 setCartId(currentCartId);
             }
-
-            const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
-            const subCategory = subcategoryResponse.data;
-            const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
-            const category = categoryResponse.data;
+            
 
             const quantity = 1;
             const total = product.price * quantity;
@@ -38,32 +34,6 @@ export const handleCartToggle = async (product, user, cart, cartId, setCart, set
                 product_id: product.id,
                 quantity: quantity,
                 total: total,
-                Product: {
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image_url: product.image_url,
-                    sub_categories_id: product.sub_categories_id,
-                    SubCategories: {
-                        id: subCategory.id,
-                        name: subCategory.name,
-                        Category: {
-                            id: category.id,
-                            name: category.name
-                        }
-                    }
-                },
-                Cart: {
-                    id: currentCartId,
-                    Customer: {
-                        id: user.id,
-                        first_Name: user.first_Name,
-                        last_Name: user.last_Name,
-                        phone_Number: user.phone_Number,
-                        email: user.email,
-                        password: user.password
-                    }
-                }
             };
 
             await axios.post(`${apiBaseUrl}/api/CartItem/add`, cartItem);
@@ -111,13 +81,7 @@ export const handleFavoriteToggle = async (product, user, wishlist, wishlistId, 
                 } else {
                     const newWishlistResponse = await axios.post(`${apiBaseUrl}/api/Wishlist/add`, {
                         Customer_id: user.id,
-                        Customer: {
-                            first_Name: user.first_Name,
-                            last_Name: user.last_Name,
-                            phone_Number: user.phone_Number,
-                            email: user.email,
-                            password: user.password
-                        }
+
                     });
                     currentWishlistId = newWishlistResponse.data.id;
                 }
@@ -126,42 +90,12 @@ export const handleFavoriteToggle = async (product, user, wishlist, wishlistId, 
                 }
             }
 
-            // Fetch subcategory and category details
-            const subcategoryResponse = await axios.get(`${apiBaseUrl}/api/SubCategories/${product.sub_categories_id}`);
-            const subCategory = subcategoryResponse.data;
-            const categoryResponse = await axios.get(`${apiBaseUrl}/api/Category/${subCategory.category_id}`);
-            const category = categoryResponse.data;
 
             // Add item to wishlist with all necessary details
             const wishlistItem = {
                 wishlist_id: currentWishlistId,
                 product_id: product.id,
-                Product: {
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image_url: product.image_url,
-                    sub_categories_id: product.sub_categories_id,
-                    SubCategories: {
-                        id: subCategory.id,
-                        name: subCategory.name,
-                        Category: {
-                            id: category.id,
-                            name: category.name
-                        }
-                    }
-                },
-                Wishlist: {
-                    id: currentWishlistId,
-                    Customer: {
-                        id: user.id,
-                        first_Name: user.first_Name,
-                        last_Name: user.last_Name,
-                        phone_Number: user.phone_Number,
-                        email: user.email,
-                        password: user.password
-                    }
-                }
+                
             };
 
             await axios.post(`${apiBaseUrl}/api/WishlistItems/add`, wishlistItem);
@@ -187,7 +121,21 @@ export const fetchCartItems = async (user, setCart, setCartId) => {
 
             // Fetch cart items by cart ID
             const cartItemsResponse = await axios.get(`${apiBaseUrl}/api/CartItem/getByCartId/${currentCartId}`);
-            setCart(cartItemsResponse.data);
+
+
+            const cartItemsWithDetails = await Promise.all(cartItemsResponse.data.map(async (item) => {
+                const productDetailsResponse = await axios.get(`${apiBaseUrl}/api/Products/details/${item.product_id}`);
+                const productDetails = productDetailsResponse.data;
+
+                return {
+                    ...item,
+                    product: productDetails
+                };
+            }));
+
+            setCart(cartItemsWithDetails);
+
+
 
             // Set cart ID for future use
             if (setCartId) {
@@ -208,10 +156,18 @@ export const fetchWishlistItems = async (user, setWishlist, setWishlistId) => {
             // Fetch or create wishlist by customer ID
             const wishlistResponse = await axios.get(`${apiBaseUrl}/api/Wishlist/getOrCreateWishlistByCustomerId/${user.id}`);
             const currentWishlistId = wishlistResponse.data.id;
-
+         
             // Fetch wishlist items by wishlist ID
             const wishlistItemsResponse = await axios.get(`${apiBaseUrl}/api/WishlistItems/getByWishlistId/${currentWishlistId}`);
-            setWishlist(wishlistItemsResponse.data);
+            const wishlistItemWithDetails = await Promise.all(wishlistItemsResponse.data.map(async (item) => {
+                const productDetailsResponse = await axios.get(`${apiBaseUrl}/api/Products/details/${item.product_id}`);
+                const productDetails = productDetailsResponse.data;
+                return {
+                    ...item,
+                    product: productDetails
+                };
+            }));
+            setWishlist(wishlistItemWithDetails);
 
             // Set wishlist ID for future use
             if (setWishlistId) {

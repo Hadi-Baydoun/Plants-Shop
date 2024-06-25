@@ -19,12 +19,10 @@ namespace PlantsShop.API.Controllers
         public async Task<IEnumerable<CartItem>> GetAllCartItems()
         {
             return await _context.CartItems
-                .Include(c => c.Product)
-                    .ThenInclude(p => p.SubCategories)
-                        .ThenInclude(sc => sc.Category)
-                .Include(c => c.Cart)
-                    .ThenInclude(cart => cart.Customer)
+
+   
                 .ToListAsync();
+
         }
 
         [HttpGet("{id}")]
@@ -45,41 +43,41 @@ namespace PlantsShop.API.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult<CartItem>> AddCartItem(CartItem cartItem)
+        public async Task<ActionResult<CartItemDto>> AddCartItem(CartItemDto cartItemDto)
         {
             // Find the existing Product
-            var product = await _context.Products
-                .Include(p => p.SubCategories)
-                .ThenInclude(sc => sc.Category)
-                .FirstOrDefaultAsync(p => p.Id == cartItem.Product_id);
+            var product = await _context.Products.FindAsync(cartItemDto.Product_id);
 
             // Find the existing Cart
-            var cart = await _context.Carts
-                .Include(c => c.Customer)
-                .FirstOrDefaultAsync(c => c.Id == cartItem.Cart_id);
+            var cart = await _context.Carts.FindAsync(cartItemDto.Cart_id);
 
             // If the Product or Cart doesn't exist, return NotFound
             if (product == null || cart == null)
                 return NotFound("Product or Cart not found.");
 
-            // Associate the new CartItem with the existing Product and Cart
-            cartItem.Product = product;
-            cartItem.Cart = cart;
-
-            // Calculate the total based on quantity and product price
-            cartItem.Total = product.Price * cartItem.Quantity;
+            // Create a new CartItem from the DTO
+            var cartItem = new CartItem
+            {
+                Quantity = cartItemDto.Quantity,
+                Product_id = cartItemDto.Product_id,
+                Cart_id = cartItemDto.Cart_id,
+                Total = product.Price * cartItemDto.Quantity
+            };
 
             _context.CartItems.Add(cartItem);
             await _context.SaveChangesAsync();
 
-            // Eager loading the related data
-            return Ok(await _context.CartItems
-                .Include(c => c.Product)
-                .ThenInclude(p => p.SubCategories)
-                .ThenInclude(sc => sc.Category)
-                .Include(c => c.Cart)
-                .ThenInclude(cart => cart.Customer)
-                .ToListAsync());
+            // Map the saved CartItem back to a CartItemDto
+            var savedCartItemDto = new CartItemDto
+            {
+                Id = cartItem.Id,
+                Quantity = cartItem.Quantity,
+                Total = cartItem.Total,
+                Product_id = cartItem.Product_id,
+                Cart_id = cartItem.Cart_id
+            };
+
+            return Ok(savedCartItemDto);
         }
 
         [HttpGet("getByCustomerId/{customerId}")]
@@ -95,18 +93,14 @@ namespace PlantsShop.API.Controllers
         public async Task<IEnumerable<CartItem>> GetCartItemsByCartId(int cartId)
         {
             return await _context.CartItems
-                .Include(c => c.Product)
-                    .ThenInclude(p => p.SubCategories)
-                        .ThenInclude(sc => sc.Category)
-                .Include(c => c.Cart)
-                    .ThenInclude(cart => cart.Customer)
+          
                 .Where(c => c.Cart_id == cartId)
                 .ToListAsync();
         }
 
 
         [HttpPut("update")]
-        public async Task<ActionResult<CartItem>> UpdateCartItem(CartItem updateCartItem)
+        public async Task<ActionResult<CartItemDto>> UpdateCartItem(CartItemDto updateCartItem)
         {
             var dbCartItem = await _context.CartItems.FindAsync(updateCartItem.Id);
             if (dbCartItem == null)
@@ -126,7 +120,7 @@ namespace PlantsShop.API.Controllers
             await _context.SaveChangesAsync();
 
             // Eager loading the address data
-            return Ok(await _context.CartItems.Include(c => c.Product).Include(c => c.Cart).ToListAsync());
+            return Ok(await _context.CartItems.ToListAsync());
         }
 
 
