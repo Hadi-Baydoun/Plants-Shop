@@ -43,40 +43,38 @@ namespace PlantsShop.API.Controllers
 
             return Ok(wishlistItem);
         }
-
         [HttpPost("add")]
-        public async Task<ActionResult<WishlistItems>> AddWishlisttItem(WishlistItems wishlistItem)
+        public async Task<ActionResult<WishlistItemsDto>> AddWishlistItem(WishlistItemsDto wishlistItemDto)
         {
             // Find the existing Product
-            var product = await _context.Products
-                .Include(p => p.SubCategories)
-                .ThenInclude(sc => sc.Category)
-                .FirstOrDefaultAsync(p => p.Id == wishlistItem.Product_id);
+            var product = await _context.Products.FindAsync(wishlistItemDto.Product_id);
 
             // Find the existing Wishlist
-            var wishlist = await _context.Wishlists
-                .Include(c => c.Customer)
-                .FirstOrDefaultAsync(c => c.Id == wishlistItem.Wishlist_id);
+            var wishlist = await _context.Wishlists.FindAsync(wishlistItemDto.Wishlist_id);
 
             // If the Product or Wishlist doesn't exist, return NotFound
             if (product == null || wishlist == null)
                 return NotFound("Product or Wishlist not found.");
 
-            // Associate the new WishlistItem with the existing Product and Wishlist
-            wishlistItem.Product = product;
-            wishlistItem.Wishlist = wishlist;
+            // Create a new WishlistItem from the DTO
+            var wishlistItem = new WishlistItems
+            {
+                Product_id = wishlistItemDto.Product_id,
+                Wishlist_id = wishlistItemDto.Wishlist_id
+            };
 
             _context.WishlistItems.Add(wishlistItem);
             await _context.SaveChangesAsync();
 
-            // Eager loading the related data
-            return Ok(await _context.WishlistItems
-                .Include(c => c.Product)
-                .ThenInclude(p => p.SubCategories)
-                .ThenInclude(sc => sc.Category)
-                .Include(c => c.Wishlist)
-                .ThenInclude(wishlist => wishlist.Customer)
-                .ToListAsync());
+            // Map the saved WishlistItem back to a WishlistItemDto
+            var savedWishlistItemDto = new WishlistItemsDto
+            {
+                Id = wishlistItem.Id,
+                Product_id = wishlistItem.Product_id,
+                Wishlist_id = wishlistItem.Wishlist_id
+            };
+
+            return Ok(savedWishlistItemDto);
         }
 
 
@@ -90,18 +88,19 @@ namespace PlantsShop.API.Controllers
         }
 
         [HttpGet("getByWishlistId/{wishlistId}")]
-        public async Task<IEnumerable<WishlistItems>> GetWishlistItemsByWishlisttId(int wishlistId)
+        public async Task<IEnumerable<WishlistItemsDto>> GetWishlistItemsByWishlisttId(int wishlistId)
         {
-            return await _context.WishlistItems
-                .Include(c => c.Product)
-                    .ThenInclude(p => p.SubCategories)
-                        .ThenInclude(sc => sc.Category)
-                .Include(c => c.Wishlist)
-                    .ThenInclude(wishlist => wishlist.Customer)
+            var wishlistItems = await _context.WishlistItems
                 .Where(c => c.Wishlist_id == wishlistId)
                 .ToListAsync();
-        }
 
+            return wishlistItems.Select(item => new WishlistItemsDto
+            {
+                Id = item.Id,
+                Product_id = item.Product_id,
+                Wishlist_id = item.Wishlist_id
+            });
+        }
 
         [HttpPut("update")]
         public async Task<ActionResult<WishlistItems>> UpdateWishlistItem(WishlistItems updateWishlistItem)

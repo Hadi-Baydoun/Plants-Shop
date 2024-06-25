@@ -76,29 +76,32 @@ export default function Cart() {
                 </div>
                 <br />
                 <hr />
-                {cartItems.map((item) => (
-                    <div key={item.id}>
-                        <div className="cart-items-title cart-items-item">
-                            <img src={item.product.image_url} alt={item.product.name} />
-                            <p>{item.product.name}</p>
-                            <p>${item.product.price.toFixed(2)}</p>
-                            <Box display="flex" alignItems="center">
-                                <IconButton onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>
-                                    <RemoveIcon />
+                {cartItems.map((item) => {
+                    console.log("Cart item details:", JSON.stringify(item, null, 2));
+                    return (
+                        <div key={item.id}>
+                            <div className="cart-items-title cart-items-item">
+                                <img src={item.product.image_url} alt={item.product.name} />
+                                <p>{item.product.name}</p>
+                                <p>${item.product.price.toFixed(2)}</p>
+                                <Box display="flex" alignItems="center">
+                                    <IconButton onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>
+                                        <RemoveIcon />
+                                    </IconButton>
+                                    <Typography style={{ margin: "0 10px" }}>{item.quantity}</Typography>
+                                    <IconButton onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                                        <AddIcon />
+                                    </IconButton>
+                                </Box>
+                                <p>${item.total.toFixed(2)}</p>
+                                <IconButton onClick={() => removeFromCart(item.id)}>
+                                    <DeleteIcon />
                                 </IconButton>
-                                <Typography style={{ margin: "0 10px" }}>{item.quantity}</Typography>
-                                <IconButton onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                                    <AddIcon />
-                                </IconButton>
-                            </Box>
-                            <p>${item.total.toFixed(2)}</p>
-                            <IconButton onClick={() => removeFromCart(item.id)}>
-                                <DeleteIcon />
-                            </IconButton>
+                            </div>
+                            <hr />
                         </div>
-                        <hr />
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             <div className="cart-bottom">
