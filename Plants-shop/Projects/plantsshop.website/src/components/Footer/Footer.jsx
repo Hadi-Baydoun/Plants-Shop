@@ -1,6 +1,6 @@
 import './Footer.css';
 import LogoBlack from '../../assets/pictures/LogoBlack.svg';
-import pay from '../../assets/pictures/pay.png';
+import pay from '../../assets/pictures/pay.webp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -15,17 +15,17 @@ export default function Footer() {
 
       <div className="col">
         <h4>About</h4>
-        <a href="#">About us</a>
+        <a href="/about">About us</a>
         <a href="#">Privacy Policy</a>
-        <a href="/contact.html">Contact us</a>
+        <a href="/contact">Contact us</a>
       </div>
 
       <div className="col">
         <h4>My Account</h4>
-        <a href="#">Sign in</a>
-        <a href="#">View Cart</a>
-        <a href="#">My Wishlist</a>
-      </div>
+        <a href="/cart">View Cart</a>
+        <a href="/wishlist">My Wishlist</a>
+              </div>
+
       
       <div className="col install">
         <h4>Secured Payment Gateways</h4>

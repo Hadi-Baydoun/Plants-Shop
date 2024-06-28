@@ -1,4 +1,4 @@
-import { Divider } from "@mui/material";
+import  Divider  from "@mui/material/Divider";
 import "./Features.css";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
@@ -38,7 +38,7 @@ export default function Features() {
       <div className="row" ref={ref}>
         <motion.div className="single_shipping" variants={shippingVariants}>
           <div className="shipping_icone">
-            <img src="//lukani-demo.myshopify.com/cdn/shop/files/shipping1.png?v=1613792728" alt="Free Delivery" />
+            <img rel="preload" src="//lukani-demo.myshopify.com/cdn/shop/files/shipping1.png?v=1613792728" alt="Free Delivery" />
           </div>
           <div className="shipping_content">
             <h3>Free Delivery</h3>
@@ -56,7 +56,7 @@ export default function Features() {
 
         <motion.div className="single_shipping" variants={shippingVariants}>
           <div className="shipping_icone">
-            <img src="//lukani-demo.myshopify.com/cdn/shop/files/shipping2.png?v=1613792729" alt="Safe Payment" />
+            <img rel="preload" src="//lukani-demo.myshopify.com/cdn/shop/files/shipping2.png?v=1613792729" alt="Safe Payment" />
           </div>
           <div className="shipping_content">
             <h3>Safe Payment</h3>
@@ -75,7 +75,7 @@ export default function Features() {
 
         <motion.div className="single_shipping" variants={shippingVariants}>
           <div className="shipping_icone">
-            <img src="//lukani-demo.myshopify.com/cdn/shop/files/shipping3.png?v=1613792729" alt="Friendly Services" />
+             <img rel="preload" src="//lukani-demo.myshopify.com/cdn/shop/files/shipping3.png?v=1613792729" alt="Friendly Services" />
           </div>
           <div className="shipping_content">
             <h3>Friendly Services</h3>

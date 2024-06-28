@@ -1,4 +1,8 @@
-import { Button, Typography, IconButton, Snackbar, Alert } from "@mui/material";
+import  Button  from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState, useEffect, useRef, useContext } from "react";
@@ -101,7 +105,7 @@ export default function Arrivals() {
                     item && item.image_url ? (
                         <div key={index} className="new-arrivals-product">
                             <div className="product-image" onClick={() => handleItemClick(item)}>
-                                <img src={item.image_url} alt={`Product ${index}`} />
+                                <img rel="preload" src={item.image_url} alt={`Product ${index}`} />
                             </div>
                             <div className="product-info">
                                 <Typography className="product-name">{item.name}</Typography>

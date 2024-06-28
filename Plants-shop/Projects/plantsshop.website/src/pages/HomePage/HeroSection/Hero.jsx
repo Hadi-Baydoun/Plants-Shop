@@ -1,7 +1,8 @@
-import { Typography, Button } from "@mui/material";
+import  Button  from "@mui/material/Button";
+import  Typography from "@mui/material/Typography";
 import "./Hero.css";
-import Hero2 from "../../../assets/pictures/Hero2.jpg";
-import Hero1 from "../../../assets/pictures/Hero1.jpg";
+import Hero2 from "../../../assets/pictures/Hero2.webp";
+import Hero1 from "../../../assets/pictures/Hero1.webp";
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 
@@ -59,11 +60,16 @@ export default function Hero() {
           className="welcome-image"
           initial="hidden"
           animate="visible"
-          variants={imageVariants}
+                  variants={imageVariants}
+                  alt="Decorative plant image"
+                  loading="lazy"
+
         />
         <motion.img
-          src={Hero1}
-          className="welcome-image1"
+                  src={Hero1}
+                  loading="lazy"
+                  className="welcome-image1"
+                  alt="Main hero image"
           initial="hidden"
           animate="visible"
           variants={imageVariants}
